@@ -38,8 +38,7 @@ DEPENDPATH += .
 MOC_DIR = moc
 OBJECTS_DIR = obj
 UI_DIR = ui
-DISTFILES += ../pixelreiter/todo.txt
-
+DISTFILES += COPYING
 QT += core \
 gui \
 xml \
