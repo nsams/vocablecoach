@@ -26,3 +26,8 @@ void Vocable::setLastQuery(const QDateTime& lastQuery)
 // 	m_model->emitVocableChanged();
 }
 
+void Vocable::setLession(const QString& lession)
+{
+    m_lession = lession;
+// 	m_model->emitVocableChanged();
+}

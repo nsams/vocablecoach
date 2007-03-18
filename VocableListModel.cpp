@@ -26,7 +26,9 @@ QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
 			return voc->foreign();
 		else if(index.column()==2)
 			return voc->box();
-		else if(index.column()==3)
+        else if(index.column()==3)
+            return voc->lession();
+        else if(index.column()==4)
 			return voc->lastQuery().toString(Qt::LocaleDate);
 		else
 			return QVariant();
@@ -41,7 +43,7 @@ int VocableListModel::rowCount ( const QModelIndex & /*parent*/ ) const
 }
 int VocableListModel::columnCount ( const QModelIndex & /*parent*/ ) const
 {
-	return 4;
+	return 5;
 }
 QModelIndex VocableListModel::index(int row, int column, const QModelIndex & /*parent*/) const {
 	return createIndex(row, column);
@@ -58,7 +60,9 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 			return tr("Foreign");
 		else if (section==2)
 			return tr("Batch");
-		else if (section==3)
+        else if (section==3)
+            return tr("Lession");
+        else if (section==4)
 			return tr("Last Query");
 	}
 	if(orientation==Qt::Vertical && role == Qt::DisplayRole) {
@@ -82,6 +86,7 @@ bool VocableListModel::setData ( const QModelIndex & index, const QVariant & val
 		if(index.column()==0) voc->setForeign(value.toString());
 		else if(index.column()==1) voc->setNative(value.toString());
 		else if(index.column()==2) voc->setBox(value.toInt());
+        else if(index.column()==3) voc->setLession(value.toString());
 		else return false;
 		emit dataChanged(index, index);
 		return true;
@@ -228,4 +233,14 @@ void VocableListModel::clearVocables()
 	emitVocableChanged();
 
 	reset();
+}
+QStringList VocableListModel::getUsedLessionsList()
+{
+    QStringList ret;
+    foreach(Vocable* voc, m_vocableList) {
+        if(!ret.contains(voc->lession()) && !voc->lession().isEmpty()) {
+            ret << voc->lession();
+        }
+    }
+    return ret;
 }

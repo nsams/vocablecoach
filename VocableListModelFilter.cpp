@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2007
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2007
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -31,9 +31,11 @@ bool VocableListModelFilter::filterAcceptsRow(int sourceRow,
     QModelIndex indexForeign = sourceModel()->index(sourceRow, 0, sourceParent);
     QModelIndex indexNative = sourceModel()->index(sourceRow, 1, sourceParent);
     QModelIndex indexBox = sourceModel()->index(sourceRow, 2, sourceParent);
+    QModelIndex indexLession = sourceModel()->index(sourceRow, 3, sourceParent);
 
     return (sourceModel()->data(indexForeign).toString().contains(m_textFilter)
-            || sourceModel()->data(indexNative).toString().contains(m_textFilter))
+            || sourceModel()->data(indexNative).toString().contains(m_textFilter)
+            || sourceModel()->data(indexLession).toString().contains(m_textFilter))
             && (m_boxFilter==-1 || sourceModel()->data(indexBox).toInt() == m_boxFilter);
 }
 

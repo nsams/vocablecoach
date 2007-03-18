@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2006
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -40,7 +40,7 @@ bool VocableListWriter::write(VocableListModel* model)
 	for(int i=0;i<model->rowCount();i++)
 	{
 		Vocable* voc = model->vocable(i);
-		out << QString("<e box=\"%1\">").arg(voc->box());
+		out << QString("<e box=\"%1\" lession=\"%2\">").arg(voc->box()).arg(voc->lession());
 		out << QString("	<o>%1</o>").arg(escape(voc->foreign()));
 		QString lastQuery("");
 		if(voc->lastQuery().isValid()) {

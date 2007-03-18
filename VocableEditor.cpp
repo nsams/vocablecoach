@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2006
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -62,6 +62,11 @@ void VocableEditor::addVocable(VocableListModel* model)
 	editor->lastQueryLabel->setVisible(false);
 	editor->lastQueryLabelLeft->setVisible(false);
 	for(;;) {
+        QString lastLession = editor->lessionComboBox->currentText();
+        editor->lessionComboBox->clear();
+        QStringList lessions = model->getUsedLessionsList();
+        editor->lessionComboBox->insertItems(0, lessions);
+        editor->lessionComboBox->setCurrentIndex(lessions.indexOf(lastLession));
 		editor->nativeTextEdit->setPlainText("");
 		editor->foreignTextEdit->setPlainText("");
 
@@ -73,17 +78,23 @@ void VocableEditor::addVocable(VocableListModel* model)
 	
 		vocable->setNative(editor->nativeTextEdit->toPlainText());
 		vocable->setForeign(editor->foreignTextEdit->toPlainText());
+        vocable->setLession(editor->lessionComboBox->currentText());
 	
 		model->insertVocable(model->rowCount(), vocable);
 	}
 }
 
-int VocableEditor::editVocable(Vocable* vocable)
+int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
 {
 	VocableEditor* editor = getEditor();
 
-	editor->nativeTextEdit->setPlainText(vocable->native());
+    QStringList lessions = model->getUsedLessionsList();
+    editor->lessionComboBox->clear();
+    editor->lessionComboBox->insertItems(0, lessions);
+
+    editor->nativeTextEdit->setPlainText(vocable->native());
 	editor->foreignTextEdit->setPlainText(vocable->foreign());
+    editor->lessionComboBox->setCurrentIndex(lessions.indexOf(vocable->lession()));
 	editor->boxLabel->setNum(vocable->box());
 	editor->lastQueryLabel->setText(vocable->lastQuery().toString(Qt::LocaleDate));
 	editor->boxLabel->setVisible(true);
@@ -96,6 +107,7 @@ int VocableEditor::editVocable(Vocable* vocable)
 	
 	vocable->setNative(editor->nativeTextEdit->toPlainText());
 	vocable->setForeign(editor->foreignTextEdit->toPlainText());
+    vocable->setLession(editor->lessionComboBox->currentText());
 	
 	return ret;
 }
