@@ -24,7 +24,7 @@
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="" >
+     <widget class="QWidget" name="layoutWidget" >
       <layout class="QGridLayout" >
        <property name="margin" >
         <number>0</number>
@@ -32,7 +32,7 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="3" column="0" >
+       <item row="4" column="0" >
         <widget class="QLabel" name="lastQueryLabelLeft" >
          <property name="text" >
           <string>Last Query:</string>
@@ -42,10 +42,30 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1" >
+       <item row="1" column="1" >
+        <widget class="VocableEditorTextEdit" name="foreignTextEdit" >
+         <property name="tabChangesFocus" >
+          <bool>true</bool>
+         </property>
+         <property name="acceptRichText" >
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" >
         <widget class="QLabel" name="boxLabel" >
          <property name="text" >
           <string>2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" >
+        <widget class="QLabel" name="boxLabelLeft" >
+         <property name="text" >
+          <string>Box:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -75,23 +95,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="QLabel" name="lastQueryLabel" >
-         <property name="text" >
-          <string>TextLabel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="boxLabelLeft" >
-         <property name="text" >
-          <string>Box:</string>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1" >
         <widget class="VocableEditorTextEdit" name="nativeTextEdit" >
          <property name="tabChangesFocus" >
@@ -102,13 +105,27 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="VocableEditorTextEdit" name="foreignTextEdit" >
-         <property name="tabChangesFocus" >
-          <bool>true</bool>
+       <item row="4" column="1" >
+        <widget class="QLabel" name="lastQueryLabel" >
+         <property name="text" >
+          <string>TextLabel</string>
          </property>
-         <property name="acceptRichText" >
-          <bool>false</bool>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string>Lession:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QComboBox" name="lessionComboBox" >
+         <property name="editable" >
+          <bool>true</bool>
          </property>
         </widget>
        </item>

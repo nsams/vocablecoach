@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2006
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -246,7 +246,7 @@ void MainWindow::editVocable()
 	if(!currentIndex.isValid()) return;
 
 	Vocable* vocable = m_vocableListModel->vocable( currentIndex );
-	VocableEditor::editVocable(vocable);
+    VocableEditor::editVocable(m_vocableListModel, vocable);
 }
 
 void MainWindow::deleteVocable()

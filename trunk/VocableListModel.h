@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2007
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2007
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -17,7 +17,7 @@
 #include "Vocable.h"
 
 /**
-	@author Niko Sams <ns@vivid-planet.com>
+	@author Niko Sams <niko.sams@gmail.com>
  */
 class VocableListModel : public QAbstractItemModel
 {
@@ -50,6 +50,7 @@ class VocableListModel : public QAbstractItemModel
 
     	bool isModified() { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }
+        QStringList getUsedLessionsList();
         
 	private:
 		QList<Vocable*> m_vocableList;

@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2006
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -20,7 +20,7 @@ class Vocable;
 class VocableListModel;
 class QTimer;
 /**
-	@author Niko Sams <ns@vivid-planet.com>
+	@author Niko Sams <niko.sams@gmail.com>
 */
 class VocableEditor : public QDialog, private Ui::VocableEdit
 {
@@ -31,7 +31,7 @@ public:
     ~VocableEditor();
 
     static VocableEditor* getEditor();
-    static int editVocable(Vocable* vocable);
+    static int editVocable(VocableListModel* model, Vocable* vocable);
     static void addVocable(VocableListModel* model);
 
 private:

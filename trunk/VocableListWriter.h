@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2006
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2006
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -15,7 +15,7 @@
 #import <QString>
 class VocableListModel;
 /**
-	@author Niko Sams <ns@vivid-planet.com>
+	@author Niko Sams <niko.sams@gmail.com>
 */
 class VocableListWriter{
 public:

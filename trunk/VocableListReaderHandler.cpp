@@ -4,7 +4,7 @@
 // Description: 
 //
 //
-// Author: Niko Sams <ns@vivid-planet.com>, (C) 2007
+// Author: Niko Sams <niko.sams@gmail.com>, (C) 2007
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -39,6 +39,7 @@ bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
 		m_model->appendVocable(m_currentVocable);
 		//todo: m = member von lession nr: attributes.value("m");
 		m_currentVocable->setBox(attributes.value("box").toInt());
+        m_currentVocable->setLession(attributes.value("lession"));
 	} else if (qName == "o") {
 		currentText.clear();
 	} else if (qName == "t") {
