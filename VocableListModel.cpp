@@ -149,15 +149,15 @@ Vocable* VocableListModel::vocable(int row)
 {
 	return m_vocableList.at(row);
 }
-Vocable* VocableListModel::randomVocable(bool onlyNew, QStringList lessions)
+Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 {
 	srand( time(NULL) );
 	QList<Vocable*> vocables;
-	if(onlyNew)
+    if (type == New || type == All)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-			if(v->box()==2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 13*60
+			if(v->box()==2 && v->isExpired()
                && (lessions.empty() || lessions.contains(v->lession())))
 				vocables << v;
 		}
@@ -165,7 +165,7 @@ Vocable* VocableListModel::randomVocable(bool onlyNew, QStringList lessions)
 		{
 			foreach(Vocable* v, m_vocableList)
 			{
-				if(v->box()==1 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 18
+                if(v->box()==1 && v->isExpired()
                     && (lessions.empty() || lessions.contains(v->lession())))
 					vocables << v;
 			}
@@ -180,21 +180,42 @@ Vocable* VocableListModel::randomVocable(bool onlyNew, QStringList lessions)
 			}
 		}
 	}
-	else
+    if (type == Expired || type == All)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-			if(v->box()>2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 60*60*24
+            if(v->box()>2 && v->isExpired()
                 && (lessions.empty() || lessions.contains(v->lession())))
 				vocables << v;
 		}
 	}
+
 	if(vocables.count()==0) {
 		return 0;
 	}
 	int row = rand() % vocables.count();
 	return vocables[row];
 }
+
+
+QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lessions)
+{
+    QDateTime ret;
+
+    foreach(Vocable* v, m_vocableList)
+    {
+        if(v->box() > 2 && type == New) continue;
+        if(v->box() <= 2 && type == Expired) continue;
+        if(!lessions.empty() && !lessions.contains(v->lession())) continue;
+        if(v->isExpired()) continue;
+        if(ret.isValid()) ret = v->expireDate();
+
+        if(ret < v->expireDate()) ret = v->expireDate();
+    }
+    return ret;
+}
+
+
 void VocableListModel::importFile(QString fileName)
 {
 	gzFile file;

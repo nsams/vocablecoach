@@ -43,6 +43,7 @@ private:
 	QuizType m_QuizType;
 	QDateTime m_startTime;
     QStringList m_lessions;
+    QTimer* m_waitTimer;
 private slots:
     void nextVocable();
     void checkVocable();
