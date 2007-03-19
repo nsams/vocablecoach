@@ -17,6 +17,7 @@
 #include "VocableQuiz.h"
 #include "VocableListReader.h"
 #include "VocableListModelFilter.h"
+#include "StartQuiz.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -52,8 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(actionSave, SIGNAL(triggered()), this, SLOT(save()));
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
 
-	connect(actionQuizNew, SIGNAL(triggered()), this, SLOT(startQuizNew()));
-	connect(actionQuizExpired, SIGNAL(triggered()), this, SLOT(startQuizExpired()));
+    connect(actionQuiz, SIGNAL(triggered()), this, SLOT(startQuiz()));
     
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
@@ -271,13 +271,11 @@ void MainWindow::deleteVocable()
 }
 
 
-void MainWindow::startQuizNew()
+void MainWindow::startQuiz()
 {
-    VocableQuiz* quiz = new VocableQuiz(m_vocableListModel, New);
-}
-void MainWindow::startQuizExpired()
-{
-	VocableQuiz* quiz = new VocableQuiz(m_vocableListModel, Expired);
+    StartQuiz startQuizDialog(this, m_vocableListModel);
+    if(startQuizDialog.exec()==QDialog::Rejected) return;
+    new VocableQuiz(m_vocableListModel, startQuizDialog.quizType(), startQuizDialog.selectedLessions());
 }
 
 void MainWindow::setCurrentFile(const QString &fileName)

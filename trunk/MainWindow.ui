@@ -85,8 +85,7 @@
     <addaction name="actionSave" />
     <addaction name="actionSaveAs" />
     <addaction name="separator" />
-    <addaction name="actionQuizNew" />
-    <addaction name="actionQuizExpired" />
+    <addaction name="actionQuiz" />
     <addaction name="separator" />
     <addaction name="actionPrint" />
     <addaction name="separator" />
@@ -114,8 +113,7 @@
    <addaction name="actionEditVocable" />
    <addaction name="actionDeleteVocable" />
    <addaction name="separator" />
-   <addaction name="actionQuizNew" />
-   <addaction name="actionQuizExpired" />
+   <addaction name="actionQuiz" />
   </widget>
   <widget class="QDockWidget" name="dockWidget" >
    <property name="windowTitle" >
@@ -208,14 +206,9 @@
     <string>Delete Vocable</string>
    </property>
   </action>
-  <action name="actionQuizNew" >
+  <action name="actionQuiz" >
    <property name="text" >
-    <string>Quiz New</string>
-   </property>
-  </action>
-  <action name="actionQuizExpired" >
-   <property name="text" >
-    <string>Quiz Expired</string>
+    <string>&amp;Quiz</string>
    </property>
   </action>
  </widget>
