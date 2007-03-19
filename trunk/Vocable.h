@@ -9,11 +9,13 @@ class Vocable
 {
 public:
 	Vocable(VocableListModel* model, const QString& native = QString(), const QString& foreign = QString(), int box = 0);
-    QString native() { return m_native; }
-    QString foreign() { return m_foreign; }
-    int box() { return m_box; }
-	QDateTime lastQuery() { return m_lastQuery; }
-    QString lession() { return m_lession; }
+    QString native() const { return m_native; }
+    QString foreign() const { return m_foreign; }
+    int box() const { return m_box; }
+    QDateTime lastQuery() const { return m_lastQuery; }
+    QDateTime expireDate() const;
+    QString lession() const { return m_lession; }
+    bool isExpired() const;
     
 	void setNative(const QString& native);
 	void setForeign(const QString& foreign);

@@ -15,6 +15,7 @@
 #include <QAbstractItemModel>
 #include <QList>
 #include "Vocable.h"
+#include "VocableQuiz.h"
 #include <QStringList>
 
 /**
@@ -44,7 +45,8 @@ class VocableListModel : public QAbstractItemModel
 		Vocable* vocable(int row);
 		void insertVocable(int position, Vocable* vocable);
 		void appendVocable(Vocable* vocable);
-        Vocable* randomVocable(bool onlyNew, QStringList lessions=QStringList());
+        Vocable* randomVocable(QuizType type, QStringList lessions=QStringList());
+        QDateTime nextExpiredVocable(QuizType type, QStringList lessions=QStringList());
 		void importFile(QString fileName);
 		void clearVocables();
 		void emitVocableChanged() { m_modified = true; emit vocableChanged(); }

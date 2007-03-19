@@ -31,3 +31,24 @@ void Vocable::setLession(const QString& lession)
     m_lession = lession;
 // 	m_model->emitVocableChanged();
 }
+
+QDateTime Vocable::expireDate() const
+{
+    if (m_box == 2) {
+        return m_lastQuery.addSecs(13*60);
+    } else if(m_box==1) {
+        return m_lastQuery.addSecs(16);
+    } else if(m_box==0) {
+        return QDateTime::currentDateTime();
+    } else {
+        return m_lastQuery.addSecs(60*60*24);
+    }
+}
+
+bool Vocable::isExpired() const
+{
+    if (expireDate() < QDateTime::currentDateTime())
+        return true;
+    else
+        return false;
+}

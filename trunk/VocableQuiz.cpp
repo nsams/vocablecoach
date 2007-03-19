@@ -15,6 +15,7 @@
 #include "Vocable.h"
 #include <QMessageBox>
 #include <QTimer>
+#include <QDebug>
 
 VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessions)
     : m_vocableListModel(model), m_QuizType(type), m_lessions(lessions)
@@ -32,6 +33,10 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList les
 	QTimer *timer = new QTimer(m_Dialog);
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateTimes()));
 	timer->start(1000);
+    
+    m_waitTimer = new QTimer(m_Dialog);
+    m_waitTimer->setInterval(1000);
+    connect(m_waitTimer, SIGNAL(timeout()), this, SLOT(nextVocable()));
 
 	m_ui->shortTermMemoryProgressBar->setMaximum(12*60);
 	m_ui->ultraShortTermMemoryProgressBar->setMaximum(18);
@@ -61,19 +66,22 @@ void VocableQuiz::nextVocable()
 		m_currentVocable->setLastQuery(QDateTime::currentDateTime());
 		m_vocableListModel->emitVocableChanged();
 	}
-	if(m_QuizType==Expired) {
-        m_currentVocable = m_vocableListModel->randomVocable(false, m_lessions);
-	} else {
-        m_currentVocable = m_vocableListModel->randomVocable(true, m_lessions);
-	}
+
+    m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessions);
+
 	if(!m_currentVocable) {
-		QMessageBox::information(0, "VocableQuiz", tr("No vocables found"));
-		//delete m_Dialog;
-		//delete this;
-		m_Dialog->hide();
-		delete this;
+        m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->waitPage);
+        QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessions);
+        int secs = QDateTime::currentDateTime().secsTo(expiredDate);
+        QTime waitTime(0, 0, 0);
+        waitTime = waitTime.addSecs(secs);
+        m_ui->waitLabel->setText(waitTime.toString());
+        m_waitTimer->start();
 		return;
-	}
+	} else {
+        m_waitTimer->stop();
+        m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->quizPage);
+    }
 	if(m_currentVocable->box()==0) {
 		//unlearned, don't ask just display it
 		m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
