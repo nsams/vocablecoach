@@ -15,6 +15,7 @@
 #include <QAbstractItemModel>
 #include <QList>
 #include "Vocable.h"
+#include <QStringList>
 
 /**
 	@author Niko Sams <niko.sams@gmail.com>
@@ -43,7 +44,7 @@ class VocableListModel : public QAbstractItemModel
 		Vocable* vocable(int row);
 		void insertVocable(int position, Vocable* vocable);
 		void appendVocable(Vocable* vocable);
-		Vocable* randomVocable(bool onlyNew);
+        Vocable* randomVocable(bool onlyNew, QStringList lessions=QStringList());
 		void importFile(QString fileName);
 		void clearVocables();
 		void emitVocableChanged() { m_modified = true; emit vocableChanged(); }

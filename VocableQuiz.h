@@ -21,7 +21,8 @@ class Vocable;
 
 enum QuizType
 {
-	New,
+	All,
+    New,
 	Expired
 };
 /**
@@ -30,7 +31,7 @@ enum QuizType
 class VocableQuiz : public QObject {
 	Q_OBJECT
 public:
-	VocableQuiz(VocableListModel* model, QuizType);
+	VocableQuiz(VocableListModel* model, QuizType, QStringList lessions=QStringList());
     ~VocableQuiz();
 	
 	enum quizType {};
@@ -41,6 +42,7 @@ private:
 	VocableListModel* m_vocableListModel;
 	QuizType m_QuizType;
 	QDateTime m_startTime;
+    QStringList m_lessions;
 private slots:
     void nextVocable();
     void checkVocable();

@@ -49,8 +49,7 @@ private slots:
 	void open();
 	bool saveAs();
 	bool save();
-    void startQuizNew();
-	void startQuizExpired();
+    void startQuiz();
 	
 	void deleteVocable();
 	void editVocable();

@@ -16,8 +16,8 @@
 #include <QMessageBox>
 #include <QTimer>
 
-VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type)
-	: m_vocableListModel(model), m_QuizType(type)
+VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessions)
+    : m_vocableListModel(model), m_QuizType(type), m_lessions(lessions)
 {
 	m_currentVocable = 0;
 
@@ -62,9 +62,9 @@ void VocableQuiz::nextVocable()
 		m_vocableListModel->emitVocableChanged();
 	}
 	if(m_QuizType==Expired) {
-		m_currentVocable = m_vocableListModel->randomVocable(false);
+        m_currentVocable = m_vocableListModel->randomVocable(false, m_lessions);
 	} else {
-		m_currentVocable = m_vocableListModel->randomVocable(true);
+        m_currentVocable = m_vocableListModel->randomVocable(true, m_lessions);
 	}
 	if(!m_currentVocable) {
 		QMessageBox::information(0, "VocableQuiz", tr("No vocables found"));

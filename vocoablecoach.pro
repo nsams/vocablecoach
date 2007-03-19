@@ -18,7 +18,7 @@ HEADERS += MainWindow.h \
            VocableListReaderHandler.h \
            VocableEditorTextEdit.h \
            VocableListModelFilter.h \
-           StartQuizDialog.h
+           StartQuiz.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -31,7 +31,7 @@ SOURCES += main.cpp \
            Vocable.cpp \
            VocableEditorTextEdit.cpp \
            VocableListModelFilter.cpp \
-           StartQuizDialog.cpp
+           StartQuiz.cpp
 CONFIG += debug \
 qt \
 warn_on

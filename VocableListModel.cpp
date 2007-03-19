@@ -149,7 +149,7 @@ Vocable* VocableListModel::vocable(int row)
 {
 	return m_vocableList.at(row);
 }
-Vocable* VocableListModel::randomVocable(bool onlyNew)
+Vocable* VocableListModel::randomVocable(bool onlyNew, QStringList lessions)
 {
 	srand( time(NULL) );
 	QList<Vocable*> vocables;
@@ -157,14 +157,16 @@ Vocable* VocableListModel::randomVocable(bool onlyNew)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-			if(v->box()==2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 13*60)
+			if(v->box()==2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 13*60
+               && (lessions.empty() || lessions.contains(v->lession())))
 				vocables << v;
 		}
 		if(vocables.count()==0)
 		{
 			foreach(Vocable* v, m_vocableList)
 			{
-				if(v->box()==1 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 18)
+				if(v->box()==1 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 18
+                    && (lessions.empty() || lessions.contains(v->lession())))
 					vocables << v;
 			}
 		}
@@ -172,7 +174,8 @@ Vocable* VocableListModel::randomVocable(bool onlyNew)
 		{
 			foreach(Vocable* v, m_vocableList)
 			{
-				if(v->box()==0)
+                if(v->box()==0
+                   && (lessions.empty() || lessions.contains(v->lession())))
 					vocables << v;
 			}
 		}
@@ -181,7 +184,8 @@ Vocable* VocableListModel::randomVocable(bool onlyNew)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-			if(v->box()>2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 60*60*24)
+			if(v->box()>2 && v->lastQuery().secsTo(QDateTime::currentDateTime()) > 60*60*24
+                && (lessions.empty() || lessions.contains(v->lession())))
 				vocables << v;
 		}
 	}
