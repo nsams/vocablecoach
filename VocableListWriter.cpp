@@ -35,9 +35,12 @@ bool VocableListWriter::write(VocableListModel* model)
 	out << "	encoding=\"UTF-8\"";
 	out << "	generator=\"vocablecoach 0.0\"";
 	out << "	cols=\"2\"";
-	out << QString("	lines=\"%1\"").arg(model->rowCount());
-	out << "	title=\"\">";
-	for(int i=0;i<model->rowCount();i++)
+    out << QString("	lines=\"%1\"").arg(model->rowCount());
+	out << QString("	title=\"%1\"").arg(model->title());
+    out << QString("	author=\"%1\"").arg(model->authors());
+    out << QString("	foreignLanguage=\"%1\"").arg(model->foreignLanguage()); //fixme: not kvoctrain format
+    out << QString("	nativeLanguage=\"%1\">").arg(model->nativeLanguage()); //fixme: not kvoctrain format
+    for(int i=0;i<model->rowCount();i++)
 	{
 		Vocable* voc = model->vocable(i);
 		out << QString("<e box=\"%1\" lession=\"%2\">").arg(voc->box()).arg(voc->lession());

@@ -32,7 +32,10 @@ bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
 	}
 
 	if (qName == "kvtml") {
-		//todo: save title: attributes.value("title");
+		m_model->setTitle(attributes.value("title"));
+        m_model->setAuthors(attributes.value("author"));
+        if(!attributes.value("nativeLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
+        if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
 		metKvtmlTag = true; 
 	} else if (qName == "e") {
 		m_currentVocable = new Vocable(m_model);

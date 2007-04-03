@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>VocableEditor</string>
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
@@ -70,7 +70,7 @@
         </widget>
        </item>
        <item row="1" column="0" >
-        <widget class="QLabel" name="label" >
+        <widget class="QLabel" name="foreignLabel" >
          <property name="text" >
           <string>&amp;Foreign:</string>
          </property>
@@ -83,7 +83,7 @@
         </widget>
        </item>
        <item row="0" column="0" >
-        <widget class="QLabel" name="label_2" >
+        <widget class="QLabel" name="nativeLabel" >
          <property name="text" >
           <string>&amp;Native:</string>
          </property>
@@ -218,8 +218,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>278</x>
-     <y>253</y>
+     <x>543</x>
+     <y>507</y>
     </hint>
     <hint type="destinationlabel" >
      <x>96</x>
@@ -234,8 +234,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>369</x>
-     <y>253</y>
+     <x>624</x>
+     <y>507</y>
     </hint>
     <hint type="destinationlabel" >
      <x>179</x>

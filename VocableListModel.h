@@ -54,10 +54,25 @@ class VocableListModel : public QAbstractItemModel
     	bool isModified() { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }
         QStringList getUsedLessionsList();
+
+        QString title() const { return m_title; }
+        QString authors() const { return m_authors; }
+        QString nativeLanguage() const { return m_nativeLanguage; }
+        QString foreignLanguage() const { return m_foreignLanguage; }
+        void setTitle(QString title) { m_title = title; }
+        void setAuthors(QString authors) { m_authors = authors; }
+        void setNativeLanguage(QString nativeLanguage) { m_nativeLanguage = nativeLanguage; }
+        void setForeignLanguage(QString foreignLanguage) { m_foreignLanguage = foreignLanguage; }
         
+
 	private:
 		QList<Vocable*> m_vocableList;
 		bool m_modified;
+
+        QString m_title;
+        QString m_authors;
+        QString m_nativeLanguage;
+        QString m_foreignLanguage;
 
 	signals:
 		void vocableChanged();

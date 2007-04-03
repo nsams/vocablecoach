@@ -18,7 +18,7 @@
 #include <QDebug>
 
 VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessions)
-    : m_vocableListModel(model), m_QuizType(type), m_lessions(lessions)
+    : m_vocableListModel(model), m_QuizType(type), m_lessions(lessions), m_currentVocalbeUnlearned(false)
 {
 	m_currentVocable = 0;
 
@@ -60,7 +60,7 @@ void VocableQuiz::updateTimes() {
 
 void VocableQuiz::nextVocable()
 {
-	if(m_currentVocable && m_currentVocable->box()==0) {
+    if(m_currentVocable && m_currentVocalbeUnlearned) {
 		//unlearned, was just displayed; move to ultra-shortterm-memory
 		m_currentVocable->setBox(1);
 		m_currentVocable->setLastQuery(QDateTime::currentDateTime());
@@ -88,10 +88,12 @@ void VocableQuiz::nextVocable()
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->resultTextLabel->setText(tr(""));
 		m_ui->resultLabel->setText(m_currentVocable->foreign());
+        m_currentVocalbeUnlearned = true;
 	} else {
 		m_ui->buttonsStack->setCurrentWidget(m_ui->checkPage);
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->foreignLineEdit->setText("");
+        m_currentVocalbeUnlearned = false;
 	}
 }
 

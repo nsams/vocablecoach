@@ -6,7 +6,8 @@
 FORMS += MainWindow.ui \
          VocableEditor.ui 
 FORMS += VocableQuiz.ui \
-StartQuiz.ui
+StartQuiz.ui \
+DocumentProperties.ui
 HEADERS += MainWindow.h \
            Vocable.h \
            VocableListModel.h \
@@ -18,7 +19,8 @@ HEADERS += MainWindow.h \
            VocableListReaderHandler.h \
            VocableEditorTextEdit.h \
            VocableListModelFilter.h \
-           StartQuiz.h
+           StartQuiz.h \
+           DocumentProperties.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -31,7 +33,8 @@ SOURCES += main.cpp \
            Vocable.cpp \
            VocableEditorTextEdit.cpp \
            VocableListModelFilter.cpp \
-           StartQuiz.cpp
+           StartQuiz.cpp \
+           DocumentProperties.cpp
 CONFIG += debug \
 qt \
 warn_on
