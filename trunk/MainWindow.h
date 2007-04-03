@@ -50,6 +50,7 @@ private slots:
 	bool saveAs();
 	bool save();
     void startQuiz();
+    void documentProperties();
 	
 	void deleteVocable();
 	void editVocable();
@@ -57,6 +58,7 @@ private slots:
 	
 	void boxFilterChanged(int box);
     void textFilterChanged(const QString& text);
+    void showAboutDialog();
 
 
 };

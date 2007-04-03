@@ -18,6 +18,7 @@
 #include "VocableListReader.h"
 #include "VocableListModelFilter.h"
 #include "StartQuiz.h"
+#include "DocumentProperties.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -52,8 +53,10 @@ MainWindow::MainWindow(QWidget *parent)
 	connect(actionOpen, SIGNAL(triggered()), this, SLOT(open()));
 	connect(actionSave, SIGNAL(triggered()), this, SLOT(save()));
     connect(actionSaveAs, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
 
     connect(actionQuiz, SIGNAL(triggered()), this, SLOT(startQuiz()));
+    connect(actionProperties, SIGNAL(triggered()), this, SLOT(documentProperties()));
     
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
@@ -277,6 +280,11 @@ void MainWindow::startQuiz()
     if(startQuizDialog.exec()==QDialog::Rejected) return;
     new VocableQuiz(m_vocableListModel, startQuizDialog.quizType(), startQuizDialog.selectedLessions());
 }
+void MainWindow::documentProperties()
+{
+    DocumentProperties prop(m_vocableListModel, this);
+    prop.exec();
+}
 
 void MainWindow::setCurrentFile(const QString &fileName)
 {
@@ -335,4 +343,9 @@ void MainWindow::readSettings()
 		loadFile(fileName);
 	else
 		setCurrentFile("");
+}
+
+void MainWindow::showAboutDialog()
+{
+    QMessageBox::about ( this, "About VocableCoach", "VocableCoach<br>&copy; Copyright by Niko Sams<br>Licence: GPLv2");
 }

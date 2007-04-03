@@ -44,6 +44,7 @@ private:
 	QDateTime m_startTime;
     QStringList m_lessions;
     QTimer* m_waitTimer;
+    bool m_currentVocalbeUnlearned;
 private slots:
     void nextVocable();
     void checkVocable();

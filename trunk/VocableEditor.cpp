@@ -30,7 +30,7 @@ VocableEditor::VocableEditor(QWidget *parent)
 
     nativeTextEdit->installEventFilter(this);
     foreignTextEdit->installEventFilter(this);
-    
+
     startTranslationTimer = new QTimer;
     startTranslationTimer->setInterval(1000);
     startTranslationTimer->stop();
@@ -57,7 +57,10 @@ VocableEditor* VocableEditor::getEditor()
 void VocableEditor::addVocable(VocableListModel* model)
 {
 	VocableEditor* editor = getEditor();
-	editor->boxLabel->setVisible(false);
+    editor->nativeLabel->setText(model->nativeLanguage());
+    editor->foreignLabel->setText(model->foreignLanguage());
+
+    editor->boxLabel->setVisible(false);
 	editor->boxLabelLeft->setVisible(false);
 	editor->lastQueryLabel->setVisible(false);
 	editor->lastQueryLabelLeft->setVisible(false);
@@ -87,6 +90,8 @@ void VocableEditor::addVocable(VocableListModel* model)
 int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
 {
 	VocableEditor* editor = getEditor();
+    editor->nativeLabel->setText(model->nativeLanguage());
+    editor->foreignLabel->setText(model->foreignLanguage());
 
     QStringList lessions = model->getUsedLessionsList();
     editor->lessionComboBox->clear();
