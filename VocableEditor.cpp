@@ -16,6 +16,7 @@
 #include <QHttp>
 #include <QDebug>
 #include <QTimer>
+#include <QUrl>
 
 VocableEditor::VocableEditor(QWidget *parent)
     : QDialog(parent)
@@ -152,12 +153,16 @@ void VocableEditor::translateLeo()
 {
     startTranslationTimer->stop();
     if (_translateText.simplified()=="") return;
-    httpLeo->get("/?search="+_translateText.simplified());
+    translateGroupBox->setTitle(tr("lookup vocable at leo.de..."));
+    QUrl url("http://pda.leo.org/");
+    url.addQueryItem("search", _translateText.simplified());
+    httpLeo->get(url.path()+"?"+url.encodedQuery());
 }
 
 void VocableEditor::readLeoData(bool b)
 {
     if (!b) {
+        translateGroupBox->setTitle(tr("lookup vocable at leo.de"));
         QString Text(httpLeo->readAll());
         QRegExp rx("<input type=\"hidden\" name=\"lp\" value=\"ende\">[ \t]*<input type=\"hidden\" name=\"lang\" value=\"de\">([^\n]*)</table>");
         rx.setMinimal(true);
@@ -171,6 +176,7 @@ void VocableEditor::readLeoData(bool b)
         Text = Text.replace("<TD COLSPAN=\"5\">", "<TD COLSPAN=\"2\">");
         Text = Text.remove(QRegExp("<A HREF=\"[^\"]*\">"));
         Text = Text.remove("</A>");
+        if(Text.isEmpty()) Text = tr("no results...");
         translateTextBrowser->setHtml(Text);
     }
 }
