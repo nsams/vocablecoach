@@ -269,3 +269,8 @@ QStringList VocableListModel::getUsedLessionsList()
     }
     return ret;
 }
+void VocableListModel::emitVocableChanged()
+{
+    m_modified = true;
+    emit vocableChanged();
+}

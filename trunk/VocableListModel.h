@@ -49,7 +49,7 @@ class VocableListModel : public QAbstractItemModel
         QDateTime nextExpiredVocable(QuizType type, QStringList lessions=QStringList());
 		void importFile(QString fileName);
 		void clearVocables();
-		void emitVocableChanged() { m_modified = true; emit vocableChanged(); }
+		void emitVocableChanged();
 
     	bool isModified() { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }

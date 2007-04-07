@@ -42,9 +42,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_vocableListModel = new VocableListModel;
 	m_filteredVocableListModel = new VocableListModelFilter();
 	m_filteredVocableListModel->setSourceModel(m_vocableListModel);
-	connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
-	//m_filteredVocableListModel->setFilterKeyColumn(2);
-	vocableEditorView->setModel(m_filteredVocableListModel);
+    connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
+    vocableEditorView->setModel(m_filteredVocableListModel);
+    
+    
 
     connect(actionImport, SIGNAL(triggered()), this, SLOT(import()));
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(print()));
@@ -78,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(filterLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
 	
 	readSettings();
+    
+    connect(m_vocableListModel, SIGNAL(vocableChanged()), this, SLOT(documentModified()));
 }
 void MainWindow::boxFilterChanged(int box)
 {
@@ -100,7 +103,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::newFile()
 {
 	if (maybeSave()) {
-		m_vocableListModel->clearVocables();
+        delete m_vocableListModel;
+        m_vocableListModel = new VocableListModel();
 		setCurrentFile("");
 	}
 }
@@ -303,6 +307,10 @@ void MainWindow::setCurrentFile(const QString &fileName)
 QString MainWindow::strippedName(const QString &fullFileName)
 {
 	return QFileInfo(fullFileName).fileName();
+}
+
+void MainWindow::documentModified() {
+    setWindowModified(m_vocableListModel->isModified());
 }
 
 bool MainWindow::maybeSave()

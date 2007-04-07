@@ -45,10 +45,12 @@ private:
     QStringList m_lessions;
     QTimer* m_waitTimer;
     bool m_currentVocalbeUnlearned;
+    int m_currentVocableLastBox;
 private slots:
     void nextVocable();
     void checkVocable();
-	void updateTimes();
+    void editVocable();
+    void updateTimes();
 protected:
     Vocable* m_currentVocable;
 };

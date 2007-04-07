@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
-    <height>300</height>
+    <width>543</width>
+    <height>340</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -35,7 +35,7 @@
        <item row="1" column="0" >
         <widget class="QStackedWidget" name="buttonsStack" >
          <property name="currentIndex" >
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="checkPage" >
           <layout class="QGridLayout" >
@@ -48,7 +48,7 @@
            <item row="1" column="1" >
             <widget class="QPushButton" name="checkButton" >
              <property name="text" >
-              <string>check</string>
+              <string>&amp;check</string>
              </property>
              <property name="default" >
               <bool>true</bool>
@@ -96,29 +96,6 @@
            <property name="spacing" >
             <number>6</number>
            </property>
-           <item row="1" column="3" >
-            <widget class="QPushButton" name="nextButton" >
-             <property name="text" >
-              <string>next</string>
-             </property>
-             <property name="default" >
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" >
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
            <item row="0" column="0" colspan="3" >
             <widget class="QLabel" name="resultLabel" >
              <property name="font" >
@@ -141,6 +118,36 @@
             <widget class="QLabel" name="resultTextLabel" >
              <property name="text" >
               <string>resultLabel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4" >
+            <widget class="QPushButton" name="nextButton" >
+             <property name="text" >
+              <string>&amp;next</string>
+             </property>
+             <property name="default" >
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" >
+            <spacer>
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" >
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="1" column="3" >
+            <widget class="QPushButton" name="editButton" >
+             <property name="text" >
+              <string>&amp;edit</string>
              </property>
             </widget>
            </item>
