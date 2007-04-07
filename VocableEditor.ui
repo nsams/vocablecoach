@@ -205,6 +205,7 @@
  <tabstops>
   <tabstop>nativeTextEdit</tabstop>
   <tabstop>foreignTextEdit</tabstop>
+  <tabstop>lessionComboBox</tabstop>
   <tabstop>translateTextBrowser</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
