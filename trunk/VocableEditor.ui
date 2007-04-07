@@ -131,7 +131,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox" >
+     <widget class="QGroupBox" name="translateGroupBox" >
       <property name="title" >
        <string>lookup vocable at leo.de</string>
       </property>
