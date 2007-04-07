@@ -13,6 +13,7 @@
 #include <QDialog>
 #include "VocableListModel.h"
 #include "Vocable.h"
+#include "VocableEditor.h"
 #include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
@@ -29,6 +30,7 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList les
 
 	connect(m_ui->checkButton, SIGNAL(clicked()), this, SLOT(checkVocable()));
 	connect(m_ui->nextButton, SIGNAL(clicked()), this, SLOT(nextVocable()));
+    connect(m_ui->editButton, SIGNAL(clicked()), this, SLOT(editVocable()));
 
 	QTimer *timer = new QTimer(m_Dialog);
 	connect(timer, SIGNAL(timeout()), this, SLOT(updateTimes()));
@@ -58,13 +60,43 @@ void VocableQuiz::updateTimes() {
 	m_ui->ultraShortTermMemoryProgressBar->setValue(secs);
 }
 
+void VocableQuiz::editVocable()
+{
+    if (m_currentVocable) {
+        
+        VocableEditor::editVocable(m_vocableListModel, m_currentVocable);
+
+        m_Dialog->activateWindow(); //bring quiz-window to foreground
+
+        m_ui->nativeLabel->setText(m_currentVocable->native());
+
+        if (m_currentVocalbeUnlearned) {
+            //just display it
+            m_ui->resultLabel->setText(m_currentVocable->foreign());
+        } else {
+            //re-check if answer is now correct
+            if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
+            {
+                m_currentVocable->setBox(m_currentVocableLastBox+1);
+                m_ui->resultTextLabel->setText(tr("correct :)"));
+                m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
+            }
+            else
+            {
+                m_currentVocable->setBox(0);
+                m_ui->resultTextLabel->setText(tr("wrong :("));
+                m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
+            }
+        }
+    }
+}
+
 void VocableQuiz::nextVocable()
 {
     if(m_currentVocable && m_currentVocalbeUnlearned) {
 		//unlearned, was just displayed; move to ultra-shortterm-memory
 		m_currentVocable->setBox(1);
 		m_currentVocable->setLastQuery(QDateTime::currentDateTime());
-		m_vocableListModel->emitVocableChanged();
 	}
 
     m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessions);
@@ -99,6 +131,7 @@ void VocableQuiz::nextVocable()
 
 void VocableQuiz::checkVocable()
 {
+    m_currentVocableLastBox = m_currentVocable->box(); //needed in editVocable
     if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
 	{
 		m_currentVocable->setBox(m_currentVocable->box()+1);
@@ -113,6 +146,4 @@ void VocableQuiz::checkVocable()
 	}
 	m_currentVocable->setLastQuery(QDateTime::currentDateTime());
 	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
-
-	m_vocableListModel->emitVocableChanged();
 }

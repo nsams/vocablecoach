@@ -7,29 +7,29 @@ Vocable::Vocable(VocableListModel* model, const QString& native, const QString& 
 void Vocable::setNative(const QString& native)
 {
 	m_native = native;
-// 	m_model->emitVocableChanged();
+ 	m_model->emitVocableChanged();
 }
 void Vocable::setForeign(const QString& foreign)
 {
 	m_foreign = foreign;
-// 	m_model->emitVocableChanged();
+ 	m_model->emitVocableChanged();
 }
 
 void Vocable::setBox(int box)
 {
 	m_box = box;
-// 	m_model->emitVocableChanged();
+ 	m_model->emitVocableChanged();
 }
 void Vocable::setLastQuery(const QDateTime& lastQuery)
 {
 	m_lastQuery = lastQuery;
-// 	m_model->emitVocableChanged();
+ 	m_model->emitVocableChanged();
 }
 
 void Vocable::setLession(const QString& lession)
 {
     m_lession = lession;
-// 	m_model->emitVocableChanged();
+ 	m_model->emitVocableChanged();
 }
 
 QDateTime Vocable::expireDate() const

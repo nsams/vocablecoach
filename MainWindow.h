@@ -59,8 +59,8 @@ private slots:
 	void boxFilterChanged(int box);
     void textFilterChanged(const QString& text);
     void showAboutDialog();
-
-
+    
+    void documentModified();
 };
 
 #endif
