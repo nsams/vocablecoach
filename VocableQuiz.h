@@ -50,7 +50,6 @@ private slots:
     void nextVocable();
     void checkVocable();
     void editVocable();
-    void updateTimes();
 protected:
     Vocable* m_currentVocable;
 };
