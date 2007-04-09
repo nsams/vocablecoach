@@ -55,15 +55,15 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 {
 	if(orientation==Qt::Horizontal && role == Qt::DisplayRole) {
 		if(section==0)
-			return tr("Native");
+			return nativeLanguage();
 		else if (section==1)
-			return tr("Foreign");
+			return foreignLanguage();
 		else if (section==2)
-			return tr("Batch");
+			return tr("batch");
         else if (section==3)
-            return tr("Lesson");
+            return tr("lesson");
         else if (section==4)
-			return tr("Last Query");
+			return tr("last query");
 	}
 	if(orientation==Qt::Vertical && role == Qt::DisplayRole) {
 		return QString("%1").arg(section+1);

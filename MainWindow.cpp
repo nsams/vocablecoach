@@ -36,16 +36,13 @@
 #include <QProgressDialog>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QMainWindow(parent), m_vocableListModel(0)
 {
     setupUi(this);
     
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
-    m_vocableListModel = new VocableListModel;
 	m_filteredVocableListModel = new VocableListModelFilter();
-	m_filteredVocableListModel->setSourceModel(m_vocableListModel);
-    connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
     vocableEditorView->setModel(m_filteredVocableListModel);
     
     
@@ -106,10 +103,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::newFile()
 {
-	if (maybeSave()) {
+    if (!m_vocableListModel || maybeSave()) {
         VocableListModel* oldModel = m_vocableListModel;
         m_vocableListModel = new VocableListModel();
+        m_vocableListModel->setNativeLanguage("native");
+        m_vocableListModel->setForeignLanguage("foreign");
         m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+        connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
         delete oldModel;
         setCurrentFile("");
 	}
@@ -152,11 +152,16 @@ bool MainWindow::saveAs()
 
 void MainWindow::loadFile(const QString &fileName)
 {
-	VocableListReader reader(fileName);
-	QApplication::setOverrideCursor(Qt::WaitCursor);
-	reader.read(m_vocableListModel);
-	QApplication::restoreOverrideCursor();
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    VocableListReader reader(fileName);
+    VocableListModel* oldModel = m_vocableListModel;
+    m_vocableListModel = new VocableListModel();
+    reader.read(m_vocableListModel);
+    m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+    connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
+    delete oldModel;
 	setCurrentFile(fileName);
+    QApplication::restoreOverrideCursor();
 }
 
 bool MainWindow::saveFile(const QString &fileName)
@@ -241,20 +246,8 @@ void MainWindow::print()
 
 void MainWindow::printPreview()
 {
-//     pageMap = currentPageMap();
-
-//     if (pageMap.count() == 0)
-//         return;
-
     QPrinter printer;
-
     PreviewDialog preview(m_vocableListModel, printer, this);
-//     connect(&preview,
-//              SIGNAL(pageRequested(int, QPainter &, QPrinter &)),
-//              this, SLOT(printPage(int, QPainter &, QPrinter &)),
-//              Qt::DirectConnection);
-
-//      preview.setNumberOfPages(pageMap.keys().count());
     preview.exec();
 }
 
@@ -393,7 +386,7 @@ void MainWindow::readSettings()
 	if (!fileName.isEmpty())
 		loadFile(fileName);
 	else
-		setCurrentFile("");
+        newFile();
 }
 
 void MainWindow::showAboutDialog()
