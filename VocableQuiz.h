@@ -31,7 +31,7 @@ enum QuizType
 class VocableQuiz : public QObject {
 	Q_OBJECT
 public:
-	VocableQuiz(VocableListModel* model, QuizType, QStringList lessions=QStringList());
+	VocableQuiz(VocableListModel* model, QuizType, QStringList lessons=QStringList());
     ~VocableQuiz();
 	
 	enum quizType {};
@@ -42,7 +42,7 @@ private:
 	VocableListModel* m_vocableListModel;
 	QuizType m_QuizType;
 	QDateTime m_startTime;
-    QStringList m_lessions;
+    QStringList m_lessons;
     QTimer* m_waitTimer;
     bool m_currentVocalbeUnlearned;
     int m_currentVocableLastBox;

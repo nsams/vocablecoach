@@ -45,15 +45,15 @@ class VocableListModel : public QAbstractItemModel
 		Vocable* vocable(int row);
 		void insertVocable(int position, Vocable* vocable);
 		void appendVocable(Vocable* vocable);
-        Vocable* randomVocable(QuizType type, QStringList lessions=QStringList());
-        QDateTime nextExpiredVocable(QuizType type, QStringList lessions=QStringList());
+        Vocable* randomVocable(QuizType type, QStringList lessons=QStringList());
+        QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
 		void importFile(QString fileName);
 		void clearVocables();
 		void emitVocableChanged();
 
     	bool isModified() { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }
-        QStringList getUsedLessionsList();
+        QStringList getUsedLessonsList();
 
         QString title() const { return m_title; }
         QString authors() const { return m_authors; }

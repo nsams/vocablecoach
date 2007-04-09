@@ -66,11 +66,11 @@ void VocableEditor::addVocable(VocableListModel* model)
 	editor->lastQueryLabel->setVisible(false);
 	editor->lastQueryLabelLeft->setVisible(false);
 	for(;;) {
-        QString lastLession = editor->lessionComboBox->currentText();
-        editor->lessionComboBox->clear();
-        QStringList lessions = model->getUsedLessionsList();
-        editor->lessionComboBox->insertItems(0, lessions);
-        editor->lessionComboBox->setCurrentIndex(lessions.indexOf(lastLession));
+        QString lastLesson = editor->lessonComboBox->currentText();
+        editor->lessonComboBox->clear();
+        QStringList lessons = model->getUsedLessonsList();
+        editor->lessonComboBox->insertItems(0, lessons);
+        editor->lessonComboBox->setCurrentIndex(lessons.indexOf(lastLesson));
 		editor->nativeTextEdit->setPlainText("");
 		editor->foreignTextEdit->setPlainText("");
 
@@ -82,7 +82,7 @@ void VocableEditor::addVocable(VocableListModel* model)
 	
 		vocable->setNative(editor->nativeTextEdit->toPlainText());
 		vocable->setForeign(editor->foreignTextEdit->toPlainText());
-        vocable->setLession(editor->lessionComboBox->currentText());
+        vocable->setLesson(editor->lessonComboBox->currentText());
 	
 		model->insertVocable(model->rowCount(), vocable);
 	}
@@ -94,13 +94,13 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
     editor->nativeLabel->setText(model->nativeLanguage());
     editor->foreignLabel->setText(model->foreignLanguage());
 
-    QStringList lessions = model->getUsedLessionsList();
-    editor->lessionComboBox->clear();
-    editor->lessionComboBox->insertItems(0, lessions);
+    QStringList lessons = model->getUsedLessonsList();
+    editor->lessonComboBox->clear();
+    editor->lessonComboBox->insertItems(0, lessons);
 
     editor->nativeTextEdit->setPlainText(vocable->native());
 	editor->foreignTextEdit->setPlainText(vocable->foreign());
-    editor->lessionComboBox->setCurrentIndex(lessions.indexOf(vocable->lession()));
+    editor->lessonComboBox->setCurrentIndex(lessons.indexOf(vocable->lesson()));
 	editor->boxLabel->setNum(vocable->box());
 	editor->lastQueryLabel->setText(vocable->lastQuery().toString(Qt::LocaleDate));
 	editor->boxLabel->setVisible(true);
@@ -113,7 +113,7 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
 	
 	vocable->setNative(editor->nativeTextEdit->toPlainText());
 	vocable->setForeign(editor->foreignTextEdit->toPlainText());
-    vocable->setLession(editor->lessionComboBox->currentText());
+    vocable->setLesson(editor->lessonComboBox->currentText());
 	
 	return ret;
 }

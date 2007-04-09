@@ -18,8 +18,8 @@
 #include <QTimer>
 #include <QDebug>
 
-VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessions)
-    : m_vocableListModel(model), m_QuizType(type), m_lessions(lessions), m_currentVocalbeUnlearned(false)
+VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessons)
+    : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons), m_currentVocalbeUnlearned(false)
 {
 	m_currentVocable = 0;
 
@@ -83,11 +83,11 @@ void VocableQuiz::nextVocable()
 		m_currentVocable->setLastQuery(QDateTime::currentDateTime());
 	}
 
-    m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessions);
+    m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessons);
 
 	if(!m_currentVocable) {
         m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->waitPage);
-        QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessions);
+        QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessons);
         int secs = QDateTime::currentDateTime().secsTo(expiredDate);
         QTime waitTime(0, 0, 0);
         waitTime = waitTime.addSecs(secs);

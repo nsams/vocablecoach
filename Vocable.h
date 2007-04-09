@@ -14,19 +14,19 @@ public:
     int box() const { return m_box; }
     QDateTime lastQuery() const { return m_lastQuery; }
     QDateTime expireDate() const;
-    QString lession() const { return m_lession; }
+    QString lesson() const { return m_lesson; }
     bool isExpired() const;
     
 	void setNative(const QString& native);
 	void setForeign(const QString& foreign);
 	void setBox(int box);
 	void setLastQuery(const QDateTime& lastQuery);
-    void setLession(const QString& lession);
+    void setLesson(const QString& lesson);
 private:
 	VocableListModel* m_model;
 	QString m_native;
 	QString m_foreign;
-    QString m_lession;
+    QString m_lesson;
 	int m_box;
 	QDateTime m_lastQuery;
 

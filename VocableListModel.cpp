@@ -27,7 +27,7 @@ QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
 		else if(index.column()==2)
 			return voc->box();
         else if(index.column()==3)
-            return voc->lession();
+            return voc->lesson();
         else if(index.column()==4)
 			return voc->lastQuery().toString(Qt::LocaleDate);
 		else
@@ -61,7 +61,7 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 		else if (section==2)
 			return tr("Batch");
         else if (section==3)
-            return tr("Lession");
+            return tr("Lesson");
         else if (section==4)
 			return tr("Last Query");
 	}
@@ -86,7 +86,7 @@ bool VocableListModel::setData ( const QModelIndex & index, const QVariant & val
 		if(index.column()==0) voc->setForeign(value.toString());
 		else if(index.column()==1) voc->setNative(value.toString());
 		else if(index.column()==2) voc->setBox(value.toInt());
-        else if(index.column()==3) voc->setLession(value.toString());
+        else if(index.column()==3) voc->setLesson(value.toString());
 		else return false;
 		emit dataChanged(index, index);
 		return true;
@@ -149,7 +149,7 @@ Vocable* VocableListModel::vocable(int row)
 {
 	return m_vocableList.at(row);
 }
-Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
+Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessons)
 {
 	srand( time(NULL) );
 	QList<Vocable*> vocables;
@@ -158,7 +158,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 		foreach(Vocable* v, m_vocableList)
 		{
 			if(v->box()==2 && v->isExpired()
-               && (lessions.empty() || lessions.contains(v->lession())))
+               && (lessons.empty() || lessons.contains(v->lesson())))
 				vocables << v;
 		}
 		if(vocables.count()==0)
@@ -166,7 +166,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 			foreach(Vocable* v, m_vocableList)
 			{
                 if(v->box()==1 && v->isExpired()
-                    && (lessions.empty() || lessions.contains(v->lession())))
+                    && (lessons.empty() || lessons.contains(v->lesson())))
 					vocables << v;
 			}
 		}
@@ -175,7 +175,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 			foreach(Vocable* v, m_vocableList)
 			{
                 if(v->box()==0
-                   && (lessions.empty() || lessions.contains(v->lession())))
+                   && (lessons.empty() || lessons.contains(v->lesson())))
 					vocables << v;
 			}
 		}
@@ -185,7 +185,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 		foreach(Vocable* v, m_vocableList)
 		{
             if(v->box()>2 && v->isExpired()
-                && (lessions.empty() || lessions.contains(v->lession())))
+                && (lessons.empty() || lessons.contains(v->lesson())))
 				vocables << v;
 		}
 	}
@@ -198,7 +198,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessions)
 }
 
 
-QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lessions)
+QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lessons)
 {
     QDateTime ret;
 
@@ -206,7 +206,7 @@ QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lessio
     {
         if(v->box() > 2 && type == New) continue;
         if(v->box() <= 2 && type == Expired) continue;
-        if(!lessions.empty() && !lessions.contains(v->lession())) continue;
+        if(!lessons.empty() && !lessons.contains(v->lesson())) continue;
         if(v->isExpired()) continue;
         if(ret.isValid()) ret = v->expireDate();
 
@@ -259,12 +259,12 @@ void VocableListModel::clearVocables()
 
 	reset();
 }
-QStringList VocableListModel::getUsedLessionsList()
+QStringList VocableListModel::getUsedLessonsList()
 {
     QStringList ret;
     foreach(Vocable* voc, m_vocableList) {
-        if(!ret.contains(voc->lession()) && !voc->lession().isEmpty()) {
-            ret << voc->lession();
+        if(!ret.contains(voc->lesson()) && !voc->lesson().isEmpty()) {
+            ret << voc->lesson();
         }
     }
     return ret;

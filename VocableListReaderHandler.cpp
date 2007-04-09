@@ -40,9 +40,13 @@ bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
 	} else if (qName == "e") {
 		m_currentVocable = new Vocable(m_model);
 		m_model->appendVocable(m_currentVocable);
-		//todo: m = member von lession nr: attributes.value("m");
+		//todo: m = member von lesson nr: attributes.value("m");
 		m_currentVocable->setBox(attributes.value("box").toInt());
-        m_currentVocable->setLession(attributes.value("lession"));
+        if(!attributes.value("lesson").isEmpty()) {
+            m_currentVocable->setLesson(attributes.value("lesson"));
+        } else if(!attributes.value("lession").isEmpty()) { //deprecated
+            m_currentVocable->setLesson(attributes.value("lession"));
+        }
 	} else if (qName == "o") {
 		currentText.clear();
 	} else if (qName == "t") {

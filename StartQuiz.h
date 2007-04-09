@@ -28,7 +28,7 @@ public:
             
     ~StartQuiz();
     
-    QStringList selectedLessions();
+    QStringList selectedLessons();
     QuizType quizType();
 };
 
