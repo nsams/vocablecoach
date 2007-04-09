@@ -1,0 +1,8 @@
+#labels Featured,Screenshot
+=Screenshots of Version 0.0 Preview 1.=
+
+===editor-window===
+http://vocablecoach.googlecode.com/svn/wiki/screenshots/0.0-preview1/editor.png
+
+===quiz-window===
+http://vocablecoach.googlecode.com/svn/wiki/screenshots/0.0-preview1/quiz.png
