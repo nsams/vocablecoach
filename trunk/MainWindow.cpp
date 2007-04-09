@@ -66,13 +66,13 @@ MainWindow::MainWindow(QWidget *parent)
     
     connect(vocableEditorView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
 
-    boxSelectionCombo->addItem("All");
-    boxSelectionCombo->addItem("Unlearned");
-    boxSelectionCombo->addItem("Ultra-Shortterm-Memory");
-    boxSelectionCombo->addItem("Shortterm-Memory");
-    boxSelectionCombo->addItem("Batch 1");
-    boxSelectionCombo->addItem("Batch 2");
-    boxSelectionCombo->addItem("Batch 3");
+    boxSelectionCombo->addItem(tr("All"));
+    boxSelectionCombo->addItem(tr("Unlearned"));
+    boxSelectionCombo->addItem(tr("Ultra-Shortterm-Memory"));
+    boxSelectionCombo->addItem(tr("Shortterm-Memory"));
+    boxSelectionCombo->addItem(tr("Box 1"));
+    boxSelectionCombo->addItem(tr("Box 2"));
+    boxSelectionCombo->addItem(tr("Box 3"));
     boxSelectionCombo->setCurrentIndex(0);
     connect(boxSelectionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(boxFilterChanged(int)));
     boxFilterChanged(0);
@@ -106,8 +106,8 @@ void MainWindow::newFile()
     if (!m_vocableListModel || maybeSave()) {
         VocableListModel* oldModel = m_vocableListModel;
         m_vocableListModel = new VocableListModel();
-        m_vocableListModel->setNativeLanguage("native");
-        m_vocableListModel->setForeignLanguage("foreign");
+        m_vocableListModel->setNativeLanguage(tr("native"));
+        m_vocableListModel->setForeignLanguage(tr("foreign"));
         m_filteredVocableListModel->setSourceModel(m_vocableListModel);
         connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
         delete oldModel;
@@ -267,7 +267,7 @@ void MainWindow::exportVocables()
 		return;
 	}
 
-	file.write(tr("Englisch;Deutsch;Box\n").toUtf8());
+    file.write(QString(m_vocableListModel->foreignLanguage()+";"+m_vocableListModel->nativeLanguage()+";"+tr("Box")+"\n").toUtf8());
 
 	for(int i=0;i<m_vocableListModel->rowCount();i++)
 	{
@@ -352,7 +352,7 @@ void MainWindow::documentModified() {
 bool MainWindow::maybeSave()
 {
 	if (m_vocableListModel->isModified()) {
-		int ret = QMessageBox::warning(this, tr("VocalbeCoach"),
+		int ret = QMessageBox::warning(this, tr("VocableCoach"),
 									   tr("The document has been modified.\n"
 											   "Do you want to save your changes?"),
 									   QMessageBox::Yes | QMessageBox::Default,

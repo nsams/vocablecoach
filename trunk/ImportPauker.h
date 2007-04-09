@@ -20,7 +20,7 @@ public:
 
 private:
     bool metLessonTag;
-    int currentBatch;
+    int currentBox;
     Vocable* currentVocable;
     int currentSide;
     

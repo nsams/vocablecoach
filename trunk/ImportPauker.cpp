@@ -12,7 +12,7 @@ ImportPauker::ImportPauker(VocableListModel* model)
 {
 	m_model = model;
     metLessonTag = false;
-    currentBatch = 0;
+    currentBox = 0;
 }
 
 bool ImportPauker::startElement(const QString & /* namespaceURI */,
@@ -35,10 +35,10 @@ bool ImportPauker::startElement(const QString & /* namespaceURI */,
     } else if (qName == "Description") {
         //todo: save description: m_model->setTitle();
     } else if (qName == "Batch") {
-    	currentBatch++;
+    	currentBox++;
     } else if (qName == "Card") {
         currentVocable = new Vocable(m_model);
-        int i = currentBatch;
+        int i = currentBox;
         currentVocable->setBox(i);
 		m_model->appendVocable(currentVocable);
         currentSide = 0;
@@ -57,7 +57,7 @@ bool ImportPauker::endElement(const QString & /* namespaceURI */,
                              const QString &qName)
 {
     if (qName == "Text") {
-    	if(currentSide && currentBatch && currentVocable) {
+    	if(currentSide && currentBox && currentVocable) {
     		if(currentSide==1) currentVocable->setNative(currentText);
     		else if(currentSide==2) currentVocable->setForeign(currentText);
     	}
