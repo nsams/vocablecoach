@@ -37,6 +37,7 @@ private:
 	bool maybeSave();
 	void writeSettings();
 	void readSettings();
+    bool setupPrinter(QPrinter &printer);
 			
 protected:
 	void closeEvent(QCloseEvent *event);
@@ -44,6 +45,7 @@ protected:
 private slots:
 	void import();
 	void print();
+    void printPreview();
 	void exportVocables();
 	void newFile();
 	void open();
@@ -61,6 +63,8 @@ private slots:
     void showAboutDialog();
     
     void documentModified();
+    
+//     void printPage(int index, QPainter &painter, QPrinter &printer);
 };
 
 #endif

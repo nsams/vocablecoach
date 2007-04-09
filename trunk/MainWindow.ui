@@ -94,6 +94,7 @@
     <addaction name="actionProperties" />
     <addaction name="actionQuiz" />
     <addaction name="separator" />
+    <addaction name="actionPrintPreview" />
     <addaction name="actionPrint" />
     <addaction name="separator" />
     <addaction name="actionImport" />
@@ -206,6 +207,11 @@
   <action name="actionProperties" >
    <property name="text" >
     <string>&amp;Properties</string>
+   </property>
+  </action>
+  <action name="actionPrintPreview" >
+   <property name="text" >
+    <string>Print Preview...</string>
    </property>
   </action>
  </widget>
