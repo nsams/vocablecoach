@@ -59,7 +59,7 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 		else if (section==1)
 			return foreignLanguage();
 		else if (section==2)
-			return tr("batch");
+			return tr("box");
         else if (section==3)
             return tr("lesson");
         else if (section==4)

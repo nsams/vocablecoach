@@ -44,8 +44,8 @@ SOURCES += main.cpp \
            PreviewDialog.cpp \
            PreviewLabel.cpp \
            ListVocablePrinter.cpp \
-           AbstractVocablePrinter.cpp \
-           CardVocablePrinter.cpp
+           CardVocablePrinter.cpp \
+           AbstractVocablePrinter.cpp
 CONFIG += debug \
 qt \
 warn_on
@@ -62,7 +62,9 @@ xml \
 network
 INCLUDEPATH += .
 
-win32 {
+TRANSLATIONS = translation/de.ts
+
+win32{
     INCLUDEPATH += ./3rdparty/zlib
     SOURCES += \
         ./3rdparty/zlib/adler32.c \

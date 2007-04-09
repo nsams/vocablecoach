@@ -13,6 +13,7 @@
 #include <QPainter>
 #include <QPrinter>
 #include "VocableListModel.h"
+#include <QDebug>
 
 CardVocablePrinter::CardVocablePrinter(VocableListModel *model, QPrinter *printer)
     : AbstractVocablePrinter(model, printer)
@@ -42,6 +43,7 @@ int CardVocablePrinter::rowHeight(int row, QPainter& painter)
 {
     int height = 100;
     for (int i=0; i<2; i++) {
+        if (m_vocableListModel->rowCount() <= row*2 + i) break;
         Vocable* voc = m_vocableListModel->vocable(row*2 + i);
         QRect rect = painter.boundingRect( QRect(0, 0, m_printer->width()/4 - padding*4, 100), Qt::TextWordWrap | Qt::AlignTop, voc->native());
         height = qMax(height, rect.height());
@@ -71,6 +73,7 @@ void CardVocablePrinter::printPage(int index, QPainter &painter)
         
         if (currentIndex == index) {
             for (int i=0; i<2; i++) {
+                if (m_vocableListModel->rowCount() <= row*2 + i) break;
                 Vocable* voc = m_vocableListModel->vocable(row*2 + i);
                 painter.drawText(QRect(padding + i*(m_printer->width()/4), yPos+padding, m_printer->width()/4-padding*2, height), Qt::TextWordWrap | Qt::AlignHCenter | Qt::AlignVCenter, voc->native());
                 painter.drawRect(QRect(i*(m_printer->width()/4), yPos, m_printer->width()/4, height+padding*2));
