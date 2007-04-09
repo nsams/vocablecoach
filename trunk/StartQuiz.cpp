@@ -17,7 +17,7 @@ StartQuiz::StartQuiz(QWidget *parent, VocableListModel* model)
     : QDialog(parent)
 {
     setupUi(this);
-    lessionsList->addItems(model->getUsedLessionsList());
+    lessonsList->addItems(model->getUsedLessonsList());
 }
 
 
@@ -26,10 +26,10 @@ StartQuiz::~StartQuiz()
 }
 
 
-QStringList StartQuiz::selectedLessions()
+QStringList StartQuiz::selectedLessons()
 {
     QStringList ret;
-    foreach(QListWidgetItem* i, lessionsList->selectedItems()) {
+    foreach(QListWidgetItem* i, lessonsList->selectedItems()) {
         ret << i->text();
     }
     return ret;

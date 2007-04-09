@@ -325,7 +325,7 @@ void MainWindow::startQuiz()
 {
     StartQuiz startQuizDialog(this, m_vocableListModel);
     if(startQuizDialog.exec()==QDialog::Rejected) return;
-    new VocableQuiz(m_vocableListModel, startQuizDialog.quizType(), startQuizDialog.selectedLessions());
+    new VocableQuiz(m_vocableListModel, startQuizDialog.quizType(), startQuizDialog.selectedLessons());
 }
 void MainWindow::documentProperties()
 {

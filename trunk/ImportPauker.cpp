@@ -11,7 +11,7 @@ ImportPauker::ImportPauker(VocableListModel* model)
  : QXmlDefaultHandler()
 {
 	m_model = model;
-    metLessionTag = false;
+    metLessonTag = false;
     currentBatch = 0;
 }
 
@@ -20,7 +20,7 @@ bool ImportPauker::startElement(const QString & /* namespaceURI */,
                                const QString &qName,
                                const QXmlAttributes &attributes)
 {
-    if (!metLessionTag && qName != "Lesson") {
+    if (!metLessonTag && qName != "Lesson") {
         errorStr = QObject::tr("The file is not an Pauker file. (%1)").arg(qName);
         return false;
 	}
@@ -31,9 +31,9 @@ bool ImportPauker::startElement(const QString & /* namespaceURI */,
             errorStr = QObject::tr("The file is not an Pauker version 1.6 file.");
             return false;
         }
-        metLessionTag = true; 
+        metLessonTag = true; 
     } else if (qName == "Description") {
-		//todo: save description
+        //todo: save description: m_model->setTitle();
     } else if (qName == "Batch") {
     	currentBatch++;
     } else if (qName == "Card") {

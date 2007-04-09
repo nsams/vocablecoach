@@ -19,7 +19,7 @@ public:
     QString errorString() const;
 
 private:
-    bool metLessionTag;
+    bool metLessonTag;
     int currentBatch;
     Vocable* currentVocable;
     int currentSide;
