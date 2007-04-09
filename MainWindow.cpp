@@ -19,6 +19,8 @@
 #include "VocableListModelFilter.h"
 #include "StartQuiz.h"
 #include "DocumentProperties.h"
+#include "PreviewDialog.h"
+#include "ListVocablePrinter.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -31,6 +33,7 @@
 #include <QPainter>
 #include <QCloseEvent>
 #include <QSettings>
+#include <QProgressDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -49,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(actionImport, SIGNAL(triggered()), this, SLOT(import()));
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(print()));
+    connect(actionPrintPreview, SIGNAL(triggered()), this, SLOT(printPreview()));
     connect(actionExport, SIGNAL(triggered()), this, SLOT(exportVocables()));
 	connect(actionNew, SIGNAL(triggered()), this, SLOT(newFile()));
 	connect(actionOpen, SIGNAL(triggered()), this, SLOT(open()));
@@ -175,46 +179,83 @@ void MainWindow::import()
 
 	m_vocableListModel->importFile(fileName);
 }
+
+bool MainWindow::setupPrinter(QPrinter &printer)
+{
+    QPrintDialog dialog(&printer, this);
+//     dialog.addEnabledOption(QAbstractPrintDialog::PrintSelection);
+    if (dialog.exec() == QDialog::Accepted)
+        return true;
+    else
+        return false;
+}
+
 void MainWindow::print()
 {
-	QPrinter printer;
-	printer.setOutputFormat(QPrinter::PdfFormat);
-	printer.setOutputFileName("/home/niko/test.pdf");
-	QPrintDialog printDialog(&printer, this);
-    
-    printDialog.addEnabledOption(QAbstractPrintDialog::PrintSelection);
-    
-    if (printDialog.exec() == QDialog::Accepted) {
-        if(printDialog.printRange()==QAbstractPrintDialog::Selection) {
-        }
-        //QAbstractPrintDialog::AllPages
-        //QAbstractPrintDialog::PageRange
-    	QPainter painter(&printer);
-    	static const int padding = 5;
-    	int yPos = 0;
-		for(int i=0;i<m_vocableListModel->rowCount();i++)
-    	{
-			Vocable* voc = m_vocableListModel->vocable(i);
-			QRect rectNative = painter.boundingRect( QRect(0, yPos, printer.width()/2 - padding*2, 100), Qt::TextWordWrap | Qt::AlignTop, voc->native());
-			QRect rectForeign = painter.boundingRect( QRect(0, yPos, printer.width()/2 - padding*2, 100), Qt::TextWordWrap | Qt::AlignTop, voc->foreign());
-			int height = qMax(rectNative.height(), rectForeign.height());
-			
-			if(yPos+height > printer.height()) {
-				printer.newPage();
-				yPos = 0;
-			}
-			
-			painter.drawText(QRect(padding, yPos+padding, printer.width()/2-padding*2, height), Qt::TextWordWrap | Qt::AlignTop, voc->native());
-			painter.drawRect(QRect(0, yPos, printer.width()/2, height+padding*2));
+     if (m_vocableListModel->rowCount() == 0)
+          return;
 
-			painter.drawText(QRect(padding*2 + printer.width()/2, yPos+padding, printer.width()/2-padding*2, height), Qt::TextWordWrap | Qt::AlignTop, voc->foreign());
-			painter.drawRect(QRect(printer.width()/2, yPos, printer.width()/2, height+padding*2));
+    QPrinter printer(QPrinter::HighResolution);
 
-			yPos += height+padding*2;
-    	}
-    	painter.end();
+    if (!setupPrinter(printer))
+        return;
+    
+    ListVocablePrinter vocablePrinter(m_vocableListModel, &printer);
+    
+    int pageCount = vocablePrinter.pageCount();
+
+    int from = printer.fromPage();
+    int to = printer.toPage();
+    if (from <= 0 && to <= 0) {
+        from = 1;
+        to = pageCount;
     }
+
+    QProgressDialog progress(tr("Printing vocables..."), tr("&Cancel"),
+                             from - 1, to, this);
+    progress.setWindowModality(Qt::ApplicationModal);
+    progress.setWindowTitle(tr("Printing"));
+
+    QPainter painter;
+    painter.begin(&printer);
+    bool firstPage = true;
+
+    for (int index = from - 1; index < to; ++index) {
+
+        if (!firstPage)
+            printer.newPage();
+
+        qApp->processEvents();
+        if (progress.wasCanceled())
+             break;
+
+        vocablePrinter.printPage(index, painter);
+        progress.setValue(index + 1);
+        firstPage = false;
+    }
+
+    painter.end();
 }
+
+void MainWindow::printPreview()
+{
+//     pageMap = currentPageMap();
+
+//     if (pageMap.count() == 0)
+//         return;
+
+    QPrinter printer;
+
+    PreviewDialog preview(m_vocableListModel, printer, this);
+//     connect(&preview,
+//              SIGNAL(pageRequested(int, QPainter &, QPrinter &)),
+//              this, SLOT(printPage(int, QPainter &, QPrinter &)),
+//              Qt::DirectConnection);
+
+//      preview.setNumberOfPages(pageMap.keys().count());
+    preview.exec();
+}
+
 void MainWindow::exportVocables()
 {
 	QString fileName = QFileDialog::getSaveFileName(
