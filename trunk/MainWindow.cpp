@@ -107,9 +107,11 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::newFile()
 {
 	if (maybeSave()) {
-        delete m_vocableListModel;
+        VocableListModel* oldModel = m_vocableListModel;
         m_vocableListModel = new VocableListModel();
-		setCurrentFile("");
+        m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+        delete oldModel;
+        setCurrentFile("");
 	}
 }
 
