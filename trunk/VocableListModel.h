@@ -59,10 +59,10 @@ class VocableListModel : public QAbstractItemModel
         QString authors() const { return m_authors; }
         QString nativeLanguage() const { return m_nativeLanguage; }
         QString foreignLanguage() const { return m_foreignLanguage; }
-        void setTitle(QString title) { m_title = title; }
-        void setAuthors(QString authors) { m_authors = authors; }
-        void setNativeLanguage(QString nativeLanguage) { m_nativeLanguage = nativeLanguage; }
-        void setForeignLanguage(QString foreignLanguage) { m_foreignLanguage = foreignLanguage; }
+        void setTitle(QString title) { m_title = title; emitVocableChanged(); }
+        void setAuthors(QString authors) { m_authors = authors; emitVocableChanged(); }
+        void setNativeLanguage(QString nativeLanguage) { m_nativeLanguage = nativeLanguage; emitVocableChanged(); }
+        void setForeignLanguage(QString foreignLanguage) { m_foreignLanguage = foreignLanguage; emitVocableChanged(); }
         
 
 	private:

@@ -32,19 +32,9 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList les
 	connect(m_ui->nextButton, SIGNAL(clicked()), this, SLOT(nextVocable()));
     connect(m_ui->editButton, SIGNAL(clicked()), this, SLOT(editVocable()));
 
-	QTimer *timer = new QTimer(m_Dialog);
-	connect(timer, SIGNAL(timeout()), this, SLOT(updateTimes()));
-	timer->start(1000);
-    
     m_waitTimer = new QTimer(m_Dialog);
     m_waitTimer->setInterval(1000);
     connect(m_waitTimer, SIGNAL(timeout()), this, SLOT(nextVocable()));
-
-	m_ui->shortTermMemoryProgressBar->setMaximum(12*60);
-	m_ui->ultraShortTermMemoryProgressBar->setMaximum(18);
-	m_startTime = QDateTime::currentDateTime();
-
-	updateTimes();
 
     m_Dialog->show();
     nextVocable();
@@ -54,19 +44,13 @@ VocableQuiz::~VocableQuiz()
 {
 }
 
-void VocableQuiz::updateTimes() {
-	int secs = m_startTime.secsTo(QDateTime::currentDateTime());
-	m_ui->shortTermMemoryProgressBar->setValue(secs);
-	m_ui->ultraShortTermMemoryProgressBar->setValue(secs);
-}
-
 void VocableQuiz::editVocable()
 {
     if (m_currentVocable) {
         
         VocableEditor::editVocable(m_vocableListModel, m_currentVocable);
 
-        m_Dialog->activateWindow(); //bring quiz-window to foreground
+        m_Dialog->activateWindow(); //bring quiz-window to foreground, fixme: doesn't really work :(
 
         m_ui->nativeLabel->setText(m_currentVocable->native());
 
@@ -116,12 +100,14 @@ void VocableQuiz::nextVocable()
     }
 	if(m_currentVocable->box()==0) {
 		//unlearned, don't ask just display it
+        m_ui->helpLabel->setText(tr("Try to memorize the displayed vocable."));
 		m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->resultTextLabel->setText(tr(""));
 		m_ui->resultLabel->setText(m_currentVocable->foreign());
         m_currentVocalbeUnlearned = true;
 	} else {
+        m_ui->helpLabel->setText(tr(""));
 		m_ui->buttonsStack->setCurrentWidget(m_ui->checkPage);
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->foreignLineEdit->setText("");
