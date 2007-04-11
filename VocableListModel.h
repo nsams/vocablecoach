@@ -17,6 +17,7 @@
 #include "Vocable.h"
 #include "VocableQuiz.h"
 #include <QStringList>
+#include <QMap>
 
 /**
 	@author Niko Sams <niko.sams@gmail.com>
@@ -51,9 +52,13 @@ class VocableListModel : public QAbstractItemModel
 		void clearVocables();
 		void emitVocableChanged();
 
-    	bool isModified() { return m_modified; }
+    	bool isModified() const { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }
-        QStringList getUsedLessonsList();
+
+        QMap<int, QString> lessons() const;
+        int getLessonNumber(const QString& lesson);
+        QString getLessonByNumber(int i);
+        void insertLesson(int number, const QString& lesson);
 
         QString title() const { return m_title; }
         QString authors() const { return m_authors; }
@@ -73,6 +78,7 @@ class VocableListModel : public QAbstractItemModel
         QString m_authors;
         QString m_nativeLanguage;
         QString m_foreignLanguage;
+        QMap<int, QString> m_lessons;
 
 	signals:
 		void vocableChanged();

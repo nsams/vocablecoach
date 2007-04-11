@@ -26,6 +26,8 @@ private:
 	Vocable* m_currentVocable;
 
 	bool metKvtmlTag;
+    bool inLessonTag;
+    int currentLessonNumber;
 	QString currentText;
 	QString errorStr;
 };

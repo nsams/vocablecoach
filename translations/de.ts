@@ -138,7 +138,7 @@
     <message>
         <location filename="../MainWindow.ui" line="166"/>
         <source>&amp;Import...</source>
-        <translation>&amp;Import...</translation>
+        <translation type="unfinished">&amp;Importieren...</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="129"/>
