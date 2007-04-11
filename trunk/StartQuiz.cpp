@@ -17,7 +17,7 @@ StartQuiz::StartQuiz(QWidget *parent, VocableListModel* model)
     : QDialog(parent)
 {
     setupUi(this);
-    lessonsList->addItems(model->getUsedLessonsList());
+    lessonsList->addItems(model->lessons().values());
 }
 
 

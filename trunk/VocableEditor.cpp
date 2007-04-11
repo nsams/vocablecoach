@@ -68,7 +68,7 @@ void VocableEditor::addVocable(VocableListModel* model)
 	for(;;) {
         QString lastLesson = editor->lessonComboBox->currentText();
         editor->lessonComboBox->clear();
-        QStringList lessons = model->getUsedLessonsList();
+        QStringList lessons = model->lessons().values();
         editor->lessonComboBox->insertItems(0, lessons);
         editor->lessonComboBox->setCurrentIndex(lessons.indexOf(lastLesson));
 		editor->nativeTextEdit->setPlainText("");
@@ -94,7 +94,7 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
     editor->nativeLabel->setText(model->nativeLanguage());
     editor->foreignLabel->setText(model->foreignLanguage());
 
-    QStringList lessons = model->getUsedLessonsList();
+    QStringList lessons = model->lessons().values();
     editor->lessonComboBox->clear();
     editor->lessonComboBox->insertItems(0, lessons);
 

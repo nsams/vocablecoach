@@ -259,15 +259,32 @@ void VocableListModel::clearVocables()
 
 	reset();
 }
-QStringList VocableListModel::getUsedLessonsList()
+void VocableListModel::insertLesson(int number, const QString& lesson)
 {
-    QStringList ret;
-    foreach(Vocable* voc, m_vocableList) {
-        if(!ret.contains(voc->lesson()) && !voc->lesson().isEmpty()) {
-            ret << voc->lesson();
+    m_lessons.insert(number, lesson);
+}
+QMap<int, QString> VocableListModel::lessons() const
+{
+    return m_lessons;
+}
+int VocableListModel::getLessonNumber(const QString& lesson)
+{
+    QMap<int, QString>::const_iterator i;
+    for (i = m_lessons.constBegin(); i != m_lessons.constEnd(); ++i) {
+        if (*i == lesson) {
+            return i.key();
         }
     }
-    return ret;
+    int max = 1;
+    foreach(int i, m_lessons.keys()) {
+        max = qMax(max, i);
+    }
+    m_lessons.insert(max+1, lesson);
+    return max+1;
+}
+QString VocableListModel::getLessonByNumber(int i)
+{
+    return m_lessons.value(i);
 }
 void VocableListModel::emitVocableChanged()
 {

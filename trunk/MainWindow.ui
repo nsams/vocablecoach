@@ -43,7 +43,11 @@
        <widget class="QLineEdit" name="filterLineEdit" />
       </item>
       <item>
-       <widget class="QComboBox" name="boxSelectionCombo" />
+       <widget class="QComboBox" name="boxSelectionCombo" >
+        <property name="toolTip" >
+         <string>Box-Filter</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -68,6 +72,12 @@
      <height>29</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu_Help" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionAbout" />
+   </widget>
    <widget class="QMenu" name="menu_Edit" >
     <property name="title" >
      <string>&amp;Edit</string>
@@ -95,12 +105,6 @@
     <addaction name="actionExport" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
-   </widget>
-   <widget class="QMenu" name="menu_Help" >
-    <property name="title" >
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="actionAbout" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menu_Edit" />

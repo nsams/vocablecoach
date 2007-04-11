@@ -2,7 +2,7 @@
 #include "VocableListModel.h"
 
 Vocable::Vocable(VocableListModel* model, const QString& native, const QString& foreign, int box)
-	: m_model(model), m_native(native), m_foreign(foreign), m_box(box) { }
+    : m_model(model), m_native(native), m_foreign(foreign), m_lessonNumber(0), m_box(box) { }
 
 void Vocable::setNative(const QString& native)
 {
@@ -28,10 +28,25 @@ void Vocable::setLastQuery(const QDateTime& lastQuery)
 
 void Vocable::setLesson(const QString& lesson)
 {
-    m_lesson = lesson;
+    m_lessonNumber = m_model->getLessonNumber(lesson);
  	m_model->emitVocableChanged();
 }
 
+void Vocable::setLessonNumber(int i)
+{
+    m_lessonNumber = i;
+    m_model->emitVocableChanged();
+}
+
+QString Vocable::lesson() const
+{
+    if (!m_lessonNumber) return "";
+    return m_model->getLessonByNumber(m_lessonNumber);
+}
+int Vocable::lessonNumber() const
+{
+    return m_lessonNumber;
+}
 QDateTime Vocable::expireDate() const
 {
     if (m_box == 2) {

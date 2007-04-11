@@ -55,7 +55,8 @@ DEPENDPATH += .
 MOC_DIR = moc
 OBJECTS_DIR = obj
 UI_DIR = ui
-DISTFILES += COPYING
+DISTFILES += COPYING \
+x
 QT += core \
 gui \
 xml \

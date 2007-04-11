@@ -40,10 +40,18 @@ bool VocableListWriter::write(VocableListModel* model)
     out << QString("	author=\"%1\"").arg(model->authors());
     out << QString("	foreignLanguage=\"%1\"").arg(model->foreignLanguage()); //fixme: not kvoctrain format
     out << QString("	nativeLanguage=\"%1\">").arg(model->nativeLanguage()); //fixme: not kvoctrain format
-    for(int i=0;i<model->rowCount();i++)
-	{
+    
+    out << "<lesson>";
+    QMap<int, QString> lessons = model->lessons();
+    QMap<int, QString>::const_iterator i;
+    for (i = lessons.constBegin(); i != lessons.constEnd(); ++i) {
+        out << QString("    <desc no=\"%1\">%2</desc>").arg(i.key()).arg(escape(i.value()));
+    }
+    out << "</lesson>";
+
+    for (int i=0;i<model->rowCount();i++) {
 		Vocable* voc = model->vocable(i);
-		out << QString("<e box=\"%1\" lesson=\"%2\">").arg(voc->box()).arg(voc->lesson());
+		out << QString("<e box=\"%1\" m=\"%2\">").arg(voc->box()).arg(voc->lessonNumber());
 		out << QString("	<o>%1</o>").arg(escape(voc->foreign()));
 		QString lastQuery("");
 		if(voc->lastQuery().isValid()) {
@@ -52,7 +60,7 @@ bool VocableListWriter::write(VocableListModel* model)
 		out << QString("	<t%1>%2</t>").arg(lastQuery).arg(escape(voc->native()));
 		out << "</e>";
 	}
-	out << "</kvtml>";
+	out << "</kvtml>\n";
 	file.write(out.join("\n").toUtf8());
 	return true;
 }

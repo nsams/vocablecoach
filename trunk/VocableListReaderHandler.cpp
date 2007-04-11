@@ -20,6 +20,7 @@ VocableListReaderHandler::VocableListReaderHandler(VocableListModel* model)
 {
 	m_model = model;
     metKvtmlTag = false;
+    inLessonTag = false;
 }
 bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
 								const QString & /* localName */,
@@ -37,12 +38,18 @@ bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
         if(!attributes.value("nativeLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
         if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
 		metKvtmlTag = true; 
+    } else if (qName == "lesson") {
+        inLessonTag = true;
+    } else if (inLessonTag && qName == "desc") {
+        currentLessonNumber = attributes.value("no").toInt();
+        currentText.clear();
 	} else if (qName == "e") {
 		m_currentVocable = new Vocable(m_model);
 		m_model->appendVocable(m_currentVocable);
-		//todo: m = member von lesson nr: attributes.value("m");
 		m_currentVocable->setBox(attributes.value("box").toInt());
-        if(!attributes.value("lesson").isEmpty()) {
+        if(!attributes.value("m").isEmpty()) {
+            m_currentVocable->setLessonNumber(attributes.value("m").toInt());
+        } else if(!attributes.value("lesson").isEmpty()) {
             m_currentVocable->setLesson(attributes.value("lesson"));
         } else if(!attributes.value("lession").isEmpty()) { //deprecated
             m_currentVocable->setLesson(attributes.value("lession"));
@@ -64,7 +71,11 @@ bool VocableListReaderHandler::endElement(const QString & /* namespaceURI */,
 							  const QString & /* localName */,
 							  const QString &qName)
 {
-	if (qName == "o" && m_currentVocable) {
+    if (inLessonTag && qName == "desc") {
+        m_model->insertLesson(currentLessonNumber, currentText.trimmed());
+    } else if (qName == "lesson") {
+        inLessonTag = false;
+    } else if (qName == "o" && m_currentVocable) {
 		m_currentVocable->setForeign(currentText);
 	} else if(qName == "t" && m_currentVocable) {
 		m_currentVocable->setNative(currentText);
