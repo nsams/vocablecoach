@@ -1,11 +1,8 @@
 #include "VocableListModel.h"
 #include "Vocable.h"
-#include "ImportPauker.h"
+#include "reader/ModelReaderPauker.h"
 #include <QDebug>
-#include <stdlib.h>
-#include <zlib.h>
 #include <QMessageBox>
-#include <QXmlSimpleReader>
 
 QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
 {
@@ -213,42 +210,6 @@ QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lesson
         if(ret < v->expireDate()) ret = v->expireDate();
     }
     return ret;
-}
-
-
-void VocableListModel::importFile(QString fileName)
-{
-	gzFile file;
-	file = gzopen (fileName.toUtf8().data(), "rb");
-	if(!file) {
-		QMessageBox::critical(0, tr("import"), tr("Can't open file"));
-		return;
-	}
-	QByteArray input;
-	char buffer[1024];
-	QByteArray inputData;
-	while(int readBytes =  gzread (file, buffer, 1024))
-	{
-		input.append(QByteArray(buffer, readBytes));
-	}
-	gzclose(file);
-	
-	QXmlSimpleReader xmlReader;
-	QXmlInputSource *source = new QXmlInputSource;
-	source->setData(input);
-
-	clearVocables();
-
-	ImportPauker *handler = new ImportPauker(this);
-	xmlReader.setContentHandler(handler);
-	xmlReader.setErrorHandler(handler);
-	
-	bool ok = xmlReader.parse(source);
-
-	if (!ok) {
-		QMessageBox::critical(0, tr("import"), tr("Invalid XML-File"));
-		clearVocables();
-	}
 }
 
 void VocableListModel::clearVocables()

@@ -1,15 +1,16 @@
-#ifndef VOCABLELISTREADERHANDLER_H
-#define VOCABLELISTREADERHANDLER_H
+#ifndef MODELREADERKVTMLHANDLER_H
+#define MODELREADERKVTMLHANDLER_H
 
 #include <QXmlDefaultHandler>
 #include <QString>
+
 class VocableListModel;
 class Vocable;
 
-class VocableListReaderHandler : public QXmlDefaultHandler
+class ModelReaderKvtmlHandler : public QXmlDefaultHandler
 {
 public:
-	VocableListReaderHandler(VocableListModel* model);
+    ModelReaderKvtmlHandler(VocableListModel* model);
 
 	bool startElement(const QString & /* namespaceURI */,
 			const QString & /* localName */,

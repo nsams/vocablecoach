@@ -12,10 +12,12 @@
 #include "MainWindow.h"
 #include "VocableListModel.h"
 #include "Vocable.h"
-#include "VocableListWriter.h"
 #include "VocableEditor.h"
 #include "VocableQuiz.h"
-#include "VocableListReader.h"
+#include "reader/ModelReaderKvtml.h"
+#include "reader/ModelReaderPauker.h"
+#include "writer/ModelWriterKvtml.h"
+#include "writer/ModelWriterCsv.h"
 #include "VocableListModelFilter.h"
 #include "StartQuiz.h"
 #include "DocumentProperties.h"
@@ -122,7 +124,7 @@ void MainWindow::open()
 				this,
 				tr("open"),
 				QString(),
-				tr("Vocable-Files (*.kvtml)"));
+                tr("All supported files (*.kvtml *.xml *.xml.gz *.csv *.txt);;KDE Vocabledocument (*.kvtml);;Pauker-Lektion (*.xml *.xml.gz);;CSV-Textdocument (*.csv *.txt)"));
 		if (!fileName.isEmpty())
 			loadFile(fileName);
 	}
@@ -140,23 +142,36 @@ bool MainWindow::saveAs()
 {
 	QString fileName = QFileDialog::getSaveFileName(
 			this,
-			tr("save"),
+            tr("Save Vocables"),
 			QString(),
-			tr("Vocable-Files (*.kvtml)"));
+            tr("KDE Vocabledocument (*.kvtml);;CSV-Textdocument (*.csv *.txt)"));
 	if (fileName.isEmpty())
 		return false;
 
-	return saveFile(fileName);
+	bool ret = saveFile(fileName);
+    if (ret) {
+        setCurrentFile(fileName);
+    }
+    return ret;
 }
 
 
 void MainWindow::loadFile(const QString &fileName)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    VocableListReader reader(fileName);
+    ModelReaderAbstract* reader;
+    reader = new ModelReaderKvtml(fileName);
+    if(!reader->isValidFile()) {
+        reader = new ModelReaderPauker(fileName);
+        if(!reader->isValidFile()) {
+            QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
+            return;
+        }
+    }
     VocableListModel* oldModel = m_vocableListModel;
     m_vocableListModel = new VocableListModel();
-    reader.read(m_vocableListModel);
+    reader->read(m_vocableListModel);
+    delete reader;
     m_filteredVocableListModel->setSourceModel(m_vocableListModel);
     connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
     delete oldModel;
@@ -166,12 +181,16 @@ void MainWindow::loadFile(const QString &fileName)
 
 bool MainWindow::saveFile(const QString &fileName)
 {
-	VocableListWriter writer(fileName);
-	QApplication::setOverrideCursor(Qt::WaitCursor);
-	writer.write(m_vocableListModel);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    ModelWriterAbstract* writer;
+    if (fileName.right(6) == ".kvtml") {
+        writer = new ModelWriterKvtml(fileName);
+    } else if (fileName.right(4) == ".csv" || fileName.right(4) == ".txt") {
+        writer = new ModelWriterCsv(fileName);
+    }
+	writer->write(m_vocableListModel);
+    delete writer;
 	QApplication::restoreOverrideCursor();
-
-	setCurrentFile(fileName);
 	return true;
 }
 
@@ -179,12 +198,24 @@ void MainWindow::import()
 {
     QString fileName = QFileDialog::getOpenFileName(
                 this,
-                tr("import"),
+                tr("Import"),
                 QString(),
-                "Pauker Files (*.xml *.xml.gz)");
+                tr("All supported files (*.kvtml *.xml *.xml.gz *.csv *.txt);;KDE Vocabledocument (*.kvtml);;Pauker-Lektion (*.xml *.xml.gz);;CSV-Textdocument (*.csv *.txt)"));
 	if(fileName=="") return;
 
-	m_vocableListModel->importFile(fileName);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    ModelReaderAbstract* reader;
+    reader = new ModelReaderKvtml(fileName);
+    if(!reader->isValidFile()) {
+        reader = new ModelReaderPauker(fileName);
+        if(!reader->isValidFile()) {
+            QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
+            return;
+        }
+    }
+    reader->read(m_vocableListModel);
+    delete reader;
+    QApplication::restoreOverrideCursor();
 }
 
 bool MainWindow::setupPrinter(QPrinter &printer)
@@ -255,26 +286,12 @@ void MainWindow::exportVocables()
 {
 	QString fileName = QFileDialog::getSaveFileName(
 			this,
-			tr("export"),
+			tr("Export Vocables"),
 			QString(),
-			tr("CSV-Files (*.csv)"));
+            tr("KDE Vocabledocument (*.kvtml);;CSV-Textdocument (*.csv *.txt)"));
 	if(fileName=="") return;
-
-	QFile file(fileName);
-
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-		QMessageBox::critical(0, tr("export"), tr("Can't open file"));
-		return;
-	}
-
-    file.write(QString(m_vocableListModel->foreignLanguage()+";"+m_vocableListModel->nativeLanguage()+";"+tr("Box")+"\n").toUtf8());
-
-	for(int i=0;i<m_vocableListModel->rowCount();i++)
-	{
-		Vocable* voc = m_vocableListModel->vocable(i);
-		QString out = "\"" + voc->foreign().replace("\n", "\\n").replace("\"", "\\\"") + "\";\"" + voc->native().replace("\n", "\\n").replace("\"", "\\\"") + "\";" + QString("%1").arg(voc->box()) + "\n";
-		file.write(out.toUtf8());
-	}
+    
+    saveFile(fileName);
 }
 
 

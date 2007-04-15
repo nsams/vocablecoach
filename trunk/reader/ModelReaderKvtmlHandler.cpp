@@ -1,5 +1,5 @@
 //
-// C++ Implementation: VocableListReaderHandler
+// C++ Implementation: ModelReaderKvtmlHandler
 //
 // Description: 
 //
@@ -9,20 +9,20 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "VocableListReaderHandler.h"
-#include "VocableListModel.h"
+#include "ModelReaderKvtmlHandler.h"
+#include "../VocableListModel.h"
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDebug>
 
-VocableListReaderHandler::VocableListReaderHandler(VocableListModel* model)
+ModelReaderKvtmlHandler::ModelReaderKvtmlHandler(VocableListModel* model)
  : QXmlDefaultHandler()
 {
 	m_model = model;
     metKvtmlTag = false;
     inLessonTag = false;
 }
-bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
+bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
 								const QString & /* localName */,
 								const QString &qName,
 								const QXmlAttributes &attributes)
@@ -67,7 +67,7 @@ bool VocableListReaderHandler::startElement(const QString & /* namespaceURI */,
 	return true;
 }
 
-bool VocableListReaderHandler::endElement(const QString & /* namespaceURI */,
+bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
 							  const QString & /* localName */,
 							  const QString &qName)
 {
@@ -82,12 +82,12 @@ bool VocableListReaderHandler::endElement(const QString & /* namespaceURI */,
 	}
 	return true;
 }
-bool VocableListReaderHandler::characters(const QString &str)
+bool ModelReaderKvtmlHandler::characters(const QString &str)
 {
 	currentText += str;
 	return true;
 }
-bool VocableListReaderHandler::fatalError(const QXmlParseException &exception)
+bool ModelReaderKvtmlHandler::fatalError(const QXmlParseException &exception)
 {
 	QMessageBox::information(0, QObject::tr("VocableCoach"),
 							 QObject::tr("Parse error at line %1, column %2:\n"
@@ -98,7 +98,7 @@ bool VocableListReaderHandler::fatalError(const QXmlParseException &exception)
 	return false;
 }
 
-QString VocableListReaderHandler::errorString() const
+QString ModelReaderKvtmlHandler::errorString() const
 {
 	return errorStr;
 }

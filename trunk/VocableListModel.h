@@ -48,7 +48,6 @@ class VocableListModel : public QAbstractItemModel
 		void appendVocable(Vocable* vocable);
         Vocable* randomVocable(QuizType type, QStringList lessons=QStringList());
         QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
-		void importFile(QString fileName);
 		void clearVocables();
 		void emitVocableChanged();
 
@@ -64,10 +63,13 @@ class VocableListModel : public QAbstractItemModel
         QString authors() const { return m_authors; }
         QString nativeLanguage() const { return m_nativeLanguage; }
         QString foreignLanguage() const { return m_foreignLanguage; }
-        void setTitle(QString title) { m_title = title; emitVocableChanged(); }
-        void setAuthors(QString authors) { m_authors = authors; emitVocableChanged(); }
-        void setNativeLanguage(QString nativeLanguage) { m_nativeLanguage = nativeLanguage; emitVocableChanged(); }
-        void setForeignLanguage(QString foreignLanguage) { m_foreignLanguage = foreignLanguage; emitVocableChanged(); }
+        void setTitle(const QString &title) {
+            m_title = title;
+            emitVocableChanged();
+        }
+        void setAuthors(const QString &authors) { m_authors = authors; emitVocableChanged(); }
+        void setNativeLanguage(const QString &nativeLanguage) { m_nativeLanguage = nativeLanguage; emitVocableChanged(); }
+        void setForeignLanguage(const QString &foreignLanguage) { m_foreignLanguage = foreignLanguage; emitVocableChanged(); }
         
 
 	private:

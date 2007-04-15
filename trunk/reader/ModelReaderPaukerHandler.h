@@ -1,14 +1,14 @@
-#ifndef IMPORTPAUKER_H
-#define IMPORTPAUKER_H
+#ifndef MODELREADERPAUKERHANDLER_H
+#define MODELREADERPAUKERHANDLER_H
 #include <QString>
 #include <QXmlDefaultHandler>
 class VocableListModel;
 class Vocable;
 
-class ImportPauker : public QXmlDefaultHandler
+class ModelReaderPaukerHandler : public QXmlDefaultHandler
 {
 public:
-    ImportPauker(VocableListModel* model);
+    ModelReaderPaukerHandler(VocableListModel* model);
 
     bool startElement(const QString &namespaceURI, const QString &localName,
                       const QString &qName, const QXmlAttributes &attributes);
