@@ -3,21 +3,19 @@
 # Unterordner relativ zum Projektordner: .
 # Das Target ist eine Anwendung:  
 
+
 FORMS += MainWindow.ui \
-         VocableEditor.ui 
-FORMS += VocableQuiz.ui \
-StartQuiz.ui \
-DocumentProperties.ui \
-PreviewDialog.ui
+         VocableEditor.ui \
+         VocableQuiz.ui \
+         StartQuiz.ui \
+         DocumentProperties.ui \
+         PreviewDialog.ui
+
 HEADERS += MainWindow.h \
            Vocable.h \
            VocableListModel.h \
-           ImportPauker.h \
-           VocableListWriter.h \
            VocableEditor.h  \
            VocableQuiz.h \
-           VocableListReader.h \
-           VocableListReaderHandler.h \
            VocableEditorTextEdit.h \
            VocableListModelFilter.h \
            StartQuiz.h \
@@ -26,16 +24,20 @@ HEADERS += MainWindow.h \
            PreviewLabel.h \
            ListVocablePrinter.h \
            AbstractVocablePrinter.h \
-           CardVocablePrinter.h
+           CardVocablePrinter.h \
+           reader/ModelReaderAbstract.h \
+           reader/ModelReaderKvtml.h \
+           reader/ModelReaderKvtmlHandler.h \
+           reader/ModelReaderPauker.h \
+           reader/ModelReaderPaukerHandler.h \
+           writer/ModelWriterAbstract.h \
+           writer/ModelWriterKvtml.h \
+           writer/ModelWriterCsv.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
-           ImportPauker.cpp \
-           VocableListWriter.cpp \
            VocableEditor.cpp  \
            VocableQuiz.cpp \
-           VocableListReader.cpp \
-           VocableListReaderHandler.cpp \
            Vocable.cpp \
            VocableEditorTextEdit.cpp \
            VocableListModelFilter.cpp \
@@ -45,7 +47,15 @@ SOURCES += main.cpp \
            PreviewLabel.cpp \
            ListVocablePrinter.cpp \
            CardVocablePrinter.cpp \
-           AbstractVocablePrinter.cpp
+           AbstractVocablePrinter.cpp \
+           reader/ModelReaderAbstract.cpp \
+           reader/ModelReaderKvtml.cpp \
+           reader/ModelReaderKvtmlHandler.cpp \
+           reader/ModelReaderPauker.cpp \
+           reader/ModelReaderPaukerHandler.cpp \
+           writer/ModelWriterAbstract.cpp \
+           writer/ModelWriterKvtml.cpp \
+           writer/ModelWriterCsv.cpp
 CONFIG += debug \
 qt \
 warn_on
@@ -55,8 +65,7 @@ DEPENDPATH += .
 MOC_DIR = moc
 OBJECTS_DIR = obj
 UI_DIR = ui
-DISTFILES += COPYING \
-x
+DISTFILES += COPYING
 QT += core \
 gui \
 xml \
@@ -65,18 +74,3 @@ INCLUDEPATH += .
 
 TRANSLATIONS = translation/de.ts
 
-win32{
-    INCLUDEPATH += ./3rdparty/zlib
-    SOURCES += \
-        ./3rdparty/zlib/adler32.c \
-        ./3rdparty/zlib/compress.c \
-        ./3rdparty/zlib/crc32.c \
-        ./3rdparty/zlib/deflate.c \
-        ./3rdparty/zlib/gzio.c \
-        ./3rdparty/zlib/inffast.c \
-        ./3rdparty/zlib/inflate.c \
-        ./3rdparty/zlib/inftrees.c \
-        ./3rdparty/zlib/trees.c \
-        ./3rdparty/zlib/uncompr.c \
-        ./3rdparty/zlib/zutil.c
-}

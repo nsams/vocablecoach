@@ -1,13 +1,13 @@
-#include "ImportPauker.h"
+#include "ModelReaderPaukerHandler.h"
 #include <QObject>
 #include <QMessageBox>
 #include <QXmlInputSource>
-#include "Vocable.h"
+#include "../Vocable.h"
 #include <QDebug>
-#include "VocableListModel.h"
+#include "../VocableListModel.h"
 
 
-ImportPauker::ImportPauker(VocableListModel* model)
+ModelReaderPaukerHandler::ModelReaderPaukerHandler(VocableListModel* model)
  : QXmlDefaultHandler()
 {
 	m_model = model;
@@ -15,7 +15,7 @@ ImportPauker::ImportPauker(VocableListModel* model)
     currentBox = 0;
 }
 
-bool ImportPauker::startElement(const QString & /* namespaceURI */,
+bool ModelReaderPaukerHandler::startElement(const QString & /* namespaceURI */,
                                const QString & /* localName */,
                                const QString &qName,
                                const QXmlAttributes &attributes)
@@ -52,7 +52,7 @@ bool ImportPauker::startElement(const QString & /* namespaceURI */,
     return true;
 }
 
-bool ImportPauker::endElement(const QString & /* namespaceURI */,
+bool ModelReaderPaukerHandler::endElement(const QString & /* namespaceURI */,
                              const QString & /* localName */,
                              const QString &qName)
 {
@@ -65,12 +65,12 @@ bool ImportPauker::endElement(const QString & /* namespaceURI */,
     return true;
 }
 
-bool ImportPauker::characters(const QString &str)
+bool ModelReaderPaukerHandler::characters(const QString &str)
 {
     currentText += str;
     return true;
 }
-bool ImportPauker::fatalError(const QXmlParseException &exception)
+bool ModelReaderPaukerHandler::fatalError(const QXmlParseException &exception)
 {
     QMessageBox::information(0, QObject::tr("import"),
                              QObject::tr("Parse error at line %1, column %2:\n"
@@ -81,7 +81,7 @@ bool ImportPauker::fatalError(const QXmlParseException &exception)
     return false;
 }
 
-QString ImportPauker::errorString() const
+QString ModelReaderPaukerHandler::errorString() const
 {
     return errorStr;
 }

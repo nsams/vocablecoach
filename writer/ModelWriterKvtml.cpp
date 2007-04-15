@@ -1,5 +1,5 @@
 //
-// C++ Implementation: vocablelistwriter
+// C++ Implementation: ModelWriterKvtml
 //
 // Description: 
 //
@@ -9,22 +9,18 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "VocableListWriter.h"
-#include "VocableListModel.h"
+#include "ModelWriterKvtml.h"
+#include "../VocableListModel.h"
 #include <QFile>
 #include <QStringList>
 
-VocableListWriter::VocableListWriter(const QString& fileName)
-	: m_fileName(fileName)
+ModelWriterKvtml::ModelWriterKvtml(const QString& fileName)
+    : ModelWriterAbstract(fileName)
 {
 }
 
 
-VocableListWriter::~VocableListWriter()
-{
-}
-
-bool VocableListWriter::write(VocableListModel* model)
+bool ModelWriterKvtml::write(VocableListModel* model)
 {
 	QFile file(m_fileName);
 	if(!file.open(QIODevice::WriteOnly)) return false;
@@ -65,7 +61,7 @@ bool VocableListWriter::write(VocableListModel* model)
 	return true;
 }
 
-QString VocableListWriter::escape(const QString &s)
+QString ModelWriterKvtml::escape(const QString &s)
 {
 	QString ret = s;
 	ret.replace(QChar('&'), "&amp;"); //must be done first 
