@@ -15,6 +15,7 @@
 #import "ModelWriterAbstract.h"
 #import <QString>
 class VocableListModel;
+class Vocable;
 /**
 	@author Niko Sams <niko.sams@gmail.com>
  */
@@ -23,8 +24,10 @@ class ModelWriterCsv : public ModelWriterAbstract {
         ModelWriterCsv(const QString& fileName);
 
         bool write(VocableListModel* model);
+        static QString vocableCsvString(Vocable *voc);
     private:
         QString m_fileName;
+        static QString escape(QString str);
 };
 
 #endif

@@ -78,14 +78,6 @@
     </property>
     <addaction name="actionAbout" />
    </widget>
-   <widget class="QMenu" name="menu_Edit" >
-    <property name="title" >
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="actionAddVocable" />
-    <addaction name="actionEditVocable" />
-    <addaction name="actionDeleteVocable" />
-   </widget>
    <widget class="QMenu" name="menuFile" >
     <property name="title" >
      <string>&amp;File</string>
@@ -105,6 +97,18 @@
     <addaction name="actionExport" />
     <addaction name="separator" />
     <addaction name="actionQuit" />
+   </widget>
+   <widget class="QMenu" name="menu_Edit" >
+    <property name="title" >
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="actionCut" />
+    <addaction name="actionCopy" />
+    <addaction name="actionPaste" />
+    <addaction name="separator" />
+    <addaction name="actionAddVocable" />
+    <addaction name="actionEditVocable" />
+    <addaction name="actionDeleteVocable" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menu_Edit" />
@@ -187,6 +191,9 @@
    <property name="text" >
     <string>Add Vocable</string>
    </property>
+   <property name="shortcut" >
+    <string>Einfg</string>
+   </property>
   </action>
   <action name="actionEditVocable" >
    <property name="text" >
@@ -196,6 +203,9 @@
   <action name="actionDeleteVocable" >
    <property name="text" >
     <string>Delete Vocable</string>
+   </property>
+   <property name="shortcut" >
+    <string>Entf</string>
    </property>
   </action>
   <action name="actionQuiz" >
@@ -216,6 +226,30 @@
   <action name="actionPrintPreview" >
    <property name="text" >
     <string>Print Preview...</string>
+   </property>
+  </action>
+  <action name="actionCut" >
+   <property name="text" >
+    <string>Cu&amp;t</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+X</string>
+   </property>
+  </action>
+  <action name="actionCopy" >
+   <property name="text" >
+    <string>&amp;Copy</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+C</string>
+   </property>
+  </action>
+  <action name="actionPaste" >
+   <property name="text" >
+    <string>&amp;Paste</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+V</string>
    </property>
   </action>
  </widget>

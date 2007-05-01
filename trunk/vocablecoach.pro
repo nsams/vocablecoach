@@ -32,7 +32,8 @@ HEADERS += MainWindow.h \
            reader/ModelReaderPaukerHandler.h \
            writer/ModelWriterAbstract.h \
            writer/ModelWriterKvtml.h \
-           writer/ModelWriterCsv.h
+           writer/ModelWriterCsv.h \
+           reader/ModelReaderCsv.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -55,7 +56,8 @@ SOURCES += main.cpp \
            reader/ModelReaderPaukerHandler.cpp \
            writer/ModelWriterAbstract.cpp \
            writer/ModelWriterKvtml.cpp \
-           writer/ModelWriterCsv.cpp
+           writer/ModelWriterCsv.cpp \
+           reader/ModelReaderCsv.cpp
 CONFIG += debug \
 qt \
 warn_on
