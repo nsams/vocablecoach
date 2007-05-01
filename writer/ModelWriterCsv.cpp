@@ -27,13 +27,26 @@ bool ModelWriterCsv::write(VocableListModel* model)
         return false;
     }
 
-    file.write(QString(model->foreignLanguage()+";"+model->nativeLanguage()+";"+QObject::tr("Box")+"\n").toUtf8());
+    file.write(QString(ModelWriterCsv::escape(model->foreignLanguage())
+            +"\t"+ ModelWriterCsv::escape(model->nativeLanguage())
+            +"\t"+ ModelWriterCsv::escape(QObject::tr("Box"))+"\n").toUtf8());
 
     for(int i=0;i<model->rowCount();i++)
     {
         Vocable* voc = model->vocable(i);
-        QString out = "\"" + voc->foreign().replace("\n", "\\n").replace("\"", "\\\"") + "\";\"" + voc->native().replace("\n", "\\n").replace("\"", "\\\"") + "\";" + QString("%1").arg(voc->box()) + "\n";
+        QString out = ModelWriterCsv::vocableCsvString(voc) + "\n";
         file.write(out.toUtf8());
     }
     return true;
+}
+
+QString ModelWriterCsv::vocableCsvString(Vocable *voc) {
+    QString out = ModelWriterCsv::escape(voc->foreign())
+            + "\t" + ModelWriterCsv::escape(voc->native())
+            + "\t" + QString("%1").arg(voc->box());
+    return out;
+}
+QString ModelWriterCsv::escape(QString str)
+{
+    return str.replace("\\", "\\\\").replace("\n", "\\n").replace("\"", "\\\"");
 }

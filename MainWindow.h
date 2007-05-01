@@ -53,6 +53,10 @@ private slots:
 	bool save();
     void startQuiz();
     void documentProperties();
+    
+    void cut();
+    void copy();
+    void paste();
 	
 	void deleteVocable();
 	void editVocable();

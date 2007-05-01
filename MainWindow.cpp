@@ -16,6 +16,7 @@
 #include "VocableQuiz.h"
 #include "reader/ModelReaderKvtml.h"
 #include "reader/ModelReaderPauker.h"
+#include "reader/ModelReaderCsv.h"
 #include "writer/ModelWriterKvtml.h"
 #include "writer/ModelWriterCsv.h"
 #include "VocableListModelFilter.h"
@@ -36,6 +37,7 @@
 #include <QCloseEvent>
 #include <QSettings>
 #include <QProgressDialog>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_vocableListModel(0)
@@ -61,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(actionQuiz, SIGNAL(triggered()), this, SLOT(startQuiz()));
     connect(actionProperties, SIGNAL(triggered()), this, SLOT(documentProperties()));
+    
+    connect(actionCut, SIGNAL(triggered()), this, SLOT(cut()));
+    connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
+    connect(actionPaste, SIGNAL(triggered()), this, SLOT(paste()));
     
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
@@ -159,23 +165,26 @@ bool MainWindow::saveAs()
 void MainWindow::loadFile(const QString &fileName)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    ModelReaderAbstract* reader;
-    reader = new ModelReaderKvtml(fileName);
-    if(!reader->isValidFile()) {
-        reader = new ModelReaderPauker(fileName);
-        if(!reader->isValidFile()) {
-            QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
+    QList<ModelReaderAbstract*> readers;
+    readers << new ModelReaderKvtml(fileName);
+    readers << new ModelReaderPauker(fileName);
+    readers << new ModelReaderCsv(fileName);
+    foreach (ModelReaderAbstract* reader, readers) {
+        if (reader->isValidFile()) {
+            VocableListModel* oldModel = m_vocableListModel;
+            m_vocableListModel = new VocableListModel();
+            reader->read(m_vocableListModel);
+            delete reader;
+            m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+            connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
+            delete oldModel;
+            setCurrentFile(fileName);
+            QApplication::restoreOverrideCursor();
             return;
         }
     }
-    VocableListModel* oldModel = m_vocableListModel;
-    m_vocableListModel = new VocableListModel();
-    reader->read(m_vocableListModel);
-    delete reader;
-    m_filteredVocableListModel->setSourceModel(m_vocableListModel);
-    connect(m_vocableListModel, SIGNAL(vocableChanged()), m_filteredVocableListModel, SLOT(clear()));
-    delete oldModel;
-	setCurrentFile(fileName);
+    QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
+
     QApplication::restoreOverrideCursor();
 }
 
@@ -308,7 +317,26 @@ void MainWindow::editVocable()
 	Vocable* vocable = m_vocableListModel->vocable( currentIndex );
     VocableEditor::editVocable(m_vocableListModel, vocable);
 }
+void MainWindow::cut() {
+}
+void MainWindow::copy()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
+    QStringList lines;
+    
+    QModelIndexList rows( vocableEditorView->selectionModel()->selectedRows() );
+    foreach( const QModelIndex & index, rows ) {
+        lines << ModelWriterCsv::vocableCsvString(m_vocableListModel->vocable(index));
+    }
+
+    if (!lines.isEmpty()) {
+        QApplication::clipboard()->setText(lines.join("\n"));
+    }
+    QApplication::restoreOverrideCursor();
+}
+void MainWindow::paste() {
+}
 void MainWindow::deleteVocable()
 {
 	QItemSelection selection( vocableEditorView->selectionModel()->selection() );
