@@ -13,7 +13,7 @@
 #define MODELREADERCSV_H
 
 #include "ModelReaderAbstract.h"
-
+class Vocable;
 /**
 	@author Niko Sams <ns@vivid-planet.com>
 */
@@ -23,6 +23,7 @@ public:
     ModelReaderCsv(const QString& filename);
     bool read(VocableListModel* model);
     bool isValidFile();
+    static Vocable* addLine(VocableListModel* model, QString line, int position=0);
 
 };
 

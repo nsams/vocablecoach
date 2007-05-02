@@ -33,15 +33,25 @@ bool ModelReaderCsv::read(VocableListModel* model)
     QString line;
     do {
         line = stream.readLine();
-        QStringList parts = line.split("\t");
-        Vocable* voc = new Vocable(model);
-        model->appendVocable(voc);
-        voc->setNative(parts[0]);
-        voc->setForeign(parts[1]);
-        voc->setBox(parts[2].toInt());
+        ModelReaderCsv::addLine(model, line);
     } while (!line.isNull());
 
     return true;
+}
+
+Vocable* ModelReaderCsv::addLine(VocableListModel* model, QString line, int position)
+{
+    QStringList parts = line.split("\t");
+    Vocable* voc = new Vocable(model);
+    if (position == 0) {
+        model->appendVocable(voc);
+    } else {
+        model->insertVocable(position, voc);
+    }
+    voc->setNative(parts[0]);
+    if (parts.count() > 1) voc->setForeign(parts[1]);
+    if (parts.count() > 2) voc->setBox(parts[2].toInt());
+    return voc;
 }
 
 bool ModelReaderCsv::isValidFile()

@@ -318,13 +318,16 @@ void MainWindow::editVocable()
     VocableEditor::editVocable(m_vocableListModel, vocable);
 }
 void MainWindow::cut() {
+    copy();
+    deleteVocable();
 }
+
 void MainWindow::copy()
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     QStringList lines;
-    
+
     QModelIndexList rows( vocableEditorView->selectionModel()->selectedRows() );
     foreach( const QModelIndex & index, rows ) {
         lines << ModelWriterCsv::vocableCsvString(m_vocableListModel->vocable(index));
@@ -333,10 +336,30 @@ void MainWindow::copy()
     if (!lines.isEmpty()) {
         QApplication::clipboard()->setText(lines.join("\n"));
     }
+
     QApplication::restoreOverrideCursor();
 }
-void MainWindow::paste() {
+
+void MainWindow::paste()
+{
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+    QModelIndex currentIndex = vocableEditorView->selectionModel()->currentIndex();
+    int currentRow;
+    if (!currentIndex.isValid()) {
+        currentRow = m_vocableListModel->rowCount()-1;
+    } else {
+        currentRow = currentIndex.row();
+    }
+    QStringList lines = QApplication::clipboard()->text().split("\n");
+    foreach (QString line, lines) {
+        ModelReaderCsv::addLine(m_vocableListModel, line.trimmed(), currentRow+1);
+        currentRow++;
+    }
+
+    QApplication::restoreOverrideCursor();
 }
+
 void MainWindow::deleteVocable()
 {
 	QItemSelection selection( vocableEditorView->selectionModel()->selection() );

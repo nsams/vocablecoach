@@ -27,8 +27,8 @@ bool ModelWriterCsv::write(VocableListModel* model)
         return false;
     }
 
-    file.write(QString(ModelWriterCsv::escape(model->foreignLanguage())
-            +"\t"+ ModelWriterCsv::escape(model->nativeLanguage())
+    file.write(QString(ModelWriterCsv::escape(model->nativeLanguage())
+            +"\t"+ ModelWriterCsv::escape(model->foreignLanguage())
             +"\t"+ ModelWriterCsv::escape(QObject::tr("Box"))+"\n").toUtf8());
 
     for(int i=0;i<model->rowCount();i++)
@@ -41,8 +41,8 @@ bool ModelWriterCsv::write(VocableListModel* model)
 }
 
 QString ModelWriterCsv::vocableCsvString(Vocable *voc) {
-    QString out = ModelWriterCsv::escape(voc->foreign())
-            + "\t" + ModelWriterCsv::escape(voc->native())
+    QString out = ModelWriterCsv::escape(voc->native())
+            + "\t" + ModelWriterCsv::escape(voc->foreign())
             + "\t" + QString("%1").arg(voc->box());
     return out;
 }
