@@ -27,17 +27,17 @@ class VocableEditor : public QDialog, private Ui::VocableEdit
 {
     Q_OBJECT
 private:
-    VocableEditor(QWidget *parent = 0);
+    VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent = 0);
 public:
     ~VocableEditor();
 
-    static VocableEditor* getEditor();
     static int editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack);
     static void addVocable(VocableListModel* model, QUndoStack* undoStack);
 
 private:
-	static VocableEditor* m_editor;
     bool eventFilter(QObject *target, QEvent *event);
+    QUndoStack* m_undoStack;
+    VocableListModel* m_vocableListModel;
 
 protected:
     QHttp* httpLeo;
@@ -49,6 +49,7 @@ private slots:
     void translateLeo();
     void nativeTextChanged();
     void foreignTextChanged();
+    void addVocable();
 };
 
 #endif
