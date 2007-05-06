@@ -10,7 +10,7 @@ class ModelReaderKvtml : public ModelReaderAbstract
 public:
     ModelReaderKvtml(const QString& filename);
     ~ModelReaderKvtml() { }
-    bool read(VocableListModel* model);
+    bool read(VocableListModel* model, QUndoStack* undoStack);
     bool isValidFile();
 };
 

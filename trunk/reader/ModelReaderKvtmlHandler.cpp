@@ -10,15 +10,15 @@
 //
 //
 #include "ModelReaderKvtmlHandler.h"
-#include "../VocableListModel.h"
+#include "VocableListModel.h"
+#include "command/CommandAdd.h"
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDebug>
-
-ModelReaderKvtmlHandler::ModelReaderKvtmlHandler(VocableListModel* model)
- : QXmlDefaultHandler()
+#include <QUndoStack>
+ModelReaderKvtmlHandler::ModelReaderKvtmlHandler(VocableListModel* model, QUndoCommand* importCommand)
+    : QXmlDefaultHandler(), m_model(model), m_importCommand(importCommand)
 {
-	m_model = model;
     metKvtmlTag = false;
     inLessonTag = false;
 }
@@ -31,12 +31,14 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
 		errorStr = QObject::tr("The file is not an KVTML file. (%1)").arg(qName);
 		return false;
 	}
-
-	if (qName == "kvtml") {
-		m_model->setTitle(attributes.value("title"));
-        m_model->setAuthors(attributes.value("author"));
-        if(!attributes.value("nativeLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
-        if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
+    if (qName == "kvtml") {
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            m_model->setTitle(attributes.value("title"));
+            m_model->setAuthors(attributes.value("author"));
+            if(!attributes.value("nativeLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
+            if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
+        }
 		metKvtmlTag = true; 
     } else if (qName == "lesson") {
         inLessonTag = true;
@@ -44,8 +46,12 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         currentLessonNumber = attributes.value("no").toInt();
         currentText.clear();
 	} else if (qName == "e") {
-		m_currentVocable = new Vocable(m_model);
-		m_model->appendVocable(m_currentVocable);
+        m_currentVocable = m_model->createVocable();
+        if (m_importCommand) {
+            new CommandAdd(m_model, m_currentVocable, -1, m_importCommand);
+        } else {
+            m_model->appendVocable(m_currentVocable);
+        }
 		m_currentVocable->setBox(attributes.value("box").toInt());
         if(!attributes.value("m").isEmpty()) {
             m_currentVocable->setLessonNumber(attributes.value("m").toInt());
@@ -71,7 +77,8 @@ bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
 							  const QString & /* localName */,
 							  const QString &qName)
 {
-    if (inLessonTag && qName == "desc") {
+    if (inLessonTag && qName == "desc" && !m_importCommand) {
+        //only set when opening, not when importing (where we have an undoStack)
         m_model->insertLesson(currentLessonNumber, currentText.trimmed());
     } else if (qName == "lesson") {
         inLessonTag = false;

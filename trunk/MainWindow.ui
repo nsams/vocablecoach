@@ -98,10 +98,13 @@
     <addaction name="separator" />
     <addaction name="actionQuit" />
    </widget>
-   <widget class="QMenu" name="menu_Edit" >
+   <widget class="QMenu" name="menuEdit" >
     <property name="title" >
      <string>&amp;Edit</string>
     </property>
+    <addaction name="actionUndo" />
+    <addaction name="actionRedo" />
+    <addaction name="separator" />
     <addaction name="actionCut" />
     <addaction name="actionCopy" />
     <addaction name="actionPaste" />
@@ -111,7 +114,7 @@
     <addaction name="actionDeleteVocable" />
    </widget>
    <addaction name="menuFile" />
-   <addaction name="menu_Edit" />
+   <addaction name="menuEdit" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
@@ -250,6 +253,22 @@
    </property>
    <property name="shortcut" >
     <string>Strg+V</string>
+   </property>
+  </action>
+  <action name="actionUndo" >
+   <property name="text" >
+    <string>&amp;Undo</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+Z</string>
+   </property>
+  </action>
+  <action name="actionRedo" >
+   <property name="text" >
+    <string>&amp;Redo</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+Y</string>
    </property>
   </action>
  </widget>

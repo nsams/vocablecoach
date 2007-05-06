@@ -10,16 +10,18 @@
 //
 //
 #include "VocableQuiz.h"
-#include <QDialog>
 #include "VocableListModel.h"
 #include "Vocable.h"
 #include "VocableEditor.h"
+#include "command/CommandQuizAnswer.h"
+#include <QDialog>
 #include <QMessageBox>
 #include <QTimer>
 #include <QDebug>
+#include <QUndoStack>
 
-VocableQuiz::VocableQuiz(VocableListModel* model, QuizType type, QStringList lessons)
-    : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons), m_currentVocalbeUnlearned(false)
+VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType type, QStringList lessons)
+    : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons), m_currentVocalbeUnlearned(false), m_undoStack(undoStack)
 {
 	m_currentVocable = 0;
 
@@ -48,7 +50,7 @@ void VocableQuiz::editVocable()
 {
     if (m_currentVocable) {
         
-        VocableEditor::editVocable(m_vocableListModel, m_currentVocable);
+        VocableEditor::editVocable(m_vocableListModel, m_currentVocable, m_undoStack);
 
         m_Dialog->activateWindow(); //bring quiz-window to foreground, fixme: doesn't really work :(
 
@@ -59,18 +61,20 @@ void VocableQuiz::editVocable()
             m_ui->resultLabel->setText(m_currentVocable->foreign());
         } else {
             //re-check if answer is now correct
+            CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
             if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
             {
-                m_currentVocable->setBox(m_currentVocableLastBox+1);
+                quizAnswerCommand->setBox(m_currentVocableLastBox+1);
                 m_ui->resultTextLabel->setText(tr("correct :)"));
                 m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
             }
             else
             {
-                m_currentVocable->setBox(0);
+                quizAnswerCommand->setBox(0);
                 m_ui->resultTextLabel->setText(tr("wrong :("));
                 m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
             }
+            m_undoStack->push(quizAnswerCommand);
         }
     }
 }
@@ -79,9 +83,10 @@ void VocableQuiz::nextVocable()
 {
     if(m_currentVocable && m_currentVocalbeUnlearned) {
 		//unlearned, was just displayed; move to ultra-shortterm-memory
-		m_currentVocable->setBox(1);
-		m_currentVocable->setLastQuery(QDateTime::currentDateTime());
-	}
+        CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+        quizAnswerCommand->setBox(1);
+        m_undoStack->push(quizAnswerCommand);
+    }
 
     m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessons);
 
@@ -118,18 +123,19 @@ void VocableQuiz::nextVocable()
 void VocableQuiz::checkVocable()
 {
     m_currentVocableLastBox = m_currentVocable->box(); //needed in editVocable
+    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
     if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
 	{
-		m_currentVocable->setBox(m_currentVocable->box()+1);
+        quizAnswerCommand->setBox(m_currentVocable->box()+1);
 		m_ui->resultTextLabel->setText(tr("correct :)"));
 		m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
 	}
 	else
 	{
-		m_currentVocable->setBox(0);
+        quizAnswerCommand->setBox(0);
 		m_ui->resultTextLabel->setText(tr("wrong :("));
 		m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
 	}
-	m_currentVocable->setLastQuery(QDateTime::currentDateTime());
+    m_undoStack->push(quizAnswerCommand);
 	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
 }

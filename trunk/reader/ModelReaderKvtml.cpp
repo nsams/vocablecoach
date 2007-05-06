@@ -16,13 +16,14 @@
 #include <QMessageBox>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
+#include <QUndoCommand>
 
 ModelReaderKvtml::ModelReaderKvtml(const QString& filename)
     : ModelReaderAbstract(filename)
 {
 }
 
-bool ModelReaderKvtml::read(VocableListModel* model)
+bool ModelReaderKvtml::read(VocableListModel* model, QUndoStack* undoStack)
 {
     QFile file(m_fileName);
 	if(!file.open(QIODevice::ReadOnly)) {
@@ -32,12 +33,20 @@ bool ModelReaderKvtml::read(VocableListModel* model)
 	
 	QXmlSimpleReader xmlReader;
 	QXmlInputSource *source = new QXmlInputSource(&file);
-
-    ModelReaderKvtmlHandler *handler = new ModelReaderKvtmlHandler(model);
+    
+    QUndoCommand* importCommand;
+    if (undoStack) {
+        importCommand = new QUndoCommand(QObject::tr("Import Vocables"));
+    } else {
+        importCommand = 0;
+    }
+    ModelReaderKvtmlHandler *handler = new ModelReaderKvtmlHandler(model, importCommand);
 	xmlReader.setContentHandler(handler);
 	xmlReader.setErrorHandler(handler);
 	
 	bool ok = xmlReader.parse(source);
+    
+    if (undoStack) undoStack->push(importCommand);
 
 	if (!ok) {
 		QMessageBox::critical(0, QObject::tr("VocableCoach"), QObject::tr("Invalid XML-File"));

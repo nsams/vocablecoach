@@ -6,11 +6,13 @@
 
 class VocableListModel;
 class Vocable;
+class QUndoStack;
+class QUndoCommand;
 
 class ModelReaderKvtmlHandler : public QXmlDefaultHandler
 {
 public:
-    ModelReaderKvtmlHandler(VocableListModel* model);
+    ModelReaderKvtmlHandler(VocableListModel* model, QUndoCommand* importCommand);
 
 	bool startElement(const QString & /* namespaceURI */,
 			const QString & /* localName */,
@@ -25,6 +27,7 @@ public:
 private:
 	VocableListModel* m_model;
 	Vocable* m_currentVocable;
+    QUndoCommand* m_importCommand;
 
 	bool metKvtmlTag;
     bool inLessonTag;

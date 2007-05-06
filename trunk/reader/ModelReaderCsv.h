@@ -21,9 +21,9 @@ class ModelReaderCsv : public ModelReaderAbstract
 {
 public:
     ModelReaderCsv(const QString& filename);
-    bool read(VocableListModel* model);
+    bool read(VocableListModel* model, QUndoStack* undoStack);
     bool isValidFile();
-    static Vocable* addLine(VocableListModel* model, QString line, int position=0);
+    static Vocable* parseLine(VocableListModel* model, QString line);
 
 };
 

@@ -10,22 +10,23 @@
 //
 //
 #include "ModelReaderPauker.h"
-#include "../VocableListModel.h"
+#include "VocableListModel.h"
 #include "ModelReaderPaukerHandler.h"
 #include <QFile>
 #include <QMessageBox>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
+#include <QXmlSimpleReader>
 #include <stdlib.h>
 #include <zlib.h>
-#include <QXmlSimpleReader>
+#include <QUndoCommand>
 
 ModelReaderPauker::ModelReaderPauker(const QString& filename)
     : ModelReaderAbstract(filename)
 {
 }
 
-bool ModelReaderPauker::read(VocableListModel* model)
+bool ModelReaderPauker::read(VocableListModel* model, QUndoStack* undoStack)
 {
     gzFile file;
     file = gzopen (m_fileName.toUtf8().data(), "rb");
@@ -45,11 +46,19 @@ bool ModelReaderPauker::read(VocableListModel* model)
     QXmlInputSource *source = new QXmlInputSource;
     source->setData(input);
 
-    ModelReaderPaukerHandler *handler = new ModelReaderPaukerHandler(model);
+    QUndoCommand* importCommand;
+    if (undoStack) {
+        importCommand = new QUndoCommand(QObject::tr("Import Vocables"));
+    } else {
+        importCommand = 0;
+    }
+    ModelReaderPaukerHandler *handler = new ModelReaderPaukerHandler(model, importCommand);
     xmlReader.setContentHandler(handler);
     xmlReader.setErrorHandler(handler);
 	
     bool ok = xmlReader.parse(source);
+
+    if (undoStack) undoStack->push(importCommand);
 
     if (!ok) {
         QMessageBox::critical(0, QObject::tr("import"), QObject::tr("Invalid XML-File"));

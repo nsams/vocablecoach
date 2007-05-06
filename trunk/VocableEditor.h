@@ -19,6 +19,7 @@ class QHttp;
 class Vocable;
 class VocableListModel;
 class QTimer;
+class QUndoStack;
 /**
 	@author Niko Sams <niko.sams@gmail.com>
 */
@@ -31,8 +32,8 @@ public:
     ~VocableEditor();
 
     static VocableEditor* getEditor();
-    static int editVocable(VocableListModel* model, Vocable* vocable);
-    static void addVocable(VocableListModel* model);
+    static int editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack);
+    static void addVocable(VocableListModel* model, QUndoStack* undoStack);
 
 private:
 	static VocableEditor* m_editor;
