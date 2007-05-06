@@ -98,7 +98,7 @@ bool VocableListModel::insertRows(int position, int rows, const QModelIndex &par
 	beginInsertRows(QModelIndex(), position, position+rows-1);
 
 	for (int row = 0; row < rows; ++row) {
-		Vocable* newVoc = new Vocable(this);
+		Vocable* newVoc = createVocable();
 		m_vocableList.insert(position, newVoc);
 	}
 
@@ -125,9 +125,9 @@ bool VocableListModel::removeRows(int position, int rows, const QModelIndex &par
 	beginRemoveRows(QModelIndex(), position, position+rows-1);
 
 	for (int row = 0; row < rows; ++row) {
-		Vocable* voc = m_vocableList.at(position);
+//		Vocable* voc = m_vocableList.at(position);
 		m_vocableList.removeAt(position);
-		delete voc;
+// 		delete voc;
 	}
 
 	endRemoveRows();
@@ -216,7 +216,6 @@ void VocableListModel::clearVocables()
 {
 	qDeleteAll(m_vocableList);
 	m_vocableList.clear();
-	emitVocableChanged();
 
 	reset();
 }
@@ -247,8 +246,10 @@ QString VocableListModel::getLessonByNumber(int i)
 {
     return m_lessons.value(i);
 }
-void VocableListModel::emitVocableChanged()
+
+Vocable* VocableListModel::createVocable()
 {
-    m_modified = true;
-    emit vocableChanged();
+    Vocable* voc = new Vocable(this);
+    m_createdVocablesList << voc;
+    return voc; 
 }

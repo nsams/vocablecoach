@@ -11,9 +11,11 @@
 //
 #include "DocumentProperties.h"
 #include "VocableListModel.h"
+#include <QUndoStack>
+#include "command/CommandEditProperties.h"
 
-DocumentProperties::DocumentProperties(VocableListModel* model, QWidget *parent)
-    : QDialog(parent), m_model(model)
+DocumentProperties::DocumentProperties(VocableListModel* model, QUndoStack* undoStack, QWidget *parent)
+    : QDialog(parent), m_model(model), m_undoStack(undoStack)
 {
     setupUi(this);
     lineEditTitle->setText(m_model->title());
@@ -30,9 +32,14 @@ DocumentProperties::~DocumentProperties()
 
 void DocumentProperties::ok()
 {
-    m_model->setTitle(lineEditTitle->text());
-    m_model->setAuthors(lineEditAuthors->toPlainText());
-    m_model->setForeignLanguage(lineEditForeignLanguage->text());
-    m_model->setNativeLanguage(lineEditNativeLanguage->text());
+    CommandEditProperties* editPropertiesCommand = new CommandEditProperties(m_model);
+
+    editPropertiesCommand->setTitle(lineEditTitle->text());
+    editPropertiesCommand->setAuthors(lineEditAuthors->toPlainText());
+    editPropertiesCommand->setForeignLanguage(lineEditForeignLanguage->text());
+    editPropertiesCommand->setNativeLanguage(lineEditNativeLanguage->text());
+
+    m_undoStack->push(editPropertiesCommand);
+
     accept();
 }

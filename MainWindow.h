@@ -17,6 +17,7 @@
 class VocableListModel;
 class VocableList;
 class VocableListModelFilter;
+class QUndoStack;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -29,6 +30,8 @@ private:
 	VocableListModel* m_vocableListModel;
     VocableListModelFilter* m_filteredVocableListModel;
 	QString m_curFileName;
+    
+    QUndoStack* m_undoStack;
 
 	void setCurrentFile(const QString &fileName);
 	bool saveFile(const QString &fileName);
@@ -66,7 +69,11 @@ private slots:
     void textFilterChanged(const QString& text);
     void showAboutDialog();
     
-    void documentModified();
+    void itemMenuAboutToHide();
+    void itemMenuAboutToShow();
+    
+    void cleanChanged(bool clean);
+    
     
 //     void printPage(int index, QPainter &painter, QPrinter &printer);
 };

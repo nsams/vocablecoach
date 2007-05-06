@@ -33,7 +33,12 @@ HEADERS += MainWindow.h \
            writer/ModelWriterAbstract.h \
            writer/ModelWriterKvtml.h \
            writer/ModelWriterCsv.h \
-           reader/ModelReaderCsv.h
+           reader/ModelReaderCsv.h \
+           command/CommandDelete.h \
+           command/CommandAdd.h \
+           command/CommandEdit.h \
+           command/CommandEditProperties.h \
+           command/CommandQuizAnswer.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -57,7 +62,12 @@ SOURCES += main.cpp \
            writer/ModelWriterAbstract.cpp \
            writer/ModelWriterKvtml.cpp \
            writer/ModelWriterCsv.cpp \
-           reader/ModelReaderCsv.cpp
+           reader/ModelReaderCsv.cpp \
+           command/CommandDelete.cpp \
+           command/CommandAdd.cpp \
+           command/CommandEdit.cpp \
+           command/CommandEditProperties.cpp \
+           command/CommandQuizAnswer.cpp
 CONFIG += debug \
 qt \
 warn_on

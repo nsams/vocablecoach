@@ -31,6 +31,5 @@ private:
     int m_lessonNumber;
 	int m_box;
 	QDateTime m_lastQuery;
-
 };
 #endif

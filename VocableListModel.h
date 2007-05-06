@@ -28,7 +28,7 @@ class VocableListModel : public QAbstractItemModel
 
 	public:
 		VocableListModel(QObject * parent = 0) : QAbstractItemModel(parent) { }
-		~VocableListModel() { qDeleteAll(m_vocableList); }
+        ~VocableListModel() { qDeleteAll(m_createdVocablesList); }
 
 		QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
@@ -49,7 +49,6 @@ class VocableListModel : public QAbstractItemModel
         Vocable* randomVocable(QuizType type, QStringList lessons=QStringList());
         QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
 		void clearVocables();
-		void emitVocableChanged();
 
     	bool isModified() const { return m_modified; }
     	void setModified(bool modified) { m_modified = modified; }
@@ -65,14 +64,16 @@ class VocableListModel : public QAbstractItemModel
         QString foreignLanguage() const { return m_foreignLanguage; }
         void setTitle(const QString &title) {
             m_title = title;
-            emitVocableChanged();
         }
-        void setAuthors(const QString &authors) { m_authors = authors; emitVocableChanged(); }
-        void setNativeLanguage(const QString &nativeLanguage) { m_nativeLanguage = nativeLanguage; emitVocableChanged(); }
-        void setForeignLanguage(const QString &foreignLanguage) { m_foreignLanguage = foreignLanguage; emitVocableChanged(); }
+        void setAuthors(const QString &authors) { m_authors = authors; }
+        void setNativeLanguage(const QString &nativeLanguage) { m_nativeLanguage = nativeLanguage; }
+        void setForeignLanguage(const QString &foreignLanguage) { m_foreignLanguage = foreignLanguage; }
         
+        Vocable* createVocable();
 
 	private:
+        QList<Vocable*> m_createdVocablesList;
+
 		QList<Vocable*> m_vocableList;
 		bool m_modified;
 
@@ -81,9 +82,6 @@ class VocableListModel : public QAbstractItemModel
         QString m_nativeLanguage;
         QString m_foreignLanguage;
         QMap<int, QString> m_lessons;
-
-	signals:
-		void vocableChanged();
 };
 
 #endif

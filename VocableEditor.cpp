@@ -12,11 +12,14 @@
 #include "VocableEditor.h"
 #include "Vocable.h"
 #include "VocableListModel.h"
+#include "command/CommandAdd.h"
+#include "command/CommandEdit.h"
 #include <QKeyEvent>
 #include <QHttp>
 #include <QDebug>
 #include <QTimer>
 #include <QUrl>
+#include <QUndoStack>
 
 VocableEditor::VocableEditor(QWidget *parent)
     : QDialog(parent)
@@ -55,7 +58,7 @@ VocableEditor* VocableEditor::getEditor()
 }
 
 
-void VocableEditor::addVocable(VocableListModel* model)
+void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 {
 	VocableEditor* editor = getEditor();
     editor->nativeLabel->setText(model->nativeLanguage());
@@ -78,17 +81,18 @@ void VocableEditor::addVocable(VocableListModel* model)
 	
 		if(editor->exec()==QDialog::Rejected) return;
 		
-		Vocable* vocable = new Vocable(model);
+        Vocable* vocable = model->createVocable();
 	
 		vocable->setNative(editor->nativeTextEdit->toPlainText());
 		vocable->setForeign(editor->foreignTextEdit->toPlainText());
         vocable->setLesson(editor->lessonComboBox->currentText());
-	
-		model->insertVocable(model->rowCount(), vocable);
+
+        CommandAdd* addCommand = new CommandAdd(model, vocable);
+        undoStack->push(addCommand);
 	}
 }
 
-int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
+int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack)
 {
 	VocableEditor* editor = getEditor();
     editor->nativeLabel->setText(model->nativeLanguage());
@@ -111,9 +115,11 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable)
 	int ret = editor->exec();
 	if(ret==QDialog::Rejected) return ret;
 	
-	vocable->setNative(editor->nativeTextEdit->toPlainText());
-	vocable->setForeign(editor->foreignTextEdit->toPlainText());
-    vocable->setLesson(editor->lessonComboBox->currentText());
+    CommandEdit* editCommand = new CommandEdit(vocable);
+    editCommand->setNative(editor->nativeTextEdit->toPlainText());
+    editCommand->setForeign(editor->foreignTextEdit->toPlainText());
+    editCommand->setLesson(editor->lessonComboBox->currentText());
+    undoStack->push(editCommand);
 	
 	return ret;
 }

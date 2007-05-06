@@ -1,16 +1,15 @@
 #include "ModelReaderPaukerHandler.h"
+#include "Vocable.h"
+#include "VocableListModel.h"
+#include "command/CommandAdd.h"
 #include <QObject>
 #include <QMessageBox>
 #include <QXmlInputSource>
-#include "../Vocable.h"
 #include <QDebug>
-#include "../VocableListModel.h"
 
-
-ModelReaderPaukerHandler::ModelReaderPaukerHandler(VocableListModel* model)
- : QXmlDefaultHandler()
+ModelReaderPaukerHandler::ModelReaderPaukerHandler(VocableListModel* model, QUndoCommand* importCommand)
+: QXmlDefaultHandler(), m_model(model), m_importCommand(importCommand)
 {
-	m_model = model;
     metLessonTag = false;
     currentBox = 0;
 }
@@ -37,10 +36,14 @@ bool ModelReaderPaukerHandler::startElement(const QString & /* namespaceURI */,
     } else if (qName == "Batch") {
     	currentBox++;
     } else if (qName == "Card") {
-        currentVocable = new Vocable(m_model);
+        currentVocable = m_model->createVocable();
         int i = currentBox;
         currentVocable->setBox(i);
-		m_model->appendVocable(currentVocable);
+        if (m_importCommand) {
+            new CommandAdd(m_model, currentVocable, -1, m_importCommand);
+        } else {
+            m_model->appendVocable(currentVocable);
+        }
         currentSide = 0;
 	} else if (qName == "FrontSide") {
 		currentSide = 1;

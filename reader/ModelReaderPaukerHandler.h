@@ -4,11 +4,12 @@
 #include <QXmlDefaultHandler>
 class VocableListModel;
 class Vocable;
+class QUndoCommand;
 
 class ModelReaderPaukerHandler : public QXmlDefaultHandler
 {
 public:
-    ModelReaderPaukerHandler(VocableListModel* model);
+    ModelReaderPaukerHandler(VocableListModel* model, QUndoCommand* undoCommand);
 
     bool startElement(const QString &namespaceURI, const QString &localName,
                       const QString &qName, const QXmlAttributes &attributes);
@@ -28,6 +29,7 @@ private:
     QString errorStr;
 
 	VocableListModel* m_model;
+    QUndoCommand* m_importCommand;
 };
 
 #endif

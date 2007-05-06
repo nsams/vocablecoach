@@ -15,9 +15,11 @@
 #include <QObject>
 #include <QDateTime>
 
+class QUndoStack;
 class VocableListModel;
 class QDialog;
 class Vocable;
+class CommandQuizAnswer;
 
 enum QuizType
 {
@@ -31,7 +33,7 @@ enum QuizType
 class VocableQuiz : public QObject {
 	Q_OBJECT
 public:
-	VocableQuiz(VocableListModel* model, QuizType, QStringList lessons=QStringList());
+    VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType, QStringList lessons=QStringList());
     ~VocableQuiz();
 	
 	enum quizType {};
@@ -46,6 +48,7 @@ private:
     QTimer* m_waitTimer;
     bool m_currentVocalbeUnlearned;
     int m_currentVocableLastBox;
+    QUndoStack* m_undoStack;
 private slots:
     void nextVocable();
     void checkVocable();
