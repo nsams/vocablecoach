@@ -21,10 +21,13 @@
 #include <QUrl>
 #include <QUndoStack>
 
-VocableEditor::VocableEditor(QWidget *parent)
-    : QDialog(parent)
+VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent)
+    : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model)
 {
     setupUi(this);
+
+    connect(okAddNewButton, SIGNAL(clicked()), this, SLOT(addVocable()));
+
     httpLeo = new QHttp;
     httpLeo->setHost("pda.leo.org");  
     connect(httpLeo, SIGNAL(done(bool)), this, SLOT(readLeoData(bool)));
@@ -34,6 +37,7 @@ VocableEditor::VocableEditor(QWidget *parent)
 
     nativeTextEdit->installEventFilter(this);
     foreignTextEdit->installEventFilter(this);
+    lessonComboBox->installEventFilter(this);
 
     startTranslationTimer = new QTimer;
     startTranslationTimer->setInterval(1000);
@@ -47,54 +51,39 @@ VocableEditor::~VocableEditor()
     delete startTranslationTimer;
 }
 
-VocableEditor* VocableEditor::m_editor = 0;
-
-VocableEditor* VocableEditor::getEditor()
-{
-	if(m_editor==0) {
-		m_editor = new VocableEditor;
-	}
-	return m_editor;
-}
-
 
 void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 {
-	VocableEditor* editor = getEditor();
+    VocableEditor* editor = new VocableEditor(model, undoStack);
     editor->nativeLabel->setText(model->nativeLanguage());
     editor->foreignLabel->setText(model->foreignLanguage());
+
+    editor->okButton->setVisible(false);
+    editor->okAddNewButton->setVisible(true);
+//     editor->okButton->setDefault(false);
+//     editor->okAddNewButton->setDefault(true);
 
     editor->boxLabel->setVisible(false);
 	editor->boxLabelLeft->setVisible(false);
 	editor->lastQueryLabel->setVisible(false);
 	editor->lastQueryLabelLeft->setVisible(false);
-	for(;;) {
-        QString lastLesson = editor->lessonComboBox->currentText();
-        editor->lessonComboBox->clear();
-        QStringList lessons = model->lessons().values();
-        editor->lessonComboBox->insertItems(0, lessons);
-        editor->lessonComboBox->setCurrentIndex(lessons.indexOf(lastLesson));
-		editor->nativeTextEdit->setPlainText("");
-		editor->foreignTextEdit->setPlainText("");
 
-		editor->nativeTextEdit->setFocus();
-	
-		if(editor->exec()==QDialog::Rejected) return;
-		
-        Vocable* vocable = model->createVocable();
-	
-		vocable->setNative(editor->nativeTextEdit->toPlainText());
-		vocable->setForeign(editor->foreignTextEdit->toPlainText());
-        vocable->setLesson(editor->lessonComboBox->currentText());
+    QString lastLesson = editor->lessonComboBox->currentText();
+    editor->lessonComboBox->clear();
+    QStringList lessons = model->lessons().values();
+    editor->lessonComboBox->insertItems(0, lessons);
+    editor->lessonComboBox->setCurrentIndex(lessons.indexOf(lastLesson));
+    editor->nativeTextEdit->setPlainText("");
+    editor->foreignTextEdit->setPlainText("");
 
-        CommandAdd* addCommand = new CommandAdd(model, vocable);
-        undoStack->push(addCommand);
-	}
+    editor->nativeTextEdit->setFocus();
+	
+    editor->exec();
 }
 
 int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack)
 {
-	VocableEditor* editor = getEditor();
+    VocableEditor* editor = new VocableEditor(model, undoStack);
     editor->nativeLabel->setText(model->nativeLanguage());
     editor->foreignLabel->setText(model->foreignLanguage());
 
@@ -107,7 +96,10 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
     editor->lessonComboBox->setCurrentIndex(lessons.indexOf(vocable->lesson()));
 	editor->boxLabel->setNum(vocable->box());
 	editor->lastQueryLabel->setText(vocable->lastQuery().toString(Qt::LocaleDate));
-	editor->boxLabel->setVisible(true);
+
+    editor->okButton->setVisible(true);
+    editor->okAddNewButton->setVisible(false);
+    editor->boxLabel->setVisible(true);
 	editor->boxLabelLeft->setVisible(true);
 	editor->lastQueryLabel->setVisible(true);
 	editor->lastQueryLabelLeft->setVisible(true);
@@ -126,7 +118,7 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
 
 bool VocableEditor::eventFilter(QObject *target, QEvent *event)
 {
-	if (target == nativeTextEdit || target == foreignTextEdit) {
+    if (target == nativeTextEdit || target == foreignTextEdit || target == lessonComboBox) {
 		if(event->type() == QEvent::KeyPress) {
 			QKeyEvent *keyEvent = static_cast<QKeyEvent*> (event);
             /*
@@ -137,7 +129,11 @@ bool VocableEditor::eventFilter(QObject *target, QEvent *event)
 			} else*/
             if (!(keyEvent->modifiers() & Qt::ControlModifier)
                   &&  (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)) {
-				accept();
+                if(okAddNewButton->isVisible()) {
+                    okAddNewButton->click();
+                } else {
+                    okButton->click();
+                }
 				return true;
 			}
 		}
@@ -185,4 +181,20 @@ void VocableEditor::readLeoData(bool b)
         if(Text.isEmpty()) Text = tr("no results...");
         translateTextBrowser->setHtml(Text);
     }
+}
+
+void VocableEditor::addVocable()
+{
+    Vocable* vocable = m_vocableListModel->createVocable();
+	
+    vocable->setNative(nativeTextEdit->toPlainText());
+    vocable->setForeign(foreignTextEdit->toPlainText());
+    vocable->setLesson(lessonComboBox->currentText());
+
+    CommandAdd* addCommand = new CommandAdd(m_vocableListModel, vocable);
+    m_undoStack->push(addCommand);
+    
+    nativeTextEdit->clear();
+    foreignTextEdit->clear();
+    nativeTextEdit->setFocus();
 }

@@ -437,7 +437,6 @@ void MainWindow::documentProperties()
 void MainWindow::setCurrentFile(const QString &fileName)
 {
 	m_curFileName = fileName;
-	m_vocableListModel->setModified(false);
 	setWindowModified(false);
 
 	QString shownName;
@@ -455,7 +454,7 @@ QString MainWindow::strippedName(const QString &fullFileName)
 
 bool MainWindow::maybeSave()
 {
-	if (m_vocableListModel->isModified()) {
+	if (!m_undoStack->isClean()) {
 		int ret = QMessageBox::warning(this, tr("VocableCoach"),
 									   tr("The document has been modified.\n"
 											   "Do you want to save your changes?"),

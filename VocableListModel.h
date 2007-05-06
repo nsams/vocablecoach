@@ -50,9 +50,6 @@ class VocableListModel : public QAbstractItemModel
         QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
 		void clearVocables();
 
-    	bool isModified() const { return m_modified; }
-    	void setModified(bool modified) { m_modified = modified; }
-
         QMap<int, QString> lessons() const;
         int getLessonNumber(const QString& lesson);
         QString getLessonByNumber(int i);
@@ -75,7 +72,6 @@ class VocableListModel : public QAbstractItemModel
         QList<Vocable*> m_createdVocablesList;
 
 		QList<Vocable*> m_vocableList;
-		bool m_modified;
 
         QString m_title;
         QString m_authors;
