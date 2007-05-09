@@ -26,6 +26,7 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
 	m_currentVocable = 0;
 
 	m_Dialog = new QDialog();
+    m_Dialog->setAttribute(Qt::WA_DeleteOnClose);
 	m_ui = new Ui::VocableQuiz();
 	m_ui->setupUi(m_Dialog);
 	m_ui->resultTextLabel->setText("");
@@ -44,6 +45,7 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
 
 VocableQuiz::~VocableQuiz()
 {
+    delete m_ui;
 }
 
 void VocableQuiz::editVocable()
