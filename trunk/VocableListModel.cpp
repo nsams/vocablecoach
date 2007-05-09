@@ -253,3 +253,7 @@ Vocable* VocableListModel::createVocable()
     m_createdVocablesList << voc;
     return voc; 
 }
+
+VocableListModel::~VocableListModel() {
+    qDeleteAll(m_createdVocablesList);
+}

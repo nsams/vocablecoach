@@ -28,7 +28,7 @@ class VocableListModel : public QAbstractItemModel
 
 	public:
 		VocableListModel(QObject * parent = 0) : QAbstractItemModel(parent) { }
-        ~VocableListModel() { qDeleteAll(m_createdVocablesList); }
+        ~VocableListModel();
 
 		QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
