@@ -79,6 +79,8 @@ void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
     editor->nativeTextEdit->setFocus();
 	
     editor->exec();
+
+    delete editor;
 }
 
 int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack)
@@ -105,14 +107,15 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
 	editor->lastQueryLabelLeft->setVisible(true);
 	
 	int ret = editor->exec();
-	if(ret==QDialog::Rejected) return ret;
-	
-    CommandEdit* editCommand = new CommandEdit(vocable);
-    editCommand->setNative(editor->nativeTextEdit->toPlainText());
-    editCommand->setForeign(editor->foreignTextEdit->toPlainText());
-    editCommand->setLesson(editor->lessonComboBox->currentText());
-    undoStack->push(editCommand);
-	
+	if (ret != QDialog::Rejected) {
+        CommandEdit* editCommand = new CommandEdit(vocable);
+        editCommand->setNative(editor->nativeTextEdit->toPlainText());
+        editCommand->setForeign(editor->foreignTextEdit->toPlainText());
+        editCommand->setLesson(editor->lessonComboBox->currentText());
+        undoStack->push(editCommand);
+    }
+
+	delete editor;
 	return ret;
 }
 

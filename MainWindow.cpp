@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
     
-    m_undoStack = new QUndoStack();
+    m_undoStack = new QUndoStack(this);
 
     actionUndo->setEnabled(false);
     actionRedo->setEnabled(false);
@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
-    m_filteredVocableListModel = new VocableListModelFilter();
+    m_filteredVocableListModel = new VocableListModelFilter(this);
     vocableEditorView->setModel(m_filteredVocableListModel);
 
 
@@ -111,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent)
 	
 	readSettings();
 }
+
+
 void MainWindow::boxFilterChanged(int box)
 {
     m_filteredVocableListModel->setBoxFilter(box-1);
@@ -133,7 +135,7 @@ void MainWindow::newFile()
 {
     if (!m_vocableListModel || maybeSave()) {
         VocableListModel* oldModel = m_vocableListModel;
-        m_vocableListModel = new VocableListModel();
+        m_vocableListModel = new VocableListModel(this);
         m_vocableListModel->setNativeLanguage(tr("native"));
         m_vocableListModel->setForeignLanguage(tr("foreign"));
         m_filteredVocableListModel->setSourceModel(m_vocableListModel);
@@ -193,18 +195,19 @@ void MainWindow::loadFile(const QString &fileName)
     foreach (ModelReaderAbstract* reader, readers) {
         if (reader->isValidFile()) {
             VocableListModel* oldModel = m_vocableListModel;
-            m_vocableListModel = new VocableListModel();
+            m_vocableListModel = new VocableListModel(this);
             reader->read(m_vocableListModel, 0);
-            delete reader;
             m_filteredVocableListModel->setSourceModel(m_vocableListModel);
             delete oldModel;
             setCurrentFile(fileName);
             m_undoStack->clear();
             cleanChanged(true);
             QApplication::restoreOverrideCursor();
+            qDeleteAll(readers);
             return;
         }
     }
+    qDeleteAll(readers);
     QApplication::restoreOverrideCursor();
     QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
 
@@ -427,6 +430,7 @@ void MainWindow::startQuiz()
     StartQuiz startQuizDialog(this, m_vocableListModel);
     if(startQuizDialog.exec()==QDialog::Rejected) return;
     new VocableQuiz(m_vocableListModel, m_undoStack, startQuizDialog.quizType(), startQuizDialog.selectedLessons());
+    //fixme: leaks memory
 }
 void MainWindow::documentProperties()
 {

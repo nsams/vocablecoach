@@ -59,6 +59,9 @@ bool ModelReaderPauker::read(VocableListModel* model, QUndoStack* undoStack)
     bool ok = xmlReader.parse(source);
 
     if (undoStack) undoStack->push(importCommand);
+    
+    delete source;
+    delete handler;
 
     if (!ok) {
         QMessageBox::critical(0, QObject::tr("import"), QObject::tr("Invalid XML-File"));
