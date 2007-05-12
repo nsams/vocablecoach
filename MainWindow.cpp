@@ -202,6 +202,9 @@ void MainWindow::loadFile(const QString &fileName)
             setCurrentFile(fileName);
             m_undoStack->clear();
             cleanChanged(true);
+            vocableEditorView->setColumnWidth(0, m_vocableListModel->nativeColumnWidth());
+            vocableEditorView->setColumnWidth(1, m_vocableListModel->foreignColumnWidth());
+            vocableEditorView->setColumnWidth(3, m_vocableListModel->lessonColumnWidth());
             QApplication::restoreOverrideCursor();
             qDeleteAll(readers);
             return;
@@ -222,7 +225,11 @@ bool MainWindow::saveFile(const QString &fileName)
     } else if (fileName.right(4) == ".csv" || fileName.right(4) == ".txt") {
         writer = new ModelWriterCsv(fileName);
     }
-	writer->write(m_vocableListModel);
+
+    m_vocableListModel->setNativeColumnWidth(vocableEditorView->columnWidth(0));
+    m_vocableListModel->setForeignColumnWidth(vocableEditorView->columnWidth(1));
+    m_vocableListModel->setLessonColumnWidth(vocableEditorView->columnWidth(3));
+    writer->write(m_vocableListModel);
     delete writer;
 	QApplication::restoreOverrideCursor();
 	return true;

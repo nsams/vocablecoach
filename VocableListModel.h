@@ -59,12 +59,17 @@ class VocableListModel : public QAbstractItemModel
         QString authors() const { return m_authors; }
         QString nativeLanguage() const { return m_nativeLanguage; }
         QString foreignLanguage() const { return m_foreignLanguage; }
-        void setTitle(const QString &title) {
-            m_title = title;
-        }
+        void setTitle(const QString &title) { m_title = title; }
         void setAuthors(const QString &authors) { m_authors = authors; }
         void setNativeLanguage(const QString &nativeLanguage) { m_nativeLanguage = nativeLanguage; }
         void setForeignLanguage(const QString &foreignLanguage) { m_foreignLanguage = foreignLanguage; }
+
+        int nativeColumnWidth() { return m_nativeColumnWidth; }
+        int foreignColumnWidth() { return m_foreignColumnWidth; }
+        int lessonColumnWidth() { return m_lessonColumnWidth; }
+        void setNativeColumnWidth(int width) { m_nativeColumnWidth = width; }
+        void setForeignColumnWidth(int width) { m_foreignColumnWidth = width; }
+        void setLessonColumnWidth(int width) { m_lessonColumnWidth = width; }
         
         Vocable* createVocable();
 
@@ -78,6 +83,10 @@ class VocableListModel : public QAbstractItemModel
         QString m_nativeLanguage;
         QString m_foreignLanguage;
         QMap<int, QString> m_lessons;
+        
+        int m_nativeColumnWidth;
+        int m_foreignColumnWidth;
+        int m_lessonColumnWidth;
 };
 
 #endif

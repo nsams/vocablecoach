@@ -42,6 +42,12 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
 		metKvtmlTag = true; 
     } else if (qName == "lesson") {
         inLessonTag = true;
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            if (attributes.value("width").toInt() > 0) {
+                m_model->setLessonColumnWidth(attributes.value("width").toInt());
+            }
+        }
     } else if (inLessonTag && qName == "desc") {
         currentLessonNumber = attributes.value("no").toInt();
         currentText.clear();
@@ -61,9 +67,21 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
             m_currentVocable->setLesson(attributes.value("lession"));
         }
 	} else if (qName == "o") {
-		currentText.clear();
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            if (attributes.value("width").toInt() > 0) {
+                m_model->setForeignColumnWidth(attributes.value("width").toInt());
+            }
+        }
+        currentText.clear();
 	} else if (qName == "t") {
-		QStringList lastQueryList = QString(attributes.value("d")).split(";");
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            if (attributes.value("width").toInt() > 0) {
+                m_model->setNativeColumnWidth(attributes.value("width").toInt());
+            }
+        }
+        QStringList lastQueryList = QString(attributes.value("d")).split(";");
 		if(lastQueryList[0].toUInt() > 0) {
 			QDateTime lastQuery = QDateTime::fromTime_t(lastQueryList[0].toUInt());
 			m_currentVocable->setLastQuery(lastQuery);

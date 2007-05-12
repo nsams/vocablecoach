@@ -10,9 +10,10 @@
 //
 //
 #include "ModelWriterKvtml.h"
-#include "../VocableListModel.h"
+#include "VocableListModel.h"
 #include <QFile>
 #include <QStringList>
+#include <QDebug>
 
 ModelWriterKvtml::ModelWriterKvtml(const QString& fileName)
     : ModelWriterAbstract(fileName)
@@ -36,8 +37,8 @@ bool ModelWriterKvtml::write(VocableListModel* model)
     out << QString("	author=\"%1\"").arg(model->authors());
     out << QString("	foreignLanguage=\"%1\"").arg(model->foreignLanguage()); //fixme: not kvoctrain format
     out << QString("	nativeLanguage=\"%1\">").arg(model->nativeLanguage()); //fixme: not kvoctrain format
-    
-    out << "<lesson>";
+
+    out << QString("<lesson width=\"%1\">").arg(model->lessonColumnWidth());
     QMap<int, QString> lessons = model->lessons();
     QMap<int, QString>::const_iterator i;
     for (i = lessons.constBegin(); i != lessons.constEnd(); ++i) {
@@ -46,14 +47,22 @@ bool ModelWriterKvtml::write(VocableListModel* model)
     out << "</lesson>";
 
     for (int i=0;i<model->rowCount();i++) {
+
 		Vocable* voc = model->vocable(i);
+
 		out << QString("<e box=\"%1\" m=\"%2\">").arg(voc->box()).arg(voc->lessonNumber());
-		out << QString("	<o>%1</o>").arg(escape(voc->foreign()));
+
+        QString width("");
+        if (i == 0) width = QString(" width=\"%1\"").arg(model->nativeColumnWidth());
+        out << QString("	<o%1>%2</o>").arg(width).arg(escape(voc->foreign()));
+
 		QString lastQuery("");
-		if(voc->lastQuery().isValid()) {
+		if (voc->lastQuery().isValid()) {
 			lastQuery = " d=\""+QString::number(voc->lastQuery().toTime_t())+";0\"";
 		}
-		out << QString("	<t%1>%2</t>").arg(lastQuery).arg(escape(voc->native()));
+        width = "";
+        if (i == 0) width = QString(" width=\"%1\"").arg(model->foreignColumnWidth());
+        out << QString("	<t%1%2>%3</t>").arg(lastQuery).arg(width).arg(escape(voc->native()));
 		out << "</e>";
 	}
 	out << "</kvtml>\n";

@@ -10,7 +10,7 @@
 //
 //
 #include "ModelWriterAbstract.h"
-#include "../VocableListModel.h"
+#include "VocableListModel.h"
 
 ModelWriterAbstract::ModelWriterAbstract(const QString& filename)
     : m_fileName(filename)

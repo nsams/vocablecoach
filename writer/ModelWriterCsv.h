@@ -26,7 +26,6 @@ class ModelWriterCsv : public ModelWriterAbstract {
         bool write(VocableListModel* model);
         static QString vocableCsvString(Vocable *voc);
     private:
-        QString m_fileName;
         static QString escape(QString str);
 };
 
