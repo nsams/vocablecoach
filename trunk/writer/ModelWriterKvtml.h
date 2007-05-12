@@ -22,9 +22,9 @@ class ModelWriterKvtml : public ModelWriterAbstract {
 public:
     ModelWriterKvtml(const QString& fileName);
 
-	bool write(VocableListModel* model);
+    bool write(VocableListModel* model);
+
 private:
-	QString m_fileName;
 	QString escape(const QString &s);
 
 };
