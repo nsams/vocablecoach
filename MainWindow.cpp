@@ -212,9 +212,15 @@ void MainWindow::loadFile(const QString &fileName)
             setCurrentFile(fileName);
             m_undoStack->clear();
             cleanChanged(true);
-            vocableEditorView->setColumnWidth(0, m_vocableListModel->nativeColumnWidth());
-            vocableEditorView->setColumnWidth(1, m_vocableListModel->foreignColumnWidth());
-            vocableEditorView->setColumnWidth(3, m_vocableListModel->lessonColumnWidth());
+            if (m_vocableListModel->nativeColumnWidth() > 10) {
+                vocableEditorView->setColumnWidth(0, m_vocableListModel->nativeColumnWidth());
+            }
+            if (m_vocableListModel->foreignColumnWidth() > 10) {
+                vocableEditorView->setColumnWidth(1, m_vocableListModel->foreignColumnWidth());
+            }
+            if (m_vocableListModel->lessonColumnWidth() > 10) {
+                vocableEditorView->setColumnWidth(3, m_vocableListModel->lessonColumnWidth());
+            }
             QApplication::restoreOverrideCursor();
             qDeleteAll(readers);
             return;
