@@ -27,7 +27,8 @@ class VocableListModel : public QAbstractItemModel
 	Q_OBJECT
 
 	public:
-		VocableListModel(QObject * parent = 0) : QAbstractItemModel(parent) { }
+        VocableListModel(QObject * parent = 0)
+            : QAbstractItemModel(parent), m_nativeColumnWidth(0), m_foreignColumnWidth(0), m_lessonColumnWidth(0) { }
         ~VocableListModel();
 
 		QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
