@@ -72,6 +72,16 @@ MainWindow::MainWindow(QWidget *parent)
     m_filteredVocableListModel = new VocableListModelFilter(this);
     vocableEditorView->setModel(m_filteredVocableListModel);
 
+    vocableEditorView->setContextMenuPolicy(Qt::ActionsContextMenu);
+    vocableEditorView->addAction(actionCut);
+    vocableEditorView->addAction(actionCopy);
+    vocableEditorView->addAction(actionPaste);
+    QAction* separator = new QAction(QString(""), this);
+    separator->setSeparator(true);
+    vocableEditorView->addAction(separator);
+    vocableEditorView->addAction(actionDeleteVocable);
+    vocableEditorView->addAction(actionEditVocable);
+
 
     connect(actionImport, SIGNAL(triggered()), this, SLOT(import()));
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(print()));
