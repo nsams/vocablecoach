@@ -36,7 +36,7 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
             //only set when opening, not when importing (where we have an undoStack)
             m_model->setTitle(attributes.value("title"));
             m_model->setAuthors(attributes.value("author"));
-            if(!attributes.value("nativeLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
+            if(!attributes.value("foreignLanguage").isEmpty()) m_model->setForeignLanguage(attributes.value("foreignLanguage"));
             if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
         }
 		metKvtmlTag = true; 
@@ -70,7 +70,7 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         if (!m_importCommand) {
             //only set when opening, not when importing (where we have an undoStack)
             if (attributes.value("width").toInt() > 0) {
-                m_model->setForeignColumnWidth(attributes.value("width").toInt());
+                m_model->setNativeColumnWidth(attributes.value("width").toInt());
             }
         }
         currentText.clear();
@@ -78,7 +78,7 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         if (!m_importCommand) {
             //only set when opening, not when importing (where we have an undoStack)
             if (attributes.value("width").toInt() > 0) {
-                m_model->setNativeColumnWidth(attributes.value("width").toInt());
+                m_model->setForeignColumnWidth(attributes.value("width").toInt());
             }
         }
         QStringList lastQueryList = QString(attributes.value("d")).split(";");
@@ -101,9 +101,9 @@ bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
     } else if (qName == "lesson") {
         inLessonTag = false;
     } else if (qName == "o" && m_currentVocable) {
-		m_currentVocable->setForeign(currentText);
+        m_currentVocable->setNative(currentText);
 	} else if(qName == "t" && m_currentVocable) {
-		m_currentVocable->setNative(currentText);
+        m_currentVocable->setForeign(currentText);
 	}
 	return true;
 }

@@ -231,6 +231,7 @@ bool MainWindow::saveFile(const QString &fileName)
     m_vocableListModel->setLessonColumnWidth(vocableEditorView->columnWidth(3));
     writer->write(m_vocableListModel);
     delete writer;
+    cleanChanged(true);
 	QApplication::restoreOverrideCursor();
 	return true;
 }
