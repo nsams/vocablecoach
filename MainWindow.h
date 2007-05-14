@@ -41,6 +41,7 @@ private:
 	void writeSettings();
 	void readSettings();
     bool setupPrinter(QPrinter &printer);
+    QList<int> selectedRows();
 			
 protected:
 	void closeEvent(QCloseEvent *event);
@@ -64,6 +65,8 @@ private slots:
 	void deleteVocable();
 	void editVocable();
 	void addVocable();
+    
+    void modifyLesson();
 	
 	void boxFilterChanged(int box);
     void textFilterChanged(const QString& text);

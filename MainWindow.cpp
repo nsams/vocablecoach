@@ -26,6 +26,7 @@
 #include "ListVocablePrinter.h"
 #include "command/CommandDelete.h"
 #include "command/CommandAdd.h"
+#include "command/CommandModifyLesson.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -41,6 +42,7 @@
 #include <QProgressDialog>
 #include <QClipboard>
 #include <QUndoStack>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_vocableListModel(0)
@@ -103,6 +105,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
     connect(actionDeleteVocable, SIGNAL(triggered()), this, SLOT(deleteVocable()));
+    
+    connect(actionModifyLesson, SIGNAL(triggered()), this, SLOT(modifyLesson()));
     
     connect(vocableEditorView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
 
@@ -370,13 +374,7 @@ void MainWindow::cut()
 {
     copy();
     QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
-    QList<int> rows;
-    foreach(QModelIndex index, selectedIndexes) {
-        int row = m_filteredVocableListModel->mapToSource(index).row();
-        if (!rows.contains(row)) {
-            rows << row;
-        }
-    }
+    QList<int> rows = selectedRows();
     CommandDelete* delCommand = new CommandDelete(m_vocableListModel, rows);
     if (rows.count() > 1) {
         delCommand->setText(tr("Cut Vocables"));
@@ -436,18 +434,20 @@ void MainWindow::paste()
 
 void MainWindow::deleteVocable()
 {
-    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
-    QList<int> rows;
-    foreach(QModelIndex index, selectedIndexes) {
-        int row = m_filteredVocableListModel->mapToSource(index).row();
-        if (!rows.contains(row)) {
-            rows << row;
-        }
-    }
-    CommandDelete* delCommand = new CommandDelete(m_vocableListModel, rows);
+    CommandDelete* delCommand = new CommandDelete(m_vocableListModel, selectedRows());
     m_undoStack->push(delCommand);
 }
 
+void MainWindow::modifyLesson()
+{
+    bool ok;
+    QStringList lessons(m_vocableListModel->lessons().values());
+    QString newLesson = QInputDialog::getItem(this, "Modify Lesson", "Select Lesson", lessons, 0, true, &ok);
+    if (ok) {
+        CommandModifyLesson* modifyCommand = new CommandModifyLesson(m_vocableListModel, selectedRows(), newLesson);
+        m_undoStack->push(modifyCommand);
+    }
+}
 
 void MainWindow::startQuiz()
 {
@@ -541,4 +541,17 @@ void MainWindow::cleanChanged(bool clean)
 {
     actionSave->setEnabled(!clean);
     setWindowModified(!clean);
+}
+
+QList<int> MainWindow::selectedRows()
+{
+    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
+    QList<int> rows;
+    foreach(QModelIndex index, selectedIndexes) {
+        int row = m_filteredVocableListModel->mapToSource(index).row();
+        if (!rows.contains(row)) {
+            rows << row;
+        }
+    }
+    return rows;
 }
