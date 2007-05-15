@@ -114,6 +114,7 @@
     <addaction name="actionDeleteVocable" />
     <addaction name="separator" />
     <addaction name="actionModifyLesson" />
+    <addaction name="actionResetBox" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />
@@ -276,6 +277,11 @@
   <action name="actionModifyLesson" >
    <property name="text" >
     <string>&amp;Modify Lesson</string>
+   </property>
+  </action>
+  <action name="actionResetBox" >
+   <property name="text" >
+    <string>Reset &amp;Box</string>
    </property>
   </action>
  </widget>

@@ -18,6 +18,7 @@ class VocableListModel;
 class VocableList;
 class VocableListModelFilter;
 class QUndoStack;
+class Vocable;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -42,7 +43,8 @@ private:
 	void readSettings();
     bool setupPrinter(QPrinter &printer);
     QList<int> selectedRows();
-			
+    QList<Vocable*> selectedVocables();
+
 protected:
 	void closeEvent(QCloseEvent *event);
 
@@ -67,6 +69,7 @@ private slots:
 	void addVocable();
     
     void modifyLesson();
+    void resetBox();
 	
 	void boxFilterChanged(int box);
     void textFilterChanged(const QString& text);

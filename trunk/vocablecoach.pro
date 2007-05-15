@@ -39,7 +39,8 @@ HEADERS += MainWindow.h \
            command/CommandEdit.h \
            command/CommandEditProperties.h \
            command/CommandQuizAnswer.h \
-           command/CommandModifyLesson.h
+           command/CommandModifyLesson.h \
+           command/CommandResetBox.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -69,7 +70,8 @@ SOURCES += main.cpp \
            command/CommandEdit.cpp \
            command/CommandEditProperties.cpp \
            command/CommandQuizAnswer.cpp \
-           command/CommandModifyLesson.cpp
+           command/CommandModifyLesson.cpp \
+           command/CommandResetBox.cpp
 CONFIG += debug \
 qt \
 warn_on
