@@ -27,6 +27,7 @@
 #include "command/CommandDelete.h"
 #include "command/CommandAdd.h"
 #include "command/CommandModifyLesson.h"
+#include "command/CommandResetBox.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -107,6 +108,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionDeleteVocable, SIGNAL(triggered()), this, SLOT(deleteVocable()));
     
     connect(actionModifyLesson, SIGNAL(triggered()), this, SLOT(modifyLesson()));
+    connect(actionResetBox, SIGNAL(triggered()), this, SLOT(resetBox()));
+    
     
     connect(vocableEditorView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
 
@@ -444,9 +447,15 @@ void MainWindow::modifyLesson()
     QStringList lessons(m_vocableListModel->lessons().values());
     QString newLesson = QInputDialog::getItem(this, "Modify Lesson", "Select Lesson", lessons, 0, true, &ok);
     if (ok) {
-        CommandModifyLesson* modifyCommand = new CommandModifyLesson(m_vocableListModel, selectedRows(), newLesson);
+        CommandModifyLesson* modifyCommand = new CommandModifyLesson(selectedVocables(), newLesson);
         m_undoStack->push(modifyCommand);
     }
+}
+
+void MainWindow::resetBox()
+{
+    CommandResetBox* resetCommand = new CommandResetBox(selectedVocables());
+    m_undoStack->push(resetCommand);
 }
 
 void MainWindow::startQuiz()
@@ -554,4 +563,17 @@ QList<int> MainWindow::selectedRows()
         }
     }
     return rows;
+}
+
+QList<Vocable*> MainWindow::selectedVocables()
+{
+    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
+    QList<Vocable*> vocables;
+    foreach(QModelIndex index, selectedIndexes) {
+        Vocable* voc = m_vocableListModel->vocable(m_filteredVocableListModel->mapToSource(index));
+        if (!vocables.contains(voc)) {
+            vocables << voc;
+        }
+    }
+    return vocables;
 }

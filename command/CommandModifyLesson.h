@@ -15,20 +15,19 @@
 #include <QUndoCommand>
 #include <QList>
 #include <QString>
-class VocableListModel;
+#include <QHash>
+class Vocable;
 /**
 	@author Niko Sams <ns@vivid-planet.com>
 */
 class CommandModifyLesson : public QUndoCommand
 {
 public:
-    CommandModifyLesson(VocableListModel* m_vocableListModel, QList<int> selectedRows, const QString& newLesson, QUndoCommand* parent=0);
+    CommandModifyLesson(QList<Vocable*> vocable, const QString& newLesson, QUndoCommand* parent=0);
     void redo();
     void undo();
 private:
-    VocableListModel* m_vocableListModel;
-    QList<int> m_rows;
-    QList<QString> m_oldLesson;
+    QHash<Vocable*, QString> m_oldLesson;
     QString m_newLesson;
 };
 
