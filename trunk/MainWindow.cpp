@@ -156,7 +156,7 @@ void MainWindow::newFile()
         delete oldModel;
         setCurrentFile("");
         m_undoStack->clear();
-        cleanChanged(true);
+        m_undoStack->setClean();
 	}
 }
 
@@ -215,7 +215,7 @@ void MainWindow::loadFile(const QString &fileName)
             delete oldModel;
             setCurrentFile(fileName);
             m_undoStack->clear();
-            cleanChanged(true);
+            m_undoStack->setClean();
             if (m_vocableListModel->nativeColumnWidth() > 10) {
                 vocableEditorView->setColumnWidth(0, m_vocableListModel->nativeColumnWidth());
             }
@@ -251,7 +251,7 @@ bool MainWindow::saveFile(const QString &fileName)
     m_vocableListModel->setLessonColumnWidth(vocableEditorView->columnWidth(3));
     writer->write(m_vocableListModel);
     delete writer;
-    cleanChanged(true);
+    m_undoStack->setClean();
 	QApplication::restoreOverrideCursor();
 	return true;
 }
