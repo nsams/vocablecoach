@@ -23,8 +23,8 @@ CommandResetBox::CommandResetBox(QList<Vocable*> vocables, QUndoCommand* parent)
 
 void CommandResetBox::redo()
 {
-    QHash<Vocable*, int>::const_iterator i = m_oldBox.constBegin();
-    while (i != m_oldBox.constEnd()) {
+    QHash<Vocable*, int>::iterator i = m_oldBox.begin();
+    while (i != m_oldBox.end()) {
         i.key()->setBox(0);
         ++i;
     }
@@ -32,8 +32,8 @@ void CommandResetBox::redo()
 
 void CommandResetBox::undo()
 {
-    QHash<Vocable*, int>::const_iterator i = m_oldBox.constBegin();
-    while (i != m_oldBox.constEnd()) {
+    QHash<Vocable*, int>::iterator i = m_oldBox.begin();
+    while (i != m_oldBox.end()) {
         i.key()->setBox(i.value());
         ++i;
     }
