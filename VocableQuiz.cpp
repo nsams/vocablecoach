@@ -102,13 +102,15 @@ void VocableQuiz::nextVocable()
 		m_ui->resultLabel->setText(m_currentVocable->foreign());
         m_ui->correctButton->hide();
         m_currentVocalbeUnlearned = true;
+        m_ui->nextButton->setFocus();
 	} else {
-        m_ui->helpLabel->setText(tr(""));
+        m_ui->helpLabel->setText("");
 		m_ui->buttonsStack->setCurrentWidget(m_ui->checkPage);
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->foreignLineEdit->setText("");
         m_currentVocalbeUnlearned = false;
-	}
+        m_ui->foreignLineEdit->setFocus();
+    }
 }
 
 void VocableQuiz::checkVocable()
@@ -136,6 +138,7 @@ void VocableQuiz::check(int correctBox)
         m_ui->resultTextLabel->setText(tr("correct :)"));
         m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
         m_ui->correctButton->hide();
+        m_ui->nextButton->setFocus();
     }
     else
     {
@@ -143,6 +146,7 @@ void VocableQuiz::check(int correctBox)
         m_ui->resultTextLabel->setText(tr("wrong :("));
         m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
         m_ui->correctButton->show();
+        m_ui->nextButton->setFocus();
     }
     m_undoStack->push(quizAnswerCommand);
 }
