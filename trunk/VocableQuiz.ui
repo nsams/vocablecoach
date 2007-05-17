@@ -68,12 +68,6 @@
              <property name="text" >
               <string>&amp;check</string>
              </property>
-             <property name="default" >
-              <bool>true</bool>
-             </property>
-             <property name="flat" >
-              <bool>false</bool>
-             </property>
             </widget>
            </item>
            <item row="1" column="0" >
@@ -166,9 +160,6 @@
             <widget class="QPushButton" name="nextButton" >
              <property name="text" >
               <string>&amp;next</string>
-             </property>
-             <property name="default" >
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -266,6 +257,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>foreignLineEdit</tabstop>
+  <tabstop>checkButton</tabstop>
+  <tabstop>correctButton</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>editButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -19,6 +19,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QUndoStack>
+#include <QKeyEvent>
 
 VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType type, QStringList lessons)
     : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons), m_currentVocalbeUnlearned(false), m_undoStack(undoStack)
@@ -35,6 +36,7 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
 	connect(m_ui->nextButton, SIGNAL(clicked()), this, SLOT(nextVocable()));
     connect(m_ui->editButton, SIGNAL(clicked()), this, SLOT(editVocable()));
     connect(m_ui->correctButton, SIGNAL(clicked()), this, SLOT(correctVocable()));
+    m_ui->foreignLineEdit->installEventFilter(this);
 
     m_waitTimer = new QTimer(m_Dialog);
     m_waitTimer->setInterval(1000);
@@ -149,4 +151,18 @@ void VocableQuiz::check(int correctBox)
         m_ui->nextButton->setFocus();
     }
     m_undoStack->push(quizAnswerCommand);
+}
+
+bool VocableQuiz::eventFilter(QObject *target, QEvent *event)
+{
+    if (target == m_ui->foreignLineEdit) {
+        if(event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*> (event);
+            if (keyEvent->key() == Qt::Key_Enter) {
+                checkVocable();
+                return true;
+            }
+        }
+    }
+    return false;
 }
