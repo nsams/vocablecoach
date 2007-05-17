@@ -16,11 +16,7 @@ CommandAdd::CommandAdd(VocableListModel* model, Vocable* vocable, int position, 
    : QUndoCommand(parent), m_vocableListModel(model), m_vocable(vocable)
 {
     if (position == -1) {
-        if (m_vocableListModel->rowCount() > 0) {
-            m_position = m_vocableListModel->rowCount()-1;
-        } else {
-            m_position = 0;
-        }
+        m_position = m_vocableListModel->rowCount();
     } else {
         m_position = position;
     }
