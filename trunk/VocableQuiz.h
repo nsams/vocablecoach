@@ -49,10 +49,12 @@ private:
     bool m_currentVocalbeUnlearned;
     int m_currentVocableLastBox;
     QUndoStack* m_undoStack;
+    void check(int correctBox);
 private slots:
     void nextVocable();
     void checkVocable();
     void editVocable();
+    void correctVocable();
 protected:
     Vocable* m_currentVocable;
 };
