@@ -34,6 +34,7 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
 	connect(m_ui->checkButton, SIGNAL(clicked()), this, SLOT(checkVocable()));
 	connect(m_ui->nextButton, SIGNAL(clicked()), this, SLOT(nextVocable()));
     connect(m_ui->editButton, SIGNAL(clicked()), this, SLOT(editVocable()));
+    connect(m_ui->correctButton, SIGNAL(clicked()), this, SLOT(correctVocable()));
 
     m_waitTimer = new QTimer(m_Dialog);
     m_waitTimer->setInterval(1000);
@@ -63,20 +64,7 @@ void VocableQuiz::editVocable()
             m_ui->resultLabel->setText(m_currentVocable->foreign());
         } else {
             //re-check if answer is now correct
-            CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
-            if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
-            {
-                quizAnswerCommand->setBox(m_currentVocableLastBox+1);
-                m_ui->resultTextLabel->setText(tr("correct :)"));
-                m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
-            }
-            else
-            {
-                quizAnswerCommand->setBox(0);
-                m_ui->resultTextLabel->setText(tr("wrong :("));
-                m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
-            }
-            m_undoStack->push(quizAnswerCommand);
+            check(m_currentVocableLastBox+1);
         }
     }
 }
@@ -112,6 +100,7 @@ void VocableQuiz::nextVocable()
 		m_ui->nativeLabel->setText(m_currentVocable->native());
 		m_ui->resultTextLabel->setText(tr(""));
 		m_ui->resultLabel->setText(m_currentVocable->foreign());
+        m_ui->correctButton->hide();
         m_currentVocalbeUnlearned = true;
 	} else {
         m_ui->helpLabel->setText(tr(""));
@@ -125,19 +114,35 @@ void VocableQuiz::nextVocable()
 void VocableQuiz::checkVocable()
 {
     m_currentVocableLastBox = m_currentVocable->box(); //needed in editVocable
+    check(m_currentVocable->box()+1);
+	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
+}
+
+void VocableQuiz::correctVocable()
+{
+    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+    quizAnswerCommand->setBox(m_currentVocableLastBox+1);
+    m_undoStack->push(quizAnswerCommand);
+
+    nextVocable();
+}
+
+void VocableQuiz::check(int correctBox)
+{
     CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
     if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
-	{
-        quizAnswerCommand->setBox(m_currentVocable->box()+1);
-		m_ui->resultTextLabel->setText(tr("correct :)"));
-		m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
-	}
-	else
-	{
+    {
+        quizAnswerCommand->setBox(correctBox);
+        m_ui->resultTextLabel->setText(tr("correct :)"));
+        m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
+        m_ui->correctButton->hide();
+    }
+    else
+    {
         quizAnswerCommand->setBox(0);
-		m_ui->resultTextLabel->setText(tr("wrong :("));
-		m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
-	}
+        m_ui->resultTextLabel->setText(tr("wrong :("));
+        m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
+        m_ui->correctButton->show();
+    }
     m_undoStack->push(quizAnswerCommand);
-	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
 }
