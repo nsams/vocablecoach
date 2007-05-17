@@ -60,7 +60,13 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         }
 		m_currentVocable->setBox(attributes.value("box").toInt());
         if(!attributes.value("m").isEmpty()) {
-            m_currentVocable->setLessonNumber(attributes.value("m").toInt());
+            if (m_importCommand) {
+                if (m_importLessons.contains(attributes.value("m").toInt())) {
+                    m_currentVocable->setLesson(m_importLessons.value(attributes.value("m").toInt()));
+                }
+            } else {
+                m_currentVocable->setLessonNumber(attributes.value("m").toInt());
+            }
         } else if(!attributes.value("lesson").isEmpty()) {
             m_currentVocable->setLesson(attributes.value("lesson"));
         } else if(!attributes.value("lession").isEmpty()) { //deprecated
@@ -95,9 +101,13 @@ bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
 							  const QString & /* localName */,
 							  const QString &qName)
 {
-    if (inLessonTag && qName == "desc" && !m_importCommand) {
-        //only set when opening, not when importing (where we have an undoStack)
-        m_model->insertLesson(currentLessonNumber, currentText.trimmed());
+    if (inLessonTag && qName == "desc") {
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            m_model->insertLesson(currentLessonNumber, currentText.trimmed());
+        } else {
+            m_importLessons[currentLessonNumber] = currentText.trimmed();
+        }
     } else if (qName == "lesson") {
         inLessonTag = false;
     } else if (qName == "o" && m_currentVocable) {

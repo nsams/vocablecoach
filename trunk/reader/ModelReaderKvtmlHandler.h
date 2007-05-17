@@ -3,7 +3,7 @@
 
 #include <QXmlDefaultHandler>
 #include <QString>
-
+#include <QHash>
 class VocableListModel;
 class Vocable;
 class QUndoStack;
@@ -28,6 +28,7 @@ private:
 	VocableListModel* m_model;
 	Vocable* m_currentVocable;
     QUndoCommand* m_importCommand;
+    QHash<int, QString> m_importLessons;
 
 	bool metKvtmlTag;
     bool inLessonTag;
