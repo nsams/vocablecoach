@@ -50,6 +50,8 @@ private:
     int m_currentVocableLastBox;
     QUndoStack* m_undoStack;
     void check(int correctBox);
+    bool eventFilter(QObject *target, QEvent *event);
+
 private slots:
     void nextVocable();
     void checkVocable();
