@@ -109,13 +109,14 @@
     <addaction name="actionCopy" />
     <addaction name="actionPaste" />
     <addaction name="separator" />
-    <addaction name="actionSelectAll" />
-    <addaction name="actionModifyLesson" />
-    <addaction name="actionResetBox" />
-    <addaction name="separator" />
     <addaction name="actionAddVocable" />
     <addaction name="actionEditVocable" />
     <addaction name="actionDeleteVocable" />
+    <addaction name="separator" />
+    <addaction name="actionSelectAll" />
+    <addaction name="separator" />
+    <addaction name="actionModifyLesson" />
+    <addaction name="actionResetBox" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />

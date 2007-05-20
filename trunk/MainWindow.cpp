@@ -66,9 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(cleanChanged(bool)));
 
     connect(menuEdit, SIGNAL(aboutToShow()),
-            this, SLOT(itemMenuAboutToShow()));
-    connect(menuEdit, SIGNAL(aboutToHide()),
-            this, SLOT(itemMenuAboutToHide()));
+            this, SLOT(editMenuAboutToShow()));
 
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
 
@@ -113,6 +111,9 @@ MainWindow::MainWindow(QWidget *parent)
     
     
     connect(vocableEditorView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
+    
+    connect(vocableEditorView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(selectionChanged()));
 
     boxSelectionCombo->addItem(tr("All"));
     boxSelectionCombo->addItem(tr("Unlearned"));
@@ -157,6 +158,7 @@ void MainWindow::newFile()
         m_vocableListModel->setNativeLanguage(tr("native"));
         m_vocableListModel->setForeignLanguage(tr("foreign"));
         m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+        selectionChanged();
         delete oldModel;
         setCurrentFile("");
         m_undoStack->clear();
@@ -217,6 +219,7 @@ void MainWindow::loadFile(const QString &fileName)
             m_vocableListModel = new VocableListModel(this);
             reader->read(m_vocableListModel, 0);
             m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+            selectionChanged();
             delete oldModel;
             setCurrentFile(fileName);
             m_undoStack->clear();
@@ -538,24 +541,10 @@ void MainWindow::showAboutDialog()
     QMessageBox::about ( this, "About VocableCoach", "VocableCoach<br>&copy; Copyright by Niko Sams<br>Licence: GPLv2");
 }
 
-void MainWindow::itemMenuAboutToHide()
-{
-    actionDeleteVocable->setEnabled(true);
-    actionCut->setEnabled(true);
-}
-
-void MainWindow::itemMenuAboutToShow()
+void MainWindow::editMenuAboutToShow()
 {
     actionUndo->setText(tr("Undo ") + m_undoStack->undoText());
     actionRedo->setText(tr("Redo ") + m_undoStack->redoText());
-    bool nothingSelected = false;
-    if(vocableEditorView->selectionModel()->selection().isEmpty()) {
-        nothingSelected = true;
-    }
-    actionDeleteVocable->setEnabled(!nothingSelected);
-    actionCut->setEnabled(!nothingSelected);
-    actionCopy->setEnabled(!nothingSelected);
-    actionEditVocable->setEnabled(!nothingSelected);
 }
 
 void MainWindow::cleanChanged(bool clean)
@@ -589,10 +578,26 @@ QList<Vocable*> MainWindow::selectedVocables()
     }
     return vocables;
 }
-void MainWindow::selectAll() {
+
+void MainWindow::selectAll()
+{
     QModelIndex topLeft = m_filteredVocableListModel->index(0, 0);
     QModelIndex bottomRight = m_filteredVocableListModel->index(m_filteredVocableListModel->rowCount()-1,
                                                                 m_filteredVocableListModel->columnCount()-1);
     QItemSelection selection(topLeft, bottomRight);
     vocableEditorView->selectionModel()->select(selection, QItemSelectionModel::Select);
+}
+
+void MainWindow::selectionChanged()
+{
+    bool nothingSelected = false;
+    if(vocableEditorView->selectionModel()->selection().isEmpty()) {
+        nothingSelected = true;
+    }
+    actionDeleteVocable->setEnabled(!nothingSelected);
+    actionCut->setEnabled(!nothingSelected);
+    actionCopy->setEnabled(!nothingSelected);
+    actionEditVocable->setEnabled(!nothingSelected);
+    actionModifyLesson->setEnabled(!nothingSelected);
+    actionResetBox->setEnabled(!nothingSelected);
 }
