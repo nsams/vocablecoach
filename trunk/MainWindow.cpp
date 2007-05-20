@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     connect(actionPaste, SIGNAL(triggered()), this, SLOT(paste()));
     
+    connect(actionSelectAll,  SIGNAL(triggered()), this, SLOT(selectAll()));
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
     connect(actionDeleteVocable, SIGNAL(triggered()), this, SLOT(deleteVocable()));
@@ -539,14 +540,22 @@ void MainWindow::showAboutDialog()
 
 void MainWindow::itemMenuAboutToHide()
 {
-    //deleteAction->setEnabled(true);
+    actionDeleteVocable->setEnabled(true);
+    actionCut->setEnabled(true);
 }
 
 void MainWindow::itemMenuAboutToShow()
 {
     actionUndo->setText(tr("Undo ") + m_undoStack->undoText());
     actionRedo->setText(tr("Redo ") + m_undoStack->redoText());
-    //deleteAction->setEnabled(!diagramScene->selectedItems().isEmpty());
+    bool nothingSelected = false;
+    if(vocableEditorView->selectionModel()->selection().isEmpty()) {
+        nothingSelected = true;
+    }
+    actionDeleteVocable->setEnabled(!nothingSelected);
+    actionCut->setEnabled(!nothingSelected);
+    actionCopy->setEnabled(!nothingSelected);
+    actionEditVocable->setEnabled(!nothingSelected);
 }
 
 void MainWindow::cleanChanged(bool clean)
@@ -579,4 +588,11 @@ QList<Vocable*> MainWindow::selectedVocables()
         }
     }
     return vocables;
+}
+void MainWindow::selectAll() {
+    QModelIndex topLeft = m_filteredVocableListModel->index(0, 0);
+    QModelIndex bottomRight = m_filteredVocableListModel->index(m_filteredVocableListModel->rowCount()-1,
+                                                                m_filteredVocableListModel->columnCount()-1);
+    QItemSelection selection(topLeft, bottomRight);
+    vocableEditorView->selectionModel()->select(selection, QItemSelectionModel::Select);
 }

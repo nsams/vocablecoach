@@ -109,12 +109,13 @@
     <addaction name="actionCopy" />
     <addaction name="actionPaste" />
     <addaction name="separator" />
+    <addaction name="actionSelectAll" />
+    <addaction name="actionModifyLesson" />
+    <addaction name="actionResetBox" />
+    <addaction name="separator" />
     <addaction name="actionAddVocable" />
     <addaction name="actionEditVocable" />
     <addaction name="actionDeleteVocable" />
-    <addaction name="separator" />
-    <addaction name="actionModifyLesson" />
-    <addaction name="actionResetBox" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />
@@ -198,7 +199,7 @@
     <string>&amp;Add Vocable</string>
    </property>
    <property name="shortcut" >
-    <string>Einfg</string>
+    <string>Ins</string>
    </property>
   </action>
   <action name="actionEditVocable" >
@@ -211,7 +212,7 @@
     <string>&amp;Delete Vocable</string>
    </property>
    <property name="shortcut" >
-    <string>Entf</string>
+    <string>Del</string>
    </property>
   </action>
   <action name="actionQuiz" >
@@ -239,7 +240,7 @@
     <string>Cu&amp;t</string>
    </property>
    <property name="shortcut" >
-    <string>Strg+X</string>
+    <string>Ctrl+X</string>
    </property>
   </action>
   <action name="actionCopy" >
@@ -247,7 +248,7 @@
     <string>&amp;Copy</string>
    </property>
    <property name="shortcut" >
-    <string>Strg+C</string>
+    <string>Ctrl+C</string>
    </property>
   </action>
   <action name="actionPaste" >
@@ -255,7 +256,7 @@
     <string>&amp;Paste</string>
    </property>
    <property name="shortcut" >
-    <string>Strg+V</string>
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionUndo" >
@@ -263,7 +264,7 @@
     <string>&amp;Undo</string>
    </property>
    <property name="shortcut" >
-    <string>Strg+Z</string>
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionRedo" >
@@ -271,7 +272,7 @@
     <string>&amp;Redo</string>
    </property>
    <property name="shortcut" >
-    <string>Strg+Y</string>
+    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="actionModifyLesson" >
@@ -282,6 +283,14 @@
   <action name="actionResetBox" >
    <property name="text" >
     <string>Reset &amp;Box</string>
+   </property>
+  </action>
+  <action name="actionSelectAll" >
+   <property name="text" >
+    <string>Select &amp;All</string>
+   </property>
+   <property name="shortcut" >
+    <string>Strg+A</string>
    </property>
   </action>
  </widget>

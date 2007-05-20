@@ -64,7 +64,8 @@ private slots:
     void copy();
     void paste();
 	
-	void deleteVocable();
+    void selectAll();
+    void deleteVocable();
 	void editVocable();
 	void addVocable();
     
