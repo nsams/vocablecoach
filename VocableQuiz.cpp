@@ -85,10 +85,22 @@ void VocableQuiz::nextVocable()
 	if(!m_currentVocable) {
         m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->waitPage);
         QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessons);
+        if (!expiredDate.isValid()) {
+            m_Dialog->hide();
+            QMessageBox::information(m_Dialog,
+                        tr("Vocable Quiz"),
+                        tr("No vocables match the specified filter."));
+            return;
+        }
         int secs = QDateTime::currentDateTime().secsTo(expiredDate);
         QTime waitTime(0, 0, 0);
         waitTime = waitTime.addSecs(secs);
-        m_ui->waitLabel->setText(waitTime.toString());
+        int days = QDateTime::currentDateTime().daysTo(expiredDate);
+        if (days) {
+            m_ui->waitLabel->setText(tr("%1 days %2").arg(days).arg(waitTime.toString()));
+        } else {
+            m_ui->waitLabel->setText(waitTime.toString());
+        }
         m_waitTimer->start();
 		return;
 	} else {
