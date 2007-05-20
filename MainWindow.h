@@ -76,13 +76,11 @@ private slots:
     void textFilterChanged(const QString& text);
     void showAboutDialog();
     
-    void itemMenuAboutToHide();
-    void itemMenuAboutToShow();
+    void editMenuAboutToShow();
+    void selectionChanged();
     
     void cleanChanged(bool clean);
     
-    
-//     void printPage(int index, QPainter &painter, QPrinter &printer);
 };
 
 #endif
