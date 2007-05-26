@@ -22,7 +22,7 @@
    <item>
     <widget class="QStackedWidget" name="quizDialogStackedWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="quizPage" >
       <layout class="QVBoxLayout" >
@@ -204,6 +204,16 @@
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item>
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string>Please wait until there are expired vocables.</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="waitLabel" >
          <property name="font" >

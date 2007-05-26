@@ -66,7 +66,7 @@ void VocableQuiz::editVocable()
             m_ui->resultLabel->setText(m_currentVocable->foreign());
         } else {
             //re-check if answer is now correct
-            check(m_currentVocableLastBox+1);
+            check(false);
         }
     }
 }
@@ -129,24 +129,33 @@ void VocableQuiz::nextVocable()
 
 void VocableQuiz::checkVocable()
 {
-    m_currentVocableLastBox = m_currentVocable->box(); //needed in editVocable
-    m_currentVocable->incrementQueryCount();
-    check(m_currentVocable->box()+1);
+    check(true);
 	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
 }
 
 void VocableQuiz::correctVocable()
 {
     CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+    quizAnswerCommand->setBadCount(m_currentVocableLastBadCount); //reset it to old value, check increments it if answer is still wrong
     quizAnswerCommand->setBox(m_currentVocableLastBox+1);
     m_undoStack->push(quizAnswerCommand);
 
     nextVocable();
 }
 
-void VocableQuiz::check(int correctBox)
+void VocableQuiz::check(bool isFirstCheck)
 {
     CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+    int correctBox;
+    if (isFirstCheck) {
+        m_currentVocableLastBox = m_currentVocable->box(); //needed for editVocable
+        m_currentVocableLastBadCount = m_currentVocable->badCount(); //needed for editVocable
+        quizAnswerCommand->incrementQueryCount();
+        correctBox = m_currentVocable->box()+1;;
+    } else {
+        correctBox = m_currentVocableLastBox+1;
+        quizAnswerCommand->setBadCount(m_currentVocableLastBadCount); //reset it to old value, check increments it if answer is still wrong
+    }
     if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
     {
         quizAnswerCommand->setBox(correctBox);
@@ -158,6 +167,7 @@ void VocableQuiz::check(int correctBox)
     else
     {
         quizAnswerCommand->setBox(0);
+        quizAnswerCommand->incrementBadCount();
         m_ui->resultTextLabel->setText(tr("wrong :("));
         m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
         m_ui->correctButton->show();

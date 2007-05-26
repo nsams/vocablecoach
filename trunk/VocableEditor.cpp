@@ -67,6 +67,8 @@ void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 	editor->lastQueryLabelLeft->setVisible(false);
     editor->queryCountLabel->setVisible(false);
     editor->queryCountLabelLeft->setVisible(false);
+    editor->badCountLabel->setVisible(false);
+    editor->badCountLabelLeft->setVisible(false);
 
     QString lastLesson = editor->lessonComboBox->currentText();
     editor->lessonComboBox->clear();
@@ -99,6 +101,7 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
 	editor->boxLabel->setNum(vocable->box());
 	editor->lastQueryLabel->setText(vocable->lastQuery().toString(Qt::LocaleDate));
     editor->queryCountLabel->setText(QString("%1").arg(vocable->queryCount()));
+    editor->badCountLabel->setText(QString("%1").arg(vocable->badCount()));
 
     editor->okButton->setVisible(true);
     editor->okAddNewButton->setVisible(false);
@@ -108,7 +111,8 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
 	editor->lastQueryLabelLeft->setVisible(true);
     editor->queryCountLabel->setVisible(true);
     editor->queryCountLabelLeft->setVisible(true);
-    
+    editor->badCountLabel->setVisible(true);
+    editor->badCountLabelLeft->setVisible(true);
 	
 	int ret = editor->exec();
 	if (ret != QDialog::Rejected) {
