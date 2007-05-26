@@ -62,7 +62,8 @@ bool ModelWriterKvtml::write(VocableListModel* model)
 		}
         width = "";
         if (i == 0) width = QString(" width=\"%1\"").arg(model->foreignColumnWidth());
-        out << QString("	<t%1%2>%3</t>").arg(lastQuery).arg(width).arg(escape(voc->foreign()));
+        out << QString("	<t%1%2 c=\"%3;0\">%4</t>").arg(lastQuery).arg(width)
+                    .arg(voc->queryCount()).arg(escape(voc->foreign()));
 		out << "</e>";
 	}
 	out << "</kvtml>\n";

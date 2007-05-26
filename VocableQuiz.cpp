@@ -130,6 +130,7 @@ void VocableQuiz::nextVocable()
 void VocableQuiz::checkVocable()
 {
     m_currentVocableLastBox = m_currentVocable->box(); //needed in editVocable
+    m_currentVocable->incrementQueryCount();
     check(m_currentVocable->box()+1);
 	m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
 }

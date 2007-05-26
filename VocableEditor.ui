@@ -32,13 +32,16 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="4" column="0" >
-        <widget class="QLabel" name="lastQueryLabelLeft" >
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_3" >
          <property name="text" >
-          <string>Last Query:</string>
+          <string>Lesson:</string>
          </property>
          <property name="alignment" >
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="buddy" >
+          <cstring>lessonComboBox</cstring>
          </property>
         </widget>
        </item>
@@ -52,13 +55,6 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" >
-        <widget class="QLabel" name="boxLabel" >
-         <property name="text" >
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="0" >
         <widget class="QLabel" name="boxLabelLeft" >
          <property name="text" >
@@ -66,6 +62,39 @@
          </property>
          <property name="alignment" >
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QComboBox" name="lessonComboBox" >
+         <property name="editable" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QLabel" name="lastQueryLabelLeft" >
+         <property name="text" >
+          <string>Last Query:</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" >
+        <widget class="QLabel" name="lastQueryLabel" />
+       </item>
+       <item row="3" column="1" >
+        <widget class="QLabel" name="boxLabel" />
+       </item>
+       <item row="0" column="1" >
+        <widget class="VocableEditorTextEdit" name="nativeTextEdit" >
+         <property name="tabChangesFocus" >
+          <bool>true</bool>
+         </property>
+         <property name="acceptRichText" >
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -95,42 +124,15 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="VocableEditorTextEdit" name="nativeTextEdit" >
-         <property name="tabChangesFocus" >
-          <bool>true</bool>
-         </property>
-         <property name="acceptRichText" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" >
-        <widget class="QLabel" name="lastQueryLabel" >
+       <item row="5" column="0" >
+        <widget class="QLabel" name="queryCountLabelLeft" >
          <property name="text" >
-          <string/>
+          <string>Query Count:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" >
-        <widget class="QLabel" name="label_3" >
-         <property name="text" >
-          <string>Lesson:</string>
-         </property>
-         <property name="alignment" >
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-         <property name="buddy" >
-          <cstring>lessonComboBox</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" >
-        <widget class="QComboBox" name="lessonComboBox" >
-         <property name="editable" >
-          <bool>true</bool>
-         </property>
-        </widget>
+       <item row="5" column="1" >
+        <widget class="QLabel" name="queryCountLabel" />
        </item>
       </layout>
      </widget>
