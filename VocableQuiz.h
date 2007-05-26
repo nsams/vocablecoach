@@ -48,8 +48,9 @@ private:
     QTimer* m_waitTimer;
     bool m_currentVocalbeUnlearned;
     int m_currentVocableLastBox;
+    int m_currentVocableLastBadCount;
     QUndoStack* m_undoStack;
-    void check(int correctBox);
+    void check(bool isFirstCheck);
     bool eventFilter(QObject *target, QEvent *event);
 
 private slots:

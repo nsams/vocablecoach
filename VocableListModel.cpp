@@ -29,6 +29,8 @@ QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
 			return voc->lastQuery().toString(Qt::LocaleDate);
         else if(index.column()==5)
             return QString("%1").arg(voc->queryCount());
+        else if(index.column()==6)
+            return QString("%1").arg(voc->badCount());
         else
 			return QVariant();
 	} else {
@@ -42,7 +44,7 @@ int VocableListModel::rowCount ( const QModelIndex & /*parent*/ ) const
 }
 int VocableListModel::columnCount ( const QModelIndex & /*parent*/ ) const
 {
-	return 6;
+	return 7;
 }
 QModelIndex VocableListModel::index(int row, int column, const QModelIndex & /*parent*/) const {
 	return createIndex(row, column);
@@ -65,6 +67,8 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 			return tr("last query");
         else if (section==5)
             return tr("query count");
+        else if (section==6)
+            return tr("bad count");
     }
 	if(orientation==Qt::Vertical && role == Qt::DisplayRole) {
 		return QString("%1").arg(section+1);

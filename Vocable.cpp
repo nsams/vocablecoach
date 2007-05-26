@@ -2,7 +2,8 @@
 #include "VocableListModel.h"
 
 Vocable::Vocable(VocableListModel* model, const QString& native, const QString& foreign, int box)
-    : m_model(model), m_native(native), m_foreign(foreign), m_lessonNumber(0), m_box(box), m_queryCount(0)
+    : m_model(model), m_native(native), m_foreign(foreign), m_lessonNumber(0), m_box(box),
+        m_queryCount(0), m_badCount(0)
 {
     
 }
@@ -65,11 +66,6 @@ bool Vocable::isExpired() const
         return false;
 }
 
-void Vocable::incrementQueryCount()
-{
-    m_queryCount++;
-}
-
 int Vocable::queryCount() const
 {
     return m_queryCount;
@@ -78,4 +74,14 @@ int Vocable::queryCount() const
 void Vocable::setQueryCount(int queryCount)
 {
     m_queryCount = queryCount;
+}
+
+int Vocable::badCount() const
+{
+    return m_badCount;
+}
+
+void Vocable::setBadCount(int badCount)
+{
+    m_badCount = badCount;
 }

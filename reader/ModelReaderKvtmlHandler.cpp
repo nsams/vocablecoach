@@ -87,14 +87,18 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
                 m_model->setForeignColumnWidth(attributes.value("width").toInt());
             }
         }
-        QStringList lastQueryList = QString(attributes.value("d")).split(";");
-		if(lastQueryList[0].toUInt() > 0) {
-			QDateTime lastQuery = QDateTime::fromTime_t(lastQueryList[0].toUInt());
+        QStringList valList = QString(attributes.value("d")).split(";");
+        if(valList[0].toUInt() > 0) {
+            QDateTime lastQuery = QDateTime::fromTime_t(valList[0].toUInt());
 			m_currentVocable->setLastQuery(lastQuery);
 		}
-        QStringList queryCountList = QString(attributes.value("c")).split(";");
-        if(queryCountList[0].toInt() > 0) {
-            m_currentVocable->setQueryCount(queryCountList[0].toInt());
+        valList = QString(attributes.value("c")).split(";");
+        if(valList[0].toInt() > 0) {
+            m_currentVocable->setQueryCount(valList[0].toInt());
+        }
+        valList = QString(attributes.value("b")).split(";");
+        if(valList[0].toInt() > 0) {
+            m_currentVocable->setBadCount(valList[0].toInt());
         }
         currentText.clear();
 	}
