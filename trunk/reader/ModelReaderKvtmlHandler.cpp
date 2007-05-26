@@ -92,7 +92,11 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
 			QDateTime lastQuery = QDateTime::fromTime_t(lastQueryList[0].toUInt());
 			m_currentVocable->setLastQuery(lastQuery);
 		}
-		currentText.clear();
+        QStringList queryCountList = QString(attributes.value("c")).split(";");
+        if(queryCountList[0].toInt() > 0) {
+            m_currentVocable->setQueryCount(queryCountList[0].toInt());
+        }
+        currentText.clear();
 	}
 	return true;
 }

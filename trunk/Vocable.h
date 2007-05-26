@@ -17,6 +17,7 @@ public:
     QString lesson() const;
     int lessonNumber() const;
     bool isExpired() const;
+    int queryCount() const;
     
 	void setNative(const QString& native);
 	void setForeign(const QString& foreign);
@@ -24,6 +25,8 @@ public:
 	void setLastQuery(const QDateTime& lastQuery);
     void setLesson(const QString& lesson);
     void setLessonNumber(int i);
+    void incrementQueryCount();
+    void setQueryCount(int queryCount);
 private:
 	VocableListModel* m_model;
 	QString m_native;
@@ -31,5 +34,6 @@ private:
     int m_lessonNumber;
 	int m_box;
 	QDateTime m_lastQuery;
+    int m_queryCount;
 };
 #endif
