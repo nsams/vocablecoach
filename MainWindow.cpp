@@ -19,11 +19,11 @@
 #include "reader/ModelReaderCsv.h"
 #include "writer/ModelWriterKvtml.h"
 #include "writer/ModelWriterCsv.h"
-#include "VocableListModelFilter.h"
 #include "StartQuiz.h"
 #include "DocumentProperties.h"
 #include "PreviewDialog.h"
 #include "ListVocablePrinter.h"
+#include "VocableList.h"
 #include "command/CommandDelete.h"
 #include "command/CommandAdd.h"
 #include "command/CommandModifyLesson.h"
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_vocableListModel(0)
 {
     setupUi(this);
-    
+
     m_undoStack = new QUndoStack(this);
 
     actionUndo->setEnabled(false);
@@ -69,20 +69,21 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(editMenuAboutToShow()));
 
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
-
-    m_filteredVocableListModel = new VocableListModelFilter(this);
-    vocableEditorView->setModel(m_filteredVocableListModel);
-
-    vocableEditorView->setContextMenuPolicy(Qt::ActionsContextMenu);
-    vocableEditorView->addAction(actionCut);
-    vocableEditorView->addAction(actionCopy);
-    vocableEditorView->addAction(actionPaste);
+    
+    m_vocableList = new VocableList();
+    m_vocableList->addListAction(actionCut);
+    m_vocableList->addListAction(actionCopy);
+    m_vocableList->addListAction(actionPaste);
     QAction* separator = new QAction(QString(""), this);
     separator->setSeparator(true);
-    vocableEditorView->addAction(separator);
-    vocableEditorView->addAction(actionDeleteVocable);
-    vocableEditorView->addAction(actionEditVocable);
+    m_vocableList->addListAction(separator);
+    m_vocableList->addListAction(actionDeleteVocable);
+    m_vocableList->addListAction(actionEditVocable);
+    this->setCentralWidget(m_vocableList);
 
+    connect(m_vocableList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
+    connect(m_vocableList, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(selectionChanged()));
 
     connect(actionImport, SIGNAL(triggered()), this, SLOT(import()));
     connect(actionPrint, SIGNAL(triggered()), this, SLOT(print()));
@@ -101,45 +102,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionCopy, SIGNAL(triggered()), this, SLOT(copy()));
     connect(actionPaste, SIGNAL(triggered()), this, SLOT(paste()));
     
-    connect(actionSelectAll,  SIGNAL(triggered()), this, SLOT(selectAll()));
+    connect(actionSelectAll,  SIGNAL(triggered()), m_vocableList, SLOT(selectAll()));
     connect(actionEditVocable, SIGNAL(triggered()), this, SLOT(editVocable()));
     connect(actionAddVocable, SIGNAL(triggered()), this, SLOT(addVocable()));
     connect(actionDeleteVocable, SIGNAL(triggered()), this, SLOT(deleteVocable()));
     
     connect(actionModifyLesson, SIGNAL(triggered()), this, SLOT(modifyLesson()));
     connect(actionResetBox, SIGNAL(triggered()), this, SLOT(resetBox()));
-    
-    
-    connect(vocableEditorView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
-    
-    connect(vocableEditorView->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-            this, SLOT(selectionChanged()));
 
-    boxSelectionCombo->addItem(tr("All"));
-    boxSelectionCombo->addItem(tr("Unlearned"));
-    boxSelectionCombo->addItem(tr("Ultra-Shortterm-Memory"));
-    boxSelectionCombo->addItem(tr("Shortterm-Memory"));
-    boxSelectionCombo->addItem(tr("Box 1"));
-    boxSelectionCombo->addItem(tr("Box 2"));
-    boxSelectionCombo->addItem(tr("Box 3"));
-    boxSelectionCombo->setCurrentIndex(0);
-    connect(boxSelectionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(boxFilterChanged(int)));
-    boxFilterChanged(0);
-    
-    connect(filterLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
-	
-	readSettings();
+    readSettings();
 }
 
 
-void MainWindow::boxFilterChanged(int box)
-{
-    m_filteredVocableListModel->setBoxFilter(box-1);
-}
-void MainWindow::textFilterChanged(const QString& text)
-{
-    m_filteredVocableListModel->setTextFilter(text);
-}
 void MainWindow::closeEvent(QCloseEvent *event)
 {
 	if (maybeSave()) {
@@ -157,7 +131,7 @@ void MainWindow::newFile()
         m_vocableListModel = new VocableListModel(this);
         m_vocableListModel->setNativeLanguage(tr("native"));
         m_vocableListModel->setForeignLanguage(tr("foreign"));
-        m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+        m_vocableList->setModel(m_vocableListModel);
         selectionChanged();
         delete oldModel;
         setCurrentFile("");
@@ -218,22 +192,13 @@ void MainWindow::loadFile(const QString &fileName)
             VocableListModel* oldModel = m_vocableListModel;
             m_vocableListModel = new VocableListModel(this);
             reader->read(m_vocableListModel, 0);
-            m_filteredVocableListModel->setSourceModel(m_vocableListModel);
+            m_vocableList->setModel(m_vocableListModel);
             selectionChanged();
             delete oldModel;
             setCurrentFile(fileName);
             m_undoStack->clear();
             m_undoStack->setClean();
             cleanChanged(true);
-            if (m_vocableListModel->nativeColumnWidth() > 10) {
-                vocableEditorView->setColumnWidth(0, m_vocableListModel->nativeColumnWidth());
-            }
-            if (m_vocableListModel->foreignColumnWidth() > 10) {
-                vocableEditorView->setColumnWidth(1, m_vocableListModel->foreignColumnWidth());
-            }
-            if (m_vocableListModel->lessonColumnWidth() > 10) {
-                vocableEditorView->setColumnWidth(3, m_vocableListModel->lessonColumnWidth());
-            }
             QApplication::restoreOverrideCursor();
             qDeleteAll(readers);
             return;
@@ -255,9 +220,9 @@ bool MainWindow::saveFile(const QString &fileName)
         writer = new ModelWriterCsv(fileName);
     }
 
-    m_vocableListModel->setNativeColumnWidth(vocableEditorView->columnWidth(0));
-    m_vocableListModel->setForeignColumnWidth(vocableEditorView->columnWidth(1));
-    m_vocableListModel->setLessonColumnWidth(vocableEditorView->columnWidth(3));
+    m_vocableListModel->setNativeColumnWidth(m_vocableList->columnWidth(0));
+    m_vocableListModel->setForeignColumnWidth(m_vocableList->columnWidth(1));
+    m_vocableListModel->setLessonColumnWidth(m_vocableList->columnWidth(3));
     writer->write(m_vocableListModel);
     delete writer;
     m_undoStack->setClean();
@@ -276,18 +241,22 @@ void MainWindow::import()
 	if(fileName=="") return;
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    ModelReaderAbstract* reader;
-    reader = new ModelReaderKvtml(fileName);
-    if(!reader->isValidFile()) {
-        reader = new ModelReaderPauker(fileName);
-        if(!reader->isValidFile()) {
-            QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
+
+    QList<ModelReaderAbstract*> readers;
+    readers << new ModelReaderKvtml(fileName);
+    readers << new ModelReaderPauker(fileName);
+    readers << new ModelReaderCsv(fileName);
+    foreach (ModelReaderAbstract* reader, readers) {
+        if (reader->isValidFile()) {
+            reader->read(m_vocableListModel, m_undoStack);
+            qDeleteAll(readers);
+            QApplication::restoreOverrideCursor();
             return;
         }
     }
-    reader->read(m_vocableListModel, m_undoStack);
-    delete reader;
+    qDeleteAll(readers);
     QApplication::restoreOverrideCursor();
+    QMessageBox::critical(this, tr("VocableCoach"), tr("Can't open file: unknown Format"));
 }
 
 bool MainWindow::setupPrinter(QPrinter &printer)
@@ -374,17 +343,15 @@ void MainWindow::addVocable()
 
 void MainWindow::editVocable()
 {
-	QModelIndex currentIndex = vocableEditorView->selectionModel()->currentIndex();
-	if(!currentIndex.isValid()) return;
-
-    Vocable* vocable = m_vocableListModel->vocable(m_filteredVocableListModel->mapToSource(currentIndex));
-    VocableEditor::editVocable(m_vocableListModel, vocable, m_undoStack);
+    Vocable* vocable = m_vocableList->currentVocable();
+    if(vocable) {
+        VocableEditor::editVocable(m_vocableListModel, vocable, m_undoStack);
+    }
 }
 void MainWindow::cut()
 {
     copy();
-    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
-    QList<int> rows = selectedRows();
+    QList<int> rows = m_vocableList->selectedRows();
     CommandDelete* delCommand = new CommandDelete(m_vocableListModel, rows);
     if (rows.count() > 1) {
         delCommand->setText(tr("Cut Vocables"));
@@ -400,12 +367,10 @@ void MainWindow::copy()
 
     QStringList lines;
 
-    QModelIndexList rows( vocableEditorView->selectionModel()->selectedRows() );
-    foreach( const QModelIndex & index, rows ) {
-        int row = m_filteredVocableListModel->mapToSource(index).row();
-        lines << ModelWriterCsv::vocableCsvString(m_vocableListModel->vocable(row));
+    QList<Vocable*> vocables = m_vocableList->selectedVocables();
+    foreach (Vocable* vocable, vocables) {
+        lines << ModelWriterCsv::vocableCsvString(vocable);
     }
-
     if (!lines.isEmpty()) {
         QApplication::clipboard()->setText(lines.join("\n"));
     }
@@ -417,12 +382,9 @@ void MainWindow::paste()
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    QModelIndex currentIndex = m_filteredVocableListModel->mapToSource(vocableEditorView->selectionModel()->currentIndex());
-    int currentRow;
-    if (!currentIndex.isValid()) {
+    int currentRow = m_vocableList->currentRow();
+    if (currentRow == -1) {
         currentRow = m_vocableListModel->rowCount()-1;
-    } else {
-        currentRow = currentIndex.row();
     }
     QStringList lines = QApplication::clipboard()->text().split("\n");
 
@@ -444,7 +406,7 @@ void MainWindow::paste()
 
 void MainWindow::deleteVocable()
 {
-    CommandDelete* delCommand = new CommandDelete(m_vocableListModel, selectedRows());
+    CommandDelete* delCommand = new CommandDelete(m_vocableListModel, m_vocableList->selectedRows());
     m_undoStack->push(delCommand);
 }
 
@@ -454,14 +416,14 @@ void MainWindow::modifyLesson()
     QStringList lessons(m_vocableListModel->lessons().values());
     QString newLesson = QInputDialog::getItem(this, "Modify Lesson", "Select Lesson", lessons, 0, true, &ok);
     if (ok) {
-        CommandModifyLesson* modifyCommand = new CommandModifyLesson(selectedVocables(), newLesson);
+        CommandModifyLesson* modifyCommand = new CommandModifyLesson(m_vocableList->selectedVocables(), newLesson);
         m_undoStack->push(modifyCommand);
     }
 }
 
 void MainWindow::resetBox()
 {
-    CommandResetBox* resetCommand = new CommandResetBox(selectedVocables());
+    CommandResetBox* resetCommand = new CommandResetBox(m_vocableList->selectedVocables());
     m_undoStack->push(resetCommand);
 }
 
@@ -553,45 +515,11 @@ void MainWindow::cleanChanged(bool clean)
     setWindowModified(!clean);
 }
 
-QList<int> MainWindow::selectedRows()
-{
-    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
-    QList<int> rows;
-    foreach(QModelIndex index, selectedIndexes) {
-        int row = m_filteredVocableListModel->mapToSource(index).row();
-        if (!rows.contains(row)) {
-            rows << row;
-        }
-    }
-    return rows;
-}
-
-QList<Vocable*> MainWindow::selectedVocables()
-{
-    QModelIndexList selectedIndexes = vocableEditorView->selectionModel()->selection().indexes();
-    QList<Vocable*> vocables;
-    foreach(QModelIndex index, selectedIndexes) {
-        Vocable* voc = m_vocableListModel->vocable(m_filteredVocableListModel->mapToSource(index));
-        if (!vocables.contains(voc)) {
-            vocables << voc;
-        }
-    }
-    return vocables;
-}
-
-void MainWindow::selectAll()
-{
-    QModelIndex topLeft = m_filteredVocableListModel->index(0, 0);
-    QModelIndex bottomRight = m_filteredVocableListModel->index(m_filteredVocableListModel->rowCount()-1,
-                                                                m_filteredVocableListModel->columnCount()-1);
-    QItemSelection selection(topLeft, bottomRight);
-    vocableEditorView->selectionModel()->select(selection, QItemSelectionModel::Select);
-}
 
 void MainWindow::selectionChanged()
 {
     bool nothingSelected = false;
-    if(vocableEditorView->selectionModel()->selection().isEmpty()) {
+    if(m_vocableList->selection().isEmpty()) {
         nothingSelected = true;
     }
     actionDeleteVocable->setEnabled(!nothingSelected);

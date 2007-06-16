@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
-    <height>530</height>
+    <width>682</width>
+    <height>479</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -21,46 +21,6 @@
     <property name="spacing" >
      <number>6</number>
     </property>
-    <item>
-     <layout class="QHBoxLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>&amp;Search:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>filterLineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="filterLineEdit" />
-      </item>
-      <item>
-       <widget class="QComboBox" name="boxSelectionCombo" >
-        <property name="toolTip" >
-         <string>Box-Filter</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QTableView" name="vocableEditorView" >
-      <property name="alternatingRowColors" >
-       <bool>true</bool>
-      </property>
-      <property name="selectionBehavior" >
-       <enum>QAbstractItemView::SelectRows</enum>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar" >
@@ -68,7 +28,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>782</width>
+     <width>682</width>
      <height>29</height>
     </rect>
    </property>
