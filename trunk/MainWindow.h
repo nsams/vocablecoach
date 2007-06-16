@@ -19,6 +19,7 @@ class VocableList;
 class VocableListModelFilter;
 class QUndoStack;
 class Vocable;
+class VocableList;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -28,8 +29,8 @@ public:
     MainWindow(QWidget *parent = 0);
 
 private:
+    VocableList* m_vocableList;
     VocableListModel* m_vocableListModel;
-    VocableListModelFilter* m_filteredVocableListModel;
     QString m_curFileName;
 
     QUndoStack* m_undoStack;
@@ -42,8 +43,7 @@ private:
     void writeSettings();
     void readSettings();
     bool setupPrinter(QPrinter &printer);
-    QList<int> selectedRows();
-    QList<Vocable*> selectedVocables();
+
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -64,7 +64,6 @@ private slots:
     void copy();
     void paste();
 
-    void selectAll();
     void deleteVocable();
     void editVocable();
     void addVocable();
@@ -72,8 +71,6 @@ private slots:
     void modifyLesson();
     void resetBox();
 
-    void boxFilterChanged(int box);
-    void textFilterChanged(const QString& text);
     void showAboutDialog();
 
     void editMenuAboutToShow();

@@ -9,7 +9,8 @@ FORMS += MainWindow.ui \
          VocableQuiz.ui \
          StartQuiz.ui \
          DocumentProperties.ui \
-         PreviewDialog.ui
+         PreviewDialog.ui \
+         VocableList.ui
 
 HEADERS += MainWindow.h \
            Vocable.h \
@@ -25,6 +26,7 @@ HEADERS += MainWindow.h \
            ListVocablePrinter.h \
            AbstractVocablePrinter.h \
            CardVocablePrinter.h \
+           VocableList.h \
            reader/ModelReaderAbstract.h \
            reader/ModelReaderKvtml.h \
            reader/ModelReaderKvtmlHandler.h \
@@ -56,6 +58,7 @@ SOURCES += main.cpp \
            ListVocablePrinter.cpp \
            CardVocablePrinter.cpp \
            AbstractVocablePrinter.cpp \
+           VocableList.cpp \
            reader/ModelReaderAbstract.cpp \
            reader/ModelReaderKvtml.cpp \
            reader/ModelReaderKvtmlHandler.cpp \
@@ -72,6 +75,7 @@ SOURCES += main.cpp \
            command/CommandQuizAnswer.cpp \
            command/CommandModifyLesson.cpp \
            command/CommandResetBox.cpp
+
 CONFIG += debug \
 qt \
 warn_on

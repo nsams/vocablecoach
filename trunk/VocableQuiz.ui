@@ -1,12 +1,12 @@
 <ui version="4.0" >
  <class>VocableQuiz</class>
- <widget class="QDialog" name="VocableQuiz" >
+ <widget class="QWidget" name="VocableQuiz" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
     <width>542</width>
-    <height>269</height>
+    <height>288</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -22,7 +22,7 @@
    <item>
     <widget class="QStackedWidget" name="quizDialogStackedWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="quizPage" >
       <layout class="QVBoxLayout" >
