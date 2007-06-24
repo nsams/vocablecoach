@@ -44,9 +44,10 @@
 #include <QClipboard>
 #include <QUndoStack>
 #include <QInputDialog>
+#include <QStackedWidget>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), m_vocableListModel(0)
+    : QMainWindow(parent), m_vocableListModel(0), m_vocableQuiz(0)
 {
     setupUi(this);
 
@@ -58,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionRedo, SIGNAL(triggered()), m_undoStack, SLOT(redo()));
 
     connect(m_undoStack, SIGNAL(canRedoChanged(bool)),
-            actionRedo, SLOT(setEnabled(bool)));
+            this, SLOT(canRedoChanged(bool)));
     connect(m_undoStack, SIGNAL(canUndoChanged(bool)),
-            actionUndo, SLOT(setEnabled(bool)));
+            this, SLOT(canUndoChanged(bool)));
 
     connect(m_undoStack, SIGNAL(cleanChanged(bool)),
             this, SLOT(cleanChanged(bool)));
@@ -70,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     
-    m_vocableList = new VocableList();
+    m_vocableList = new VocableList(this);
     m_vocableList->addListAction(actionCut);
     m_vocableList->addListAction(actionCopy);
     m_vocableList->addListAction(actionPaste);
@@ -79,8 +80,11 @@ MainWindow::MainWindow(QWidget *parent)
     m_vocableList->addListAction(separator);
     m_vocableList->addListAction(actionDeleteVocable);
     m_vocableList->addListAction(actionEditVocable);
-    this->setCentralWidget(m_vocableList);
 
+    m_centralStackWidget = new QStackedWidget;
+    this->setCentralWidget(m_centralStackWidget);
+    m_centralStackWidget->addWidget(m_vocableList);
+    
     connect(m_vocableList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(editVocable()));
     connect(m_vocableList, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(selectionChanged()));
@@ -96,6 +100,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
 
     connect(actionQuiz, SIGNAL(triggered()), this, SLOT(startQuiz()));
+    connect(actionStopQuiz, SIGNAL(triggered()), this, SLOT(stopQuiz()));
+    actionStopQuiz->setVisible(false);
+
     connect(actionProperties, SIGNAL(triggered()), this, SLOT(documentProperties()));
     
     connect(actionCut, SIGNAL(triggered()), this, SLOT(cut()));
@@ -431,9 +438,46 @@ void MainWindow::startQuiz()
 {
     StartQuiz startQuizDialog(this, m_vocableListModel);
     if(startQuizDialog.exec()==QDialog::Rejected) return;
-    new VocableQuiz(m_vocableListModel, m_undoStack, startQuizDialog.quizType(), startQuizDialog.selectedLessons());
-    //fixme: leaks memory
+    m_vocableQuiz = new VocableQuiz(m_vocableListModel, m_undoStack, startQuizDialog.quizType(), startQuizDialog.selectedLessons());
+    m_centralStackWidget->addWidget(m_vocableQuiz->widget());
+    m_centralStackWidget->setCurrentWidget(m_vocableQuiz->widget());
+    connect(m_vocableQuiz, SIGNAL(cancel()), this, SLOT(stopQuiz()));
+
+    actionQuiz->setVisible(false);
+    actionStopQuiz->setVisible(true);
+
+    actionImport->setEnabled(false);
+    actionAddVocable->setEnabled(false);
+    actionEditVocable->setEnabled(false);
+    actionDeleteVocable->setEnabled(false);
+    actionCut->setEnabled(false);
+    actionCopy->setEnabled(false);
+    actionPaste->setEnabled(false);
+    actionUndo->setEnabled(false);
+    actionRedo->setEnabled(false);
+    actionModifyLesson->setEnabled(false);
+    actionResetBox->setEnabled(false);
+    actionSelectAll->setEnabled(false);
 }
+
+void MainWindow::stopQuiz()
+{
+    m_centralStackWidget->setCurrentWidget(m_vocableList);
+    m_centralStackWidget->removeWidget(m_vocableQuiz->widget());
+    delete m_vocableQuiz;
+    m_vocableQuiz = 0;
+
+    actionQuiz->setVisible(true);
+    actionStopQuiz->setVisible(false);
+
+    actionImport->setEnabled(true);
+    actionAddVocable->setEnabled(true);
+    actionPaste->setEnabled(true);
+    actionUndo->setEnabled(true);
+    actionSelectAll->setEnabled(true);
+    selectionChanged();
+}
+
 void MainWindow::documentProperties()
 {
     DocumentProperties prop(m_vocableListModel, m_undoStack, this);
@@ -515,17 +559,33 @@ void MainWindow::cleanChanged(bool clean)
     setWindowModified(!clean);
 }
 
+void MainWindow::canUndoChanged(bool can)
+{
+    if (!m_vocableQuiz) {
+        actionUndo->setEnabled(can);
+    }
+}
+void MainWindow::canRedoChanged(bool can)
+{
+    if (!m_vocableQuiz) {
+        actionRedo->setEnabled(can);
+    }
+}
+
+
 
 void MainWindow::selectionChanged()
 {
-    bool nothingSelected = false;
-    if(m_vocableList->selection().isEmpty()) {
-        nothingSelected = true;
+    if (!m_vocableQuiz) {
+        bool nothingSelected = false;
+        if(m_vocableList->selection().isEmpty()) {
+            nothingSelected = true;
+        }
+        actionDeleteVocable->setEnabled(!nothingSelected);
+        actionCut->setEnabled(!nothingSelected);
+        actionCopy->setEnabled(!nothingSelected);
+        actionEditVocable->setEnabled(!nothingSelected);
+        actionModifyLesson->setEnabled(!nothingSelected);
+        actionResetBox->setEnabled(!nothingSelected);
     }
-    actionDeleteVocable->setEnabled(!nothingSelected);
-    actionCut->setEnabled(!nothingSelected);
-    actionCopy->setEnabled(!nothingSelected);
-    actionEditVocable->setEnabled(!nothingSelected);
-    actionModifyLesson->setEnabled(!nothingSelected);
-    actionResetBox->setEnabled(!nothingSelected);
 }

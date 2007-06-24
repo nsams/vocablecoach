@@ -26,8 +26,9 @@ class VocableList : public QWidget, private Ui::VocableList
 {
 	Q_OBJECT
 public:
-    VocableList();
-    
+    VocableList(QWidget* parent = 0);
+    ~VocableList();
+
     void addListAction(QAction* action);
     
     void setModel(VocableListModel* model);

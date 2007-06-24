@@ -26,10 +26,9 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
 {
 	m_currentVocable = 0;
 
-	m_Dialog = new QDialog();
-    m_Dialog->setAttribute(Qt::WA_DeleteOnClose);
+    m_Widget = new QWidget();
 	m_ui = new Ui::VocableQuiz();
-	m_ui->setupUi(m_Dialog);
+    m_ui->setupUi(m_Widget);
 	m_ui->resultTextLabel->setText("");
 
 	connect(m_ui->checkButton, SIGNAL(clicked()), this, SLOT(checkVocable()));
@@ -38,17 +37,18 @@ VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizTyp
     connect(m_ui->correctButton, SIGNAL(clicked()), this, SLOT(correctVocable()));
     m_ui->foreignLineEdit->installEventFilter(this);
 
-    m_waitTimer = new QTimer(m_Dialog);
+    m_waitTimer = new QTimer(m_Widget);
     m_waitTimer->setInterval(1000);
     connect(m_waitTimer, SIGNAL(timeout()), this, SLOT(nextVocable()));
+    
+    connect(m_ui->cancelButton, SIGNAL(clicked()), this, SIGNAL(cancel()));
 
-    m_Dialog->show();
     nextVocable();
 }
 
 VocableQuiz::~VocableQuiz()
 {
-    delete m_ui;
+    delete m_Widget;
 }
 
 void VocableQuiz::editVocable()
@@ -56,8 +56,6 @@ void VocableQuiz::editVocable()
     if (m_currentVocable) {
         
         VocableEditor::editVocable(m_vocableListModel, m_currentVocable, m_undoStack);
-
-        m_Dialog->activateWindow(); //bring quiz-window to foreground, fixme: doesn't really work :(
 
         m_ui->nativeLabel->setText(m_currentVocable->native());
 
@@ -86,8 +84,8 @@ void VocableQuiz::nextVocable()
         m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->waitPage);
         QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessons);
         if (!expiredDate.isValid()) {
-            m_Dialog->hide();
-            QMessageBox::information(m_Dialog,
+            m_Widget->hide();
+            QMessageBox::information(m_Widget,
                         tr("Vocable Quiz"),
                         tr("No vocables match the specified filter."));
             return;
@@ -188,4 +186,9 @@ bool VocableQuiz::eventFilter(QObject *target, QEvent *event)
         }
     }
     return false;
+}
+
+QWidget* VocableQuiz::widget()
+{
+    return m_Widget;
 }

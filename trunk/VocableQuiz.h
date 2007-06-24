@@ -35,11 +35,12 @@ class VocableQuiz : public QObject {
 public:
     VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType, QStringList lessons=QStringList());
     ~VocableQuiz();
+    QWidget* widget();
 	
-	enum quizType {};
+	//enum quizType {};
 
 private:
-	QDialog* m_Dialog;
+	QWidget* m_Widget;
 	Ui::VocableQuiz* m_ui;
 	VocableListModel* m_vocableListModel;
 	QuizType m_QuizType;
@@ -52,6 +53,9 @@ private:
     QUndoStack* m_undoStack;
     void check(bool isFirstCheck);
     bool eventFilter(QObject *target, QEvent *event);
+
+signals:
+    void cancel();
 
 private slots:
     void nextVocable();

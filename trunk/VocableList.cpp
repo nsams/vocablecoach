@@ -1,8 +1,10 @@
 #include "VocableList.h"
 #include "VocableListModelFilter.h"
 #include "VocableListModel.h"
-VocableList::VocableList()
-    : m_vocableListModel(0)
+#include <QDebug>
+
+VocableList::VocableList(QWidget* parent)
+    : QWidget(parent), m_vocableListModel(0)
 {
     setupUi(this);
 
@@ -29,6 +31,10 @@ VocableList::VocableList()
     
     connect(filterLineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(textFilterChanged(const QString&)));
 }
+VocableList::~VocableList()
+{
+}
+
 void VocableList::addListAction(QAction* action)
 {
     vocableEditorView->addAction(action);
