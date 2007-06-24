@@ -38,26 +38,6 @@
     </property>
     <addaction name="actionAbout" />
    </widget>
-   <widget class="QMenu" name="menuFile" >
-    <property name="title" >
-     <string>&amp;File</string>
-    </property>
-    <addaction name="actionNew" />
-    <addaction name="actionOpen" />
-    <addaction name="actionSave" />
-    <addaction name="actionSaveAs" />
-    <addaction name="separator" />
-    <addaction name="actionProperties" />
-    <addaction name="actionQuiz" />
-    <addaction name="separator" />
-    <addaction name="actionPrintPreview" />
-    <addaction name="actionPrint" />
-    <addaction name="separator" />
-    <addaction name="actionImport" />
-    <addaction name="actionExport" />
-    <addaction name="separator" />
-    <addaction name="actionQuit" />
-   </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
      <string>&amp;Edit</string>
@@ -78,12 +58,35 @@
     <addaction name="actionModifyLesson" />
     <addaction name="actionResetBox" />
    </widget>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionNew" />
+    <addaction name="actionOpen" />
+    <addaction name="actionSave" />
+    <addaction name="actionSaveAs" />
+    <addaction name="separator" />
+    <addaction name="actionProperties" />
+    <addaction name="actionQuiz" />
+    <addaction name="separator" />
+    <addaction name="actionPrintPreview" />
+    <addaction name="actionPrint" />
+    <addaction name="separator" />
+    <addaction name="actionImport" />
+    <addaction name="actionExport" />
+    <addaction name="separator" />
+    <addaction name="actionQuit" />
+   </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
-  <widget class="QToolBar" name="toolBar" >
+  <widget class="QToolBar" name="toolBarStandard" >
+   <property name="windowTitle" >
+    <string>standard</string>
+   </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
    </property>
@@ -93,12 +96,33 @@
    <addaction name="actionNew" />
    <addaction name="actionOpen" />
    <addaction name="actionSave" />
-   <addaction name="separator" />
-   <addaction name="actionAddVocable" />
-   <addaction name="actionEditVocable" />
-   <addaction name="actionDeleteVocable" />
-   <addaction name="separator" />
+  </widget>
+  <widget class="QToolBar" name="toolbarQuiz" >
+   <property name="windowTitle" >
+    <string>quiz</string>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
    <addaction name="actionQuiz" />
+   <addaction name="actionStopQuiz" />
+  </widget>
+  <widget class="QToolBar" name="toolBardit" >
+   <property name="windowTitle" >
+    <string>edit</string>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <attribute name="toolBarArea" >
+    <number>4</number>
+   </attribute>
+   <addaction name="actionEditVocable" />
+   <addaction name="actionAddVocable" />
+   <addaction name="actionDeleteVocable" />
   </widget>
   <action name="actionNew" >
    <property name="text" >
@@ -252,6 +276,11 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionStopQuiz" >
+   <property name="text" >
+    <string>Stop Quiz</string>
    </property>
   </action>
  </widget>
