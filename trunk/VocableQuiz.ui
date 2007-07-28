@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>Quiz</string>
   </property>
+  <property name="windowIcon" >
+   <iconset resource="icons.qrc" >:/icons/icons/help.png</iconset>
+  </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
     <number>9</number>
@@ -275,6 +278,8 @@
   <tabstop>editButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc" />
+ </resources>
  <connections/>
 </ui>

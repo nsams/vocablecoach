@@ -1,14 +1,17 @@
 #ifndef VOCABLE_H
 #define VOCABLE_H
 
+#include <QObject>
 #include <QString>
 #include <QDateTime>
 class VocableListModel;
 
-class Vocable
+class Vocable : public QObject
 {
+    Q_OBJECT
 public:
 	Vocable(VocableListModel* model, const QString& native = QString(), const QString& foreign = QString(), int box = 0);
+    virtual ~Vocable() {}
     QString native() const { return m_native; }
     QString foreign() const { return m_foreign; }
     int box() const { return m_box; }
@@ -38,5 +41,8 @@ private:
 	QDateTime m_lastQuery;
     int m_queryCount;
     int m_badCount;
+
+signals:
+    void vocableChanged();
 };
 #endif

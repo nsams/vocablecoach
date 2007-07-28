@@ -118,6 +118,8 @@ void VocableListModel::insertVocable(int position, Vocable* vocable)
 	beginInsertRows(QModelIndex(), position, position);
 
 	m_vocableList.insert(position, vocable);
+    connect(vocable, SIGNAL(vocableChanged()), this, SIGNAL(vocableChanged()));
+    emit vocableChanged();
 	
 	endInsertRows();
 }
@@ -135,8 +137,10 @@ bool VocableListModel::removeRows(int position, int rows, const QModelIndex &par
 	for (int row = 0; row < rows; ++row) {
 //		Vocable* voc = m_vocableList.at(position);
 		m_vocableList.removeAt(position);
-// 		delete voc;
+// 		delete voc; //nicht direkt löschen, weil es für undo-funktionalität noch im speicher bleiben muss
 	}
+    
+    emit vocableChanged();
 
 	endRemoveRows();
 
@@ -224,7 +228,7 @@ void VocableListModel::clearVocables()
 {
 	qDeleteAll(m_vocableList);
 	m_vocableList.clear();
-
+    emit vocableChanged();
 	reset();
 }
 void VocableListModel::insertLesson(int number, const QString& lesson)
@@ -264,4 +268,46 @@ Vocable* VocableListModel::createVocable()
 
 VocableListModel::~VocableListModel() {
     qDeleteAll(m_createdVocablesList);
+}
+
+QStringList VocableListModel::boxes()
+{
+    int highestBox = 0;
+    foreach(Vocable* voc, m_vocableList) {
+        highestBox = qMax(highestBox, voc->box());
+    }
+    QStringList ret;
+    ret << tr("Unlearned");
+    if (highestBox >= 1) {
+        ret << tr("Ultra-Shortterm-Memory");
+    }
+    if (highestBox >= 2) {
+        ret << tr("Shortterm-Memory");
+    }
+    for (int i=3; i <= highestBox; i++) {
+        ret << tr("Box %1").arg(i-2);
+    }
+    return ret;
+}
+
+int VocableListModel::inBoxCount(int box)
+{
+    int ret = 0;
+    foreach(Vocable* voc, m_vocableList) {
+        if (voc->box()==box) {
+            ret++;
+        }
+    }
+    return ret;
+}
+
+int VocableListModel::unlearnedCount()
+{
+    int ret = 0;
+    foreach(Vocable* voc, m_vocableList) {
+        if (voc->box()==0) {
+            ret++;
+        }
+    }
+    return ret;
 }

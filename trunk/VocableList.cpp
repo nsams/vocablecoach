@@ -19,6 +19,7 @@ VocableList::VocableList(QWidget* parent)
             this, SIGNAL(selectionChanged(QItemSelection, QItemSelection)));
 
     boxSelectionCombo->addItem(tr("All"));
+    
     boxSelectionCombo->addItem(tr("Unlearned"));
     boxSelectionCombo->addItem(tr("Ultra-Shortterm-Memory"));
     boxSelectionCombo->addItem(tr("Shortterm-Memory"));

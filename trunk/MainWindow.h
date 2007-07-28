@@ -22,6 +22,7 @@ class Vocable;
 class VocableList;
 class VocableQuiz;
 class QStackedWidget;
+class StatisticsWidget;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -38,6 +39,7 @@ private:
 
     QUndoStack* m_undoStack;
     QStackedWidget* m_centralStackWidget;
+    StatisticsWidget* m_statisticsWidget;
 
     void setCurrentFile(const QString &fileName);
     bool saveFile(const QString &fileName);

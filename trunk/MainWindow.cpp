@@ -28,6 +28,7 @@
 #include "command/CommandAdd.h"
 #include "command/CommandModifyLesson.h"
 #include "command/CommandResetBox.h"
+#include "StatisticsWidget.h"
 #include <QFile>
 #include <QByteArray>
 #include <QFileDialog>
@@ -45,6 +46,7 @@
 #include <QUndoStack>
 #include <QInputDialog>
 #include <QStackedWidget>
+#include <QDockWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_vocableListModel(0), m_vocableQuiz(0)
@@ -117,6 +119,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(actionModifyLesson, SIGNAL(triggered()), this, SLOT(modifyLesson()));
     connect(actionResetBox, SIGNAL(triggered()), this, SLOT(resetBox()));
 
+
+    QDockWidget *dock = new QDockWidget(tr("Statistics"), this);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    
+    m_statisticsWidget = new StatisticsWidget(dock);
+    dock->setWidget(m_statisticsWidget);
+    addDockWidget(Qt::RightDockWidgetArea, dock);
+    menuView->addAction(dock->toggleViewAction());
+    
+    menuViewToolbars->addAction(toolbarStandard->toggleViewAction());
+    menuViewToolbars->addAction(toolbarQuiz->toggleViewAction());
+    menuViewToolbars->addAction(toolbarEdit->toggleViewAction());
+    
     readSettings();
 }
 
@@ -139,6 +154,7 @@ void MainWindow::newFile()
         m_vocableListModel->setNativeLanguage(tr("native"));
         m_vocableListModel->setForeignLanguage(tr("foreign"));
         m_vocableList->setModel(m_vocableListModel);
+        m_statisticsWidget->setModel(m_vocableListModel);
         selectionChanged();
         delete oldModel;
         setCurrentFile("");
@@ -200,6 +216,7 @@ void MainWindow::loadFile(const QString &fileName)
             m_vocableListModel = new VocableListModel(this);
             reader->read(m_vocableListModel, 0);
             m_vocableList->setModel(m_vocableListModel);
+            m_statisticsWidget->setModel(m_vocableListModel);
             selectionChanged();
             delete oldModel;
             setCurrentFile(fileName);

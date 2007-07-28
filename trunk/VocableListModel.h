@@ -50,6 +50,9 @@ class VocableListModel : public QAbstractItemModel
         Vocable* randomVocable(QuizType type, QStringList lessons=QStringList());
         QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
 		void clearVocables();
+        
+        int unlearnedCount();
+        int inBoxCount(int box);
 
         QMap<int, QString> lessons() const;
         int getLessonNumber(const QString& lesson);
@@ -71,7 +74,9 @@ class VocableListModel : public QAbstractItemModel
         void setNativeColumnWidth(int width) { m_nativeColumnWidth = width; }
         void setForeignColumnWidth(int width) { m_foreignColumnWidth = width; }
         void setLessonColumnWidth(int width) { m_lessonColumnWidth = width; }
-        
+
+        QStringList boxes();
+
         Vocable* createVocable();
 
 	private:
@@ -88,6 +93,9 @@ class VocableListModel : public QAbstractItemModel
         int m_nativeColumnWidth;
         int m_foreignColumnWidth;
         int m_lessonColumnWidth;
+
+    signals:
+        void vocableChanged();
 };
 
 #endif

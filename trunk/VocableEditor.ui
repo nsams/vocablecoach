@@ -12,6 +12,9 @@
   <property name="windowTitle" >
    <string>VocableEditor</string>
   </property>
+  <property name="windowIcon" >
+   <iconset resource="icons.qrc" >:/icons/icons/table_edit.png</iconset>
+  </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
     <number>9</number>
@@ -236,7 +239,9 @@
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="icons.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>okButton</sender>

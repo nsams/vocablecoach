@@ -10,7 +10,8 @@ FORMS += MainWindow.ui \
          StartQuiz.ui \
          DocumentProperties.ui \
          PreviewDialog.ui \
-         VocableList.ui
+         VocableList.ui \
+         StatisticsWidget.ui
 
 HEADERS += MainWindow.h \
            Vocable.h \
@@ -42,7 +43,8 @@ HEADERS += MainWindow.h \
            command/CommandEditProperties.h \
            command/CommandQuizAnswer.h \
            command/CommandModifyLesson.h \
-           command/CommandResetBox.h
+           command/CommandResetBox.h \
+ StatisticsWidget.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -74,7 +76,8 @@ SOURCES += main.cpp \
            command/CommandEditProperties.cpp \
            command/CommandQuizAnswer.cpp \
            command/CommandModifyLesson.cpp \
-           command/CommandResetBox.cpp
+           command/CommandResetBox.cpp \
+ StatisticsWidget.cpp
 
 CONFIG += debug \
 qt \
@@ -109,3 +112,6 @@ win32 {
         ./3rdparty/zlib/uncompr.c \
         ./3rdparty/zlib/zutil.c
 }
+
+RESOURCES += icons.qrc
+
