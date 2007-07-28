@@ -13,6 +13,9 @@
   <property name="windowTitle" >
    <string>VocableCoach</string>
   </property>
+  <property name="windowIcon" >
+   <iconset resource="icons.qrc" >:/icons/icons/vocablecoach32.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QVBoxLayout" >
     <property name="margin" >
@@ -32,11 +35,25 @@
      <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_Help" >
+   <widget class="QMenu" name="menuFile" >
     <property name="title" >
-     <string>&amp;Help</string>
+     <string>&amp;File</string>
     </property>
-    <addaction name="actionAbout" />
+    <addaction name="actionNew" />
+    <addaction name="actionOpen" />
+    <addaction name="actionSave" />
+    <addaction name="actionSaveAs" />
+    <addaction name="separator" />
+    <addaction name="actionProperties" />
+    <addaction name="actionQuiz" />
+    <addaction name="separator" />
+    <addaction name="actionPrintPreview" />
+    <addaction name="actionPrint" />
+    <addaction name="separator" />
+    <addaction name="actionImport" />
+    <addaction name="actionExport" />
+    <addaction name="separator" />
+    <addaction name="actionQuit" />
    </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
@@ -58,37 +75,38 @@
     <addaction name="actionModifyLesson" />
     <addaction name="actionResetBox" />
    </widget>
-   <widget class="QMenu" name="menuFile" >
+   <widget class="QMenu" name="menu_Help" >
     <property name="title" >
-     <string>&amp;File</string>
+     <string>&amp;Help</string>
     </property>
-    <addaction name="actionNew" />
-    <addaction name="actionOpen" />
-    <addaction name="actionSave" />
-    <addaction name="actionSaveAs" />
-    <addaction name="separator" />
-    <addaction name="actionProperties" />
-    <addaction name="actionQuiz" />
-    <addaction name="separator" />
-    <addaction name="actionPrintPreview" />
-    <addaction name="actionPrint" />
-    <addaction name="separator" />
-    <addaction name="actionImport" />
-    <addaction name="actionExport" />
-    <addaction name="separator" />
-    <addaction name="actionQuit" />
+    <addaction name="actionAbout" />
+   </widget>
+   <widget class="QMenu" name="menuView" >
+    <property name="title" >
+     <string>&amp;View</string>
+    </property>
+    <widget class="QMenu" name="menuViewToolbars" >
+     <property name="title" >
+      <string>&amp;Toolbars</string>
+     </property>
+    </widget>
+    <addaction name="menuViewToolbars" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />
+   <addaction name="menuView" />
    <addaction name="menu_Help" />
   </widget>
   <widget class="QStatusBar" name="statusbar" />
-  <widget class="QToolBar" name="toolBarStandard" >
+  <widget class="QToolBar" name="toolbarStandard" >
    <property name="windowTitle" >
     <string>standard</string>
    </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="toolButtonStyle" >
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
    <attribute name="toolBarArea" >
     <number>4</number>
@@ -104,27 +122,36 @@
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
    </property>
+   <property name="toolButtonStyle" >
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
    <attribute name="toolBarArea" >
     <number>4</number>
    </attribute>
    <addaction name="actionQuiz" />
    <addaction name="actionStopQuiz" />
   </widget>
-  <widget class="QToolBar" name="toolBardit" >
+  <widget class="QToolBar" name="toolbarEdit" >
    <property name="windowTitle" >
     <string>edit</string>
    </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
    </property>
+   <property name="toolButtonStyle" >
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
    <attribute name="toolBarArea" >
     <number>4</number>
    </attribute>
-   <addaction name="actionEditVocable" />
+   <addaction name="actionUndo" />
+   <addaction name="actionRedo" />
    <addaction name="actionAddVocable" />
-   <addaction name="actionDeleteVocable" />
   </widget>
   <action name="actionNew" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/table.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;New</string>
    </property>
@@ -133,6 +160,9 @@
    </property>
   </action>
   <action name="actionOpen" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/folder_table.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Open...</string>
    </property>
@@ -141,6 +171,9 @@
    </property>
   </action>
   <action name="actionSave" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/table_save.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Save</string>
    </property>
@@ -167,6 +200,9 @@
    </property>
   </action>
   <action name="actionPrint" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/printer.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Print...</string>
    </property>
@@ -180,6 +216,9 @@
    </property>
   </action>
   <action name="actionAddVocable" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/table_add.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Add Vocable</string>
    </property>
@@ -188,11 +227,17 @@
    </property>
   </action>
   <action name="actionEditVocable" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/table_edit.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Edit Vocable</string>
    </property>
   </action>
   <action name="actionDeleteVocable" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/table_delete.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Delete Vocable</string>
    </property>
@@ -201,6 +246,9 @@
    </property>
   </action>
   <action name="actionQuiz" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/help.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Quiz</string>
    </property>
@@ -211,6 +259,9 @@
    </property>
   </action>
   <action name="actionProperties" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/application_form.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Properties</string>
    </property>
@@ -221,6 +272,9 @@
    </property>
   </action>
   <action name="actionCut" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/cut.png</iconset>
+   </property>
    <property name="text" >
     <string>Cu&amp;t</string>
    </property>
@@ -229,6 +283,9 @@
    </property>
   </action>
   <action name="actionCopy" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/page_copy.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Copy</string>
    </property>
@@ -237,6 +294,9 @@
    </property>
   </action>
   <action name="actionPaste" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/page_paste.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Paste</string>
    </property>
@@ -245,6 +305,9 @@
    </property>
   </action>
   <action name="actionUndo" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/arrow_undo.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Undo</string>
    </property>
@@ -253,6 +316,9 @@
    </property>
   </action>
   <action name="actionRedo" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/arrow_redo.png</iconset>
+   </property>
    <property name="text" >
     <string>&amp;Redo</string>
    </property>
@@ -279,11 +345,19 @@
    </property>
   </action>
   <action name="actionStopQuiz" >
+   <property name="icon" >
+    <iconset resource="icons.qrc" >:/icons/icons/help_stop.png</iconset>
+   </property>
    <property name="text" >
     <string>Stop Quiz</string>
    </property>
+   <property name="visible" >
+    <bool>false</bool>
+   </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc" />
+ </resources>
  <connections/>
 </ui>

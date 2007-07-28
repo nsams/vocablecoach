@@ -1,0 +1,34 @@
+<RCC>
+    <qresource prefix="/icons" >
+        <file>icons/application_form.png</file>
+        <file>icons/arrow_redo.png</file>
+        <file>icons/arrow_undo.png</file>
+        <file>icons/cut.png</file>
+        <file>icons/folder_table.png</file>
+        <file>icons/help.png</file>
+        <file>icons/help_stop.png</file>
+        <file>icons/page_copy.png</file>
+        <file>icons/page_paste.png</file>
+        <file>icons/page_white.png</file>
+        <file>icons/printer.png</file>
+        <file>icons/table.png</file>
+        <file>icons/table_add.png</file>
+        <file>icons/table_delete.png</file>
+        <file>icons/table_edit.png</file>
+        <file>icons/table_error.png</file>
+        <file>icons/table_gear.png</file>
+        <file>icons/table_go.png</file>
+        <file>icons/table_key.png</file>
+        <file>icons/table_lightning.png</file>
+        <file>icons/table_link.png</file>
+        <file>icons/table_multiple.png</file>
+        <file>icons/table_refresh.png</file>
+        <file>icons/table_relationship.png</file>
+        <file>icons/table_row_delete.png</file>
+        <file>icons/table_row_insert.png</file>
+        <file>icons/table_save.png</file>
+        <file>icons/table_sort.png</file>
+        <file>icons/tick.png</file>
+        <file>icons/vocablecoach32.png</file>
+    </qresource>
+</RCC>
