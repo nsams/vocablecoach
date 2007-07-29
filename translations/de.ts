@@ -15,7 +15,7 @@
     <message>
         <location filename="../DocumentProperties.ui" line="84"/>
         <source>&amp;Foreign Language:</source>
-        <translation type="unfinished">&amp;Fremdsprache:</translation>
+        <translation>&amp;Fremdsprache:</translation>
     </message>
     <message>
         <location filename="../DocumentProperties.ui" line="25"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../DocumentProperties.ui" line="94"/>
         <source>&amp;Native Language:</source>
-        <translation type="unfinished">&amp;Muttersprache:</translation>
+        <translation>&amp;Muttersprache:</translation>
     </message>
     <message>
         <location filename="../DocumentProperties.ui" line="43"/>
@@ -41,7 +41,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../MainWindow.cpp" line="341"/>
+        <location filename="../MainWindow.cpp" line="515"/>
         <source>%1[*] - %2</source>
         <translation>%1[*] - %2</translation>
     </message>
@@ -53,165 +53,165 @@
     <message>
         <location filename="../MainWindow.ui" line="184"/>
         <source>Add Vocable</source>
-        <translation>Vokabel Hinzufügen</translation>
+        <translation type="obsolete">Vokabel Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="221"/>
+        <location filename="../MainWindow.cpp" line="317"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="266"/>
         <source>Can&apos;t open file</source>
-        <translation>Datei kann nicht geöffnet werden</translation>
+        <translation type="obsolete">Datei kann nicht geöffnet werden</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="260"/>
         <source>CSV-Files (*.csv)</source>
-        <translation>CSV-Dateien (*.csv)</translation>
+        <translation type="obsolete">CSV-Dateien (*.csv)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="132"/>
+        <location filename="../MainWindow.ui" line="159"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="140"/>
+        <location filename="../MainWindow.ui" line="170"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="174"/>
+        <location filename="../MainWindow.ui" line="210"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="161"/>
+        <location filename="../MainWindow.ui" line="194"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="148"/>
+        <location filename="../MainWindow.ui" line="181"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="194"/>
         <source>Delete Vocable</source>
-        <translation>Vokabel Löschen</translation>
+        <translation type="obsolete">Vokabel Löschen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="73"/>
+        <location filename="../MainWindow.ui" line="40"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="189"/>
         <source>Edit Vocable</source>
-        <translation>Vokabel Bearbeiten</translation>
+        <translation type="obsolete">Vokabel Bearbeiten</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="266"/>
         <source>export</source>
-        <translation>exportieren</translation>
+        <translation type="obsolete">exportieren</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="179"/>
+        <location filename="../MainWindow.ui" line="215"/>
         <source>&amp;Export...</source>
         <translation>&amp;Exportieren...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="81"/>
+        <location filename="../MainWindow.ui" line="77"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="101"/>
+        <location filename="../MainWindow.ui" line="60"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="182"/>
         <source>import</source>
-        <translation>importieren</translation>
+        <translation type="obsolete">importieren</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="166"/>
+        <location filename="../MainWindow.ui" line="199"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished">&amp;Importieren...</translation>
+        <translation>&amp;Importieren...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="129"/>
+        <location filename="../MainWindow.ui" line="156"/>
         <source>&amp;New</source>
         <translation>&amp;Neu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="123"/>
+        <location filename="../MainWindow.cpp" line="172"/>
         <source>open</source>
         <translation>öffnen</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="137"/>
+        <location filename="../MainWindow.ui" line="167"/>
         <source>&amp;Open...</source>
         <translation>Ö&amp;ffnen...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="171"/>
+        <location filename="../MainWindow.ui" line="207"/>
         <source>&amp;Print...</source>
         <translation>&amp;Drucken...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="224"/>
+        <location filename="../MainWindow.cpp" line="320"/>
         <source>Printing</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="221"/>
+        <location filename="../MainWindow.cpp" line="317"/>
         <source>Printing vocables...</source>
         <translation>Vokabeln drucken...</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="214"/>
+        <location filename="../MainWindow.ui" line="271"/>
         <source>Print Preview...</source>
         <translation>Druckvorschau...</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="209"/>
         <source>&amp;Properties</source>
-        <translation>&amp;Eigenschaften</translation>
+        <translation type="obsolete">&amp;Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="158"/>
+        <location filename="../MainWindow.ui" line="191"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="199"/>
+        <location filename="../MainWindow.ui" line="253"/>
         <source>&amp;Quiz</source>
         <translation>&amp;Quiz</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="143"/>
         <source>save</source>
-        <translation>speichern</translation>
+        <translation type="obsolete">speichern</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="145"/>
+        <location filename="../MainWindow.ui" line="178"/>
         <source>&amp;Save</source>
         <translation>&amp;Speichern</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="153"/>
+        <location filename="../MainWindow.ui" line="186"/>
         <source>Save &amp;As...</source>
         <translation>Speichern &amp;Unter...</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="35"/>
         <source>&amp;Search:</source>
-        <translation>&amp;Suchen:</translation>
+        <translation type="obsolete">&amp;Suchen:</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="357"/>
+        <location filename="../MainWindow.cpp" line="527"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
         <translation>Das Dokument wurde geändert.
@@ -225,62 +225,272 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../MainWindow.cpp" line="145"/>
         <source>Vocable-Files (*.kvtml)</source>
-        <translation>Vokabel-Dateien (*.kvtml)</translation>
+        <translation type="obsolete">Vokabel-Dateien (*.kvtml)</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="270"/>
         <source>Box</source>
-        <translation>Box</translation>
+        <translation type="obsolete">Box</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="204"/>
+        <location filename="../MainWindow.ui" line="258"/>
         <source>&amp;About VocableCoach</source>
         <translation>Ü&amp;ber VocableCoach</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="69"/>
         <source>All</source>
-        <translation>Alle</translation>
+        <translation type="obsolete">Alle</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="70"/>
         <source>Unlearned</source>
-        <translation>Ungelernte</translation>
+        <translation type="obsolete">Ungelernte</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="71"/>
         <source>Ultra-Shortterm-Memory</source>
-        <translation>Ultra-Kurzzeit-Gedächtnis</translation>
+        <translation type="obsolete">Ultra-Kurzzeit-Gedächtnis</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="72"/>
         <source>Shortterm-Memory</source>
-        <translation>Kurzzeit-Gedächtnis</translation>
+        <translation type="obsolete">Kurzzeit-Gedächtnis</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="73"/>
         <source>Box 1</source>
-        <translation>Box 1</translation>
+        <translation type="obsolete">Box 1</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="74"/>
         <source>Box 2</source>
-        <translation>Box 2</translation>
+        <translation type="obsolete">Box 2</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="75"/>
         <source>Box 3</source>
-        <translation>Box 3</translation>
+        <translation type="obsolete">Box 3</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="109"/>
+        <location filename="../MainWindow.cpp" line="154"/>
         <source>native</source>
         <translation type="unfinished">muttersprache</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="110"/>
+        <location filename="../MainWindow.cpp" line="155"/>
         <source>foreign</source>
         <translation type="unfinished">fremdsprache</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="123"/>
+        <source>Statistics</source>
+        <translation type="unfinished">Statistiken</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="264"/>
+        <source>All supported files (*.kvtml *.xml *.xml.gz *.csv *.txt);;KDE Vocabledocument (*.kvtml);;Pauker-Lektion (*.xml *.xml.gz);;CSV-Textdocument (*.csv *.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="192"/>
+        <source>Save Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="356"/>
+        <source>KDE Vocabledocument (*.kvtml);;CSV-Textdocument (*.csv *.txt)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="283"/>
+        <source>Can&apos;t open file: unknown Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="262"/>
+        <source>Import</source>
+        <translation type="unfinished">importieren</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="354"/>
+        <source>Export Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="381"/>
+        <source>Cut Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="383"/>
+        <source>Cut Vocable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="417"/>
+        <source>Paste Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="419"/>
+        <source>Paste Vocable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="569"/>
+        <source>Undo </source>
+        <translation type="unfinished">Rückgängig</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="570"/>
+        <source>Redo </source>
+        <translation>Wiederherstellen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="66"/>
+        <source>&amp;View</source>
+        <translation>&amp;Ansicht</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="70"/>
+        <source>&amp;Toolbars</source>
+        <translation>&amp;Symbolleisten</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="103"/>
+        <source>standard</source>
+        <translation type="obsolete">Standard</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="120"/>
+        <source>quiz</source>
+        <translation type="obsolete">Quiz</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="136"/>
+        <source>edit</source>
+        <translation type="obsolete">Bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="223"/>
+        <source>&amp;Add Vocable</source>
+        <translation>Vokabel &amp;hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="226"/>
+        <source>Ins</source>
+        <translation>Ins</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="234"/>
+        <source>&amp;Edit Vocable</source>
+        <translation>Vokabell &amp;bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="242"/>
+        <source>&amp;Delete Vocable</source>
+        <translation type="unfinished">Vokabel &amp;löschen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="245"/>
+        <source>Del</source>
+        <translation type="unfinished">Del</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="266"/>
+        <source>&amp;Properties...</source>
+        <translation type="unfinished">&amp;Eigenschaften...</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="279"/>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished">&amp;Ausschneiden</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="282"/>
+        <source>Ctrl+X</source>
+        <translation type="unfinished">Ctrl+X</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="290"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished">&amp;Kopieren</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="293"/>
+        <source>Ctrl+C</source>
+        <translation type="unfinished">Ctrl+C</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="301"/>
+        <source>&amp;Paste</source>
+        <translation type="unfinished">&amp;Einfügen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="304"/>
+        <source>Ctrl+V</source>
+        <translation type="unfinished">Ctrl+V</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="312"/>
+        <source>&amp;Undo</source>
+        <translation type="unfinished">&amp;Rückgängig</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="315"/>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished">Ctrl+Z</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="323"/>
+        <source>&amp;Redo</source>
+        <translation type="unfinished">Wie&amp;derherstellen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="326"/>
+        <source>Ctrl+Y</source>
+        <translation type="unfinished">Ctrl+Y</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="331"/>
+        <source>&amp;Modify Lesson</source>
+        <translation type="unfinished">&amp;lesson ändern</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="336"/>
+        <source>Reset &amp;Box</source>
+        <translation type="unfinished">&amp;box zurücksetzn</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="341"/>
+        <source>Select &amp;All</source>
+        <translation type="unfinished">&amp;alles auswählen</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="344"/>
+        <source>Ctrl+A</source>
+        <translation type="unfinished">Ctrl+A</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="352"/>
+        <source>Stop Quiz</source>
+        <translation type="unfinished">Stop Quiz</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="103"/>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="120"/>
+        <source>Quiz</source>
+        <translation type="unfinished">Quiz</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="136"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -489,71 +699,121 @@ Möchten Sie es speichern?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../VocableListReader.cpp" line="29"/>
+        <location filename="../reader/ModelReaderPauker.cpp" line="34"/>
         <source>Can&apos;t open file</source>
         <translation type="unfinished">Datei kann nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../ImportPauker.cpp" line="75"/>
+        <location filename="../reader/ModelReaderPaukerHandler.cpp" line="78"/>
         <source>import</source>
         <translation type="unfinished">importieren</translation>
     </message>
     <message>
-        <location filename="../VocableListReader.cpp" line="45"/>
+        <location filename="../reader/ModelReaderPauker.cpp" line="67"/>
         <source>Invalid XML-File</source>
         <translation type="unfinished">ungültige XML-Datei</translation>
     </message>
     <message>
-        <location filename="../VocableListReaderHandler.cpp" line="84"/>
+        <location filename="../reader/ModelReaderPaukerHandler.cpp" line="81"/>
         <source>Parse error at line %1, column %2:
 %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableListReaderHandler.cpp" line="30"/>
+        <location filename="../reader/ModelReaderKvtmlHandler.cpp" line="31"/>
         <source>The file is not an KVTML file. (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ImportPauker.cpp" line="24"/>
+        <location filename="../reader/ModelReaderPaukerHandler.cpp" line="23"/>
         <source>The file is not an Pauker file. (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ImportPauker.cpp" line="31"/>
+        <location filename="../reader/ModelReaderPaukerHandler.cpp" line="30"/>
         <source>The file is not an Pauker version 1.6 file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableListReaderHandler.cpp" line="81"/>
+        <location filename="../reader/ModelReaderKvtmlHandler.cpp" line="135"/>
         <source>VocableCoach</source>
         <translation type="unfinished">VocableCoach</translation>
+    </message>
+    <message>
+        <location filename="../command/CommandAdd.cpp" line="23"/>
+        <source>Add Vocable</source>
+        <translation type="unfinished">Vokabel Hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="../command/CommandDelete.cpp" line="26"/>
+        <source>Delete Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../command/CommandDelete.cpp" line="28"/>
+        <source>Delete Vocable</source>
+        <translation type="unfinished">Vokabel Löschen</translation>
+    </message>
+    <message>
+        <location filename="../command/CommandEdit.cpp" line="21"/>
+        <source>Edit Vocable</source>
+        <translation type="unfinished">Vokabel Bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../command/CommandEditProperties.cpp" line="23"/>
+        <source>Modify Document Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../command/CommandModifyLesson.cpp" line="22"/>
+        <source>Modify Lesson</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../command/CommandQuizAnswer.cpp" line="30"/>
+        <source>Vocable Quiz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../command/CommandResetBox.cpp" line="20"/>
+        <source>Reset Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../reader/ModelReaderPauker.cpp" line="51"/>
+        <source>Import Vocables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../writer/ModelWriterCsv.cpp" line="32"/>
+        <source>Box</source>
+        <translation type="unfinished">Box</translation>
     </message>
 </context>
 <context>
     <name>StartQuiz</name>
     <message>
-        <location filename="../StartQuiz.ui" line="45"/>
+        <location filename="../StartQuiz.ui" line="48"/>
         <source>&amp;all Vocables</source>
         <translation>&amp;alle Vokablen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="85"/>
+        <location filename="../StartQuiz.ui" line="88"/>
         <source>Lessons</source>
         <translation>Lektionen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="62"/>
+        <location filename="../StartQuiz.ui" line="65"/>
         <source>only &amp;expired Vocables</source>
         <translation>nur a&amp;bgelaufene Vokabeln</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="55"/>
+        <location filename="../StartQuiz.ui" line="58"/>
         <source>only &amp;new Vocables</source>
         <translation>nur &amp;neue Vokablen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="33"/>
+        <location filename="../StartQuiz.ui" line="36"/>
         <source>Query</source>
         <translation type="unfinished">Abfrage</translation>
     </message>
@@ -564,69 +824,145 @@ Möchten Sie es speichern?</translation>
     </message>
 </context>
 <context>
+    <name>StatisticsWidget</name>
+    <message>
+        <location filename="../StatisticsWidget.ui" line="37"/>
+        <source>Vocables:</source>
+        <translation>Vokabeln:</translation>
+    </message>
+    <message>
+        <location filename="../StatisticsWidget.ui" line="13"/>
+        <source>Staistics</source>
+        <translation type="unfinished">Statistiken</translation>
+    </message>
+</context>
+<context>
     <name>VocableEdit</name>
     <message>
-        <location filename="../VocableEditor.ui" line="65"/>
+        <location filename="../VocableEditor.ui" line="71"/>
         <source>Box:</source>
         <translation>Box:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="190"/>
+        <location filename="../VocableEditor.ui" line="218"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="75"/>
+        <location filename="../VocableEditor.ui" line="117"/>
         <source>&amp;Foreign:</source>
         <translation type="unfinished">&amp;Fremdsprache:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="38"/>
+        <location filename="../VocableEditor.ui" line="88"/>
         <source>Last Query:</source>
         <translation>Letzte Abfrage:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="118"/>
+        <location filename="../VocableEditor.ui" line="48"/>
         <source>Lesson:</source>
         <translation>Lektion:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="88"/>
+        <location filename="../VocableEditor.ui" line="130"/>
         <source>&amp;Native:</source>
         <translation type="unfinished">&amp;Muttersprache:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="180"/>
+        <location filename="../VocableEditor.ui" line="208"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
         <location filename="../VocableEditor.ui" line="13"/>
         <source>VocableEditor</source>
-        <translation type="unfinished">VokabelEditor</translation>
+        <translation>VokabelEditor</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="136"/>
+        <location filename="../VocableEditor.ui" line="157"/>
         <source>look up vocable at leo.de</source>
+        <translation>Vokabel auf leo.de nachschlagen</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.ui" line="41"/>
+        <source>Query Count:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.ui" line="143"/>
+        <source>Bad Count:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VocableEditor</name>
     <message>
-        <location filename="../VocableEditor.cpp" line="165"/>
+        <location filename="../VocableEditor.cpp" line="178"/>
         <source>lookup vocable at leo.de</source>
         <translation>Vokabel auf leo.de nachschlagen</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="156"/>
+        <location filename="../VocableEditor.cpp" line="169"/>
         <source>lookup vocable at leo.de...</source>
         <translation>Vokabel auf leo.de nachschlagen...</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="179"/>
+        <location filename="../VocableEditor.cpp" line="192"/>
         <source>no results...</source>
         <translation>keine ergebnisse...</translation>
+    </message>
+</context>
+<context>
+    <name>VocableList</name>
+    <message>
+        <location filename="../VocableList.cpp" line="21"/>
+        <source>All</source>
+        <translation type="unfinished">Alle</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="23"/>
+        <source>Unlearned</source>
+        <translation type="obsolete">Ungelernte</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="24"/>
+        <source>Ultra-Shortterm-Memory</source>
+        <translation type="obsolete">Ultra-Kurzzeit-Gedächtnis</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="25"/>
+        <source>Shortterm-Memory</source>
+        <translation type="obsolete">Kurzzeit-Gedächtnis</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="26"/>
+        <source>Box 1</source>
+        <translation type="obsolete">Box 1</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="27"/>
+        <source>Box 2</source>
+        <translation type="obsolete">Box 2</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.cpp" line="28"/>
+        <source>Box 3</source>
+        <translation type="obsolete">Box 3</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.ui" line="13"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../VocableList.ui" line="33"/>
+        <source>&amp;Search:</source>
+        <translation>&amp;Suchen:</translation>
+    </message>
+    <message>
+        <location filename="../VocableList.ui" line="46"/>
+        <source>Box-Filter</source>
+        <translation type="unfinished">Box-Filter</translation>
     </message>
 </context>
 <context>
@@ -634,58 +970,88 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../VocableListModel.cpp" line="224"/>
         <source>Can&apos;t open file</source>
-        <translation type="unfinished">Datei kann nicht geöffnet werden</translation>
+        <translation type="obsolete">Datei kann nicht geöffnet werden</translation>
     </message>
     <message>
         <location filename="../VocableListModel.cpp" line="249"/>
         <source>import</source>
-        <translation type="unfinished">importieren</translation>
+        <translation type="obsolete">importieren</translation>
     </message>
     <message>
         <location filename="../VocableListModel.cpp" line="249"/>
         <source>Invalid XML-File</source>
-        <translation>ungültige XML-Datei</translation>
+        <translation type="obsolete">ungültige XML-Datei</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="66"/>
+        <location filename="../VocableListModel.cpp" line="67"/>
         <source>last query</source>
         <translation>letzte abfrage</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="64"/>
+        <location filename="../VocableListModel.cpp" line="65"/>
         <source>lesson</source>
         <translation>Lektion</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="62"/>
+        <location filename="../VocableListModel.cpp" line="63"/>
         <source>box</source>
-        <translation type="unfinished"></translation>
+        <translation>box</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="69"/>
+        <source>query count</source>
+        <translation>anzahl abfragen</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="71"/>
+        <source>bad count</source>
+        <translation>anzahl fehler</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="280"/>
+        <source>Unlearned</source>
+        <translation type="unfinished">Ungelernte</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="282"/>
+        <source>Ultra-Shortterm-Memory</source>
+        <translation type="unfinished">Ultra-Kurzzeit-Gedächtnis</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="285"/>
+        <source>Shortterm-Memory</source>
+        <translation type="unfinished">Kurzzeit-Gedächtnis</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="288"/>
+        <source>Box %1</source>
+        <translation type="unfinished">Box %1</translation>
     </message>
 </context>
 <context>
     <name>VocableQuiz</name>
     <message>
-        <location filename="../VocableQuiz.ui" line="251"/>
+        <location filename="../VocableQuiz.ui" line="265"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="51"/>
+        <location filename="../VocableQuiz.ui" line="72"/>
         <source>&amp;check</source>
         <translation>ü&amp;berprüfen</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="124"/>
+        <location filename="../VocableQuiz.cpp" line="160"/>
         <source>correct :)</source>
         <translation>richtig :D</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="150"/>
+        <location filename="../VocableQuiz.ui" line="117"/>
         <source>&amp;edit</source>
         <translation>&amp;bearbeiten</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="127"/>
+        <location filename="../VocableQuiz.ui" line="165"/>
         <source>&amp;next</source>
         <translation>&amp;weiter</translation>
     </message>
@@ -695,24 +1061,59 @@ Möchten Sie es speichern?</translation>
         <translation>Quiz</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="120"/>
+        <location filename="../VocableQuiz.ui" line="172"/>
         <source>resultLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="216"/>
+        <location filename="../VocableQuiz.ui" line="230"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="103"/>
+        <location filename="../VocableQuiz.cpp" line="110"/>
         <source>Try to memorize the displayed vocable.</source>
         <translation type="unfinished">Versuchen Sie, sich das agezeigte Vokabel einzuprägen.</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="130"/>
+        <location filename="../VocableQuiz.cpp" line="169"/>
         <source>wrong :(</source>
         <translation type="unfinished">falsch :(</translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.cpp" line="89"/>
+        <source>Vocable Quiz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.cpp" line="90"/>
+        <source>No vocables match the specified filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.cpp" line="98"/>
+        <source>%1 days %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.ui" line="142"/>
+        <source>mark correct and move to next vocable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.ui" line="145"/>
+        <source>&amp;correct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.ui" line="213"/>
+        <source>Please wait until there are expired vocables.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.cpp" line="113"/>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
