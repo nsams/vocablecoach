@@ -95,7 +95,7 @@ xml \
 network
 INCLUDEPATH += .
 
-TRANSLATIONS = translation/de.ts
+TRANSLATIONS = translations/de.ts
 
 win32 {
     INCLUDEPATH += ./3rdparty/zlib

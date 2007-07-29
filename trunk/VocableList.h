@@ -43,6 +43,7 @@ public:
 private slots:
     void boxFilterChanged(int box);
     void textFilterChanged(const QString& text);
+    void refreshBoxFilter();
 
 public slots:
     void selectAll();
