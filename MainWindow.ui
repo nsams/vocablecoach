@@ -35,26 +35,6 @@
      <height>29</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile" >
-    <property name="title" >
-     <string>&amp;File</string>
-    </property>
-    <addaction name="actionNew" />
-    <addaction name="actionOpen" />
-    <addaction name="actionSave" />
-    <addaction name="actionSaveAs" />
-    <addaction name="separator" />
-    <addaction name="actionProperties" />
-    <addaction name="actionQuiz" />
-    <addaction name="separator" />
-    <addaction name="actionPrintPreview" />
-    <addaction name="actionPrint" />
-    <addaction name="separator" />
-    <addaction name="actionImport" />
-    <addaction name="actionExport" />
-    <addaction name="separator" />
-    <addaction name="actionQuit" />
-   </widget>
    <widget class="QMenu" name="menuEdit" >
     <property name="title" >
      <string>&amp;Edit</string>
@@ -92,6 +72,26 @@
     </widget>
     <addaction name="menuViewToolbars" />
    </widget>
+   <widget class="QMenu" name="menuFile" >
+    <property name="title" >
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionNew" />
+    <addaction name="actionOpen" />
+    <addaction name="actionSave" />
+    <addaction name="actionSaveAs" />
+    <addaction name="separator" />
+    <addaction name="actionProperties" />
+    <addaction name="actionQuiz" />
+    <addaction name="separator" />
+    <addaction name="actionPrintPreview" />
+    <addaction name="actionPrint" />
+    <addaction name="separator" />
+    <addaction name="actionImport" />
+    <addaction name="actionExport" />
+    <addaction name="separator" />
+    <addaction name="actionQuit" />
+   </widget>
    <addaction name="menuFile" />
    <addaction name="menuEdit" />
    <addaction name="menuView" />
@@ -100,7 +100,7 @@
   <widget class="QStatusBar" name="statusbar" />
   <widget class="QToolBar" name="toolbarStandard" >
    <property name="windowTitle" >
-    <string>standard</string>
+    <string>Standard</string>
    </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
@@ -117,7 +117,7 @@
   </widget>
   <widget class="QToolBar" name="toolbarQuiz" >
    <property name="windowTitle" >
-    <string>quiz</string>
+    <string>Quiz</string>
    </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
@@ -133,7 +133,7 @@
   </widget>
   <widget class="QToolBar" name="toolbarEdit" >
    <property name="windowTitle" >
-    <string>edit</string>
+    <string>Edit</string>
    </property>
    <property name="orientation" >
     <enum>Qt::Horizontal</enum>
@@ -263,7 +263,7 @@
     <iconset resource="icons.qrc" >:/icons/icons/application_form.png</iconset>
    </property>
    <property name="text" >
-    <string>&amp;Properties</string>
+    <string>&amp;Properties...</string>
    </property>
   </action>
   <action name="actionPrintPreview" >

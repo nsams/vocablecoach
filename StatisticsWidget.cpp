@@ -56,9 +56,4 @@ void StatisticsWidget::refresh()
         delete pair.first;
         delete pair.second;
     }
-    /*
-    Vocables:
-    Unlearned:
-    
-    */
 }

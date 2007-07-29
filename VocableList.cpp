@@ -19,14 +19,8 @@ VocableList::VocableList(QWidget* parent)
             this, SIGNAL(selectionChanged(QItemSelection, QItemSelection)));
 
     boxSelectionCombo->addItem(tr("All"));
-    
-    boxSelectionCombo->addItem(tr("Unlearned"));
-    boxSelectionCombo->addItem(tr("Ultra-Shortterm-Memory"));
-    boxSelectionCombo->addItem(tr("Shortterm-Memory"));
-    boxSelectionCombo->addItem(tr("Box 1"));
-    boxSelectionCombo->addItem(tr("Box 2"));
-    boxSelectionCombo->addItem(tr("Box 3"));
     boxSelectionCombo->setCurrentIndex(0);
+
     connect(boxSelectionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(boxFilterChanged(int)));
     boxFilterChanged(0);
     
@@ -85,7 +79,25 @@ void VocableList::setModel(VocableListModel* model)
     if (m_vocableListModel->lessonColumnWidth() > 10) {
         vocableEditorView->setColumnWidth(3, m_vocableListModel->lessonColumnWidth());
     }
+    connect(m_vocableListModel, SIGNAL(vocableChanged()), this, SLOT(refreshBoxFilter()));
+    refreshBoxFilter();
+}
 
+void VocableList::refreshBoxFilter()
+{
+    QStringList boxes = m_vocableListModel->boxes();
+    int i = 0;
+    foreach (QString box, boxes) {
+        if (boxSelectionCombo->count()-1 <= i) {
+            boxSelectionCombo->addItem(box);
+        } else {
+            boxSelectionCombo->setItemText(i+1, box);
+        }
+        i++;
+    }
+    while (boxSelectionCombo->count()-1 > i) {
+        boxSelectionCombo->removeItem(i+1);
+    }
 }
 
 int VocableList::columnWidth(int num)
