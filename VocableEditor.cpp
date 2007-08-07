@@ -20,6 +20,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QUndoStack>
+#include "dictionary/DictionaryLeo.h"
 
 VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent)
     : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model)
@@ -28,10 +29,9 @@ VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWi
 
     connect(okAddNewButton, SIGNAL(clicked()), this, SLOT(addVocable()));
 
-    httpLeo = new QHttp;
-    httpLeo->setHost("pda.leo.org");  
-    connect(httpLeo, SIGNAL(done(bool)), this, SLOT(readLeoData(bool)));
-    
+    m_dictionary = new DictionaryLeo(this);
+    connect(m_dictionary, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
+
     connect(nativeTextEdit, SIGNAL(textChanged()), this, SLOT(nativeTextChanged()));
     connect(foreignTextEdit, SIGNAL(textChanged()), this, SLOT(foreignTextChanged()));
 
@@ -39,18 +39,11 @@ VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWi
     foreignTextEdit->installEventFilter(this);
     lessonComboBox->installEventFilter(this);
 
-    startTranslationTimer = new QTimer;
+    startTranslationTimer = new QTimer(this);
     startTranslationTimer->setInterval(1000);
     startTranslationTimer->stop();
     connect(startTranslationTimer, SIGNAL(timeout()), this,  SLOT(translateLeo()));
 }
-
-VocableEditor::~VocableEditor()
-{
-    delete httpLeo;
-    delete startTranslationTimer;
-}
-
 
 void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 {
@@ -166,31 +159,26 @@ void VocableEditor::translateLeo()
 {
     startTranslationTimer->stop();
     if (_translateText.simplified()=="") return;
-    translateGroupBox->setTitle(tr("lookup vocable at leo.de..."));
-    QUrl url("http://pda.leo.org/");
-    url.addQueryItem("search", _translateText.simplified());
-    httpLeo->get(url.path()+"?"+url.encodedQuery());
+    translateGroupBox->setTitle(tr("looking up vocable..."));
+    m_dictionary->lookupWord(_translateText.simplified());
 }
 
-void VocableEditor::readLeoData(bool b)
+void VocableEditor::translationDone(bool error)
 {
-    if (!b) {
-        translateGroupBox->setTitle(tr("lookup vocable at leo.de"));
-        QString Text(httpLeo->readAll());
-        QRegExp rx("<input type=\"hidden\" name=\"lp\" value=\"ende\">[ \t]*<input type=\"hidden\" name=\"lang\" value=\"de\">([^\n]*)</table>");
-        rx.setMinimal(true);
-        rx.indexIn(Text);
-        Text = rx.cap(1);
-        Text = Text.remove(QRegExp("<td class=\"td1\" nowrap width=\"4%\"[^>]*><a href=\"/le\\?[0-9]+\"[^>]*><img border=\"0\" alt=\"[mp]\" width=14 height=16 src=\"/[mp].gif\"></a></td>"));
-        Text = Text.remove("<td class=\"td1\" nowrap width=\"4%\" align=\"right\">&nbsp;</td>");
-        Text = Text.remove("<td class=\"td1\" nowrap width=\"4%\">&nbsp;</td>");
-        Text = Text.replace("<th colspan=2", "<th");
-        Text = Text.replace("<TD ALIGN=CENTER COLSPAN=5>", "<TD ALIGN=CENTER COLSPAN=2>");
-        Text = Text.replace("<TD COLSPAN=\"5\">", "<TD COLSPAN=\"2\">");
-        Text = Text.remove(QRegExp("<A HREF=\"[^\"]*\">"));
-        Text = Text.remove("</A>");
-        if(Text.isEmpty()) Text = tr("no results...");
-        translateTextBrowser->setHtml(Text);
+    if (!error) {
+        QList<QPair<QString, QString> > results = m_dictionary->results();
+        QString Text("");
+        QPair<QString, QString> result;
+        translateTreeWidget->clear();
+        foreach(result, results) {
+            QStringList items;
+            items << result.first;
+            items << result.second;
+            new QTreeWidgetItem(translateTreeWidget, items);
+        }
+        translateGroupBox->setTitle(tr("looking up vocable"));
+    } else {
+        //Todo: show error
     }
 }
 

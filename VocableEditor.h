@@ -20,6 +20,7 @@ class Vocable;
 class VocableListModel;
 class QTimer;
 class QUndoStack;
+class DictionaryAbstract;
 /**
 	@author Niko Sams <niko.sams@gmail.com>
 */
@@ -29,7 +30,6 @@ class VocableEditor : public QDialog, private Ui::VocableEdit
 private:
     VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent = 0);
 public:
-    ~VocableEditor();
 
     static int editVocable(VocableListModel* model, Vocable* vocable, QUndoStack* undoStack);
     static void addVocable(VocableListModel* model, QUndoStack* undoStack);
@@ -38,14 +38,14 @@ private:
     bool eventFilter(QObject *target, QEvent *event);
     QUndoStack* m_undoStack;
     VocableListModel* m_vocableListModel;
+    DictionaryAbstract* m_dictionary;
 
 protected:
-    QHttp* httpLeo;
     QTimer* startTranslationTimer;
     QString _translateText;
 
 private slots:
-    void readLeoData(bool);
+    void translationDone(bool error);
     void translateLeo();
     void nativeTextChanged();
     void foreignTextChanged();
