@@ -16,11 +16,20 @@
    <iconset resource="icons.qrc" >:/icons/icons/table_edit.png</iconset>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
+   </property>
+   <property name="leftMargin" >
+    <number>9</number>
+   </property>
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
    </property>
    <item>
     <widget class="QSplitter" name="splitter" >
@@ -29,10 +38,22 @@
      </property>
      <widget class="QWidget" name="layoutWidget" >
       <layout class="QGridLayout" >
-       <property name="margin" >
+       <property name="leftMargin" >
         <number>0</number>
        </property>
-       <property name="spacing" >
+       <property name="topMargin" >
+        <number>0</number>
+       </property>
+       <property name="rightMargin" >
+        <number>0</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>0</number>
+       </property>
+       <property name="horizontalSpacing" >
+        <number>6</number>
+       </property>
+       <property name="verticalSpacing" >
         <number>6</number>
        </property>
        <item row="5" column="0" >
@@ -157,17 +178,39 @@
        <string>look up vocable at leo.de</string>
       </property>
       <layout class="QVBoxLayout" >
-       <property name="margin" >
-        <number>6</number>
-       </property>
        <property name="spacing" >
         <number>6</number>
        </property>
+       <property name="leftMargin" >
+        <number>6</number>
+       </property>
+       <property name="topMargin" >
+        <number>6</number>
+       </property>
+       <property name="rightMargin" >
+        <number>6</number>
+       </property>
+       <property name="bottomMargin" >
+        <number>6</number>
+       </property>
        <item>
-        <widget class="QTextEdit" name="translateTextBrowser" >
-         <property name="readOnly" >
+        <widget class="QTreeWidget" name="translateTreeWidget" >
+         <property name="alternatingRowColors" >
           <bool>true</bool>
          </property>
+         <property name="rootIsDecorated" >
+          <bool>false</bool>
+         </property>
+         <column>
+          <property name="text" >
+           <string>English</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>German</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>
@@ -176,11 +219,20 @@
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>0</number>
+     </property>
+     <property name="topMargin" >
+      <number>0</number>
+     </property>
+     <property name="rightMargin" >
+      <number>0</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>0</number>
      </property>
      <item>
       <spacer>
@@ -234,7 +286,6 @@
   <tabstop>nativeTextEdit</tabstop>
   <tabstop>foreignTextEdit</tabstop>
   <tabstop>lessonComboBox</tabstop>
-  <tabstop>translateTextBrowser</tabstop>
   <tabstop>okAddNewButton</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>

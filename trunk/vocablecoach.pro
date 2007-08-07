@@ -44,7 +44,10 @@ HEADERS += MainWindow.h \
            command/CommandQuizAnswer.h \
            command/CommandModifyLesson.h \
            command/CommandResetBox.h \
- StatisticsWidget.h
+           StatisticsWidget.h \
+           dictionary/DictionaryAbstract.h \
+           dictionary/DictionaryLeo.h \
+ dictionary/DictionaryHttpAbstract.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -77,7 +80,10 @@ SOURCES += main.cpp \
            command/CommandQuizAnswer.cpp \
            command/CommandModifyLesson.cpp \
            command/CommandResetBox.cpp \
- StatisticsWidget.cpp
+           StatisticsWidget.cpp \
+           dictionary/DictionaryAbstract.cpp \
+           dictionary/DictionaryLeo.cpp \
+ dictionary/DictionaryHttpAbstract.cpp
 
 CONFIG += debug \
 qt \
