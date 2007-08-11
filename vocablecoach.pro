@@ -47,7 +47,10 @@ HEADERS += MainWindow.h \
            StatisticsWidget.h \
            dictionary/DictionaryAbstract.h \
            dictionary/DictionaryLeo.h \
- dictionary/DictionaryHttpAbstract.h
+ dictionary/DictionaryHttpAbstract.h \
+ dictionary/DictionaryDictCc.h \
+ dictionary/DictionaryWorterbuchInfo.h \
+ dictionary/DictionaryUniLeipzig.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -83,7 +86,10 @@ SOURCES += main.cpp \
            StatisticsWidget.cpp \
            dictionary/DictionaryAbstract.cpp \
            dictionary/DictionaryLeo.cpp \
- dictionary/DictionaryHttpAbstract.cpp
+ dictionary/DictionaryHttpAbstract.cpp \
+ dictionary/DictionaryDictCc.cpp \
+ dictionary/DictionaryWorterbuchInfo.cpp \
+ dictionary/DictionaryUniLeipzig.cpp
 
 CONFIG += debug \
 qt \

@@ -30,6 +30,7 @@ private Q_SLOTS:
 protected:
     virtual QString host() = 0;
     QHttp* m_http;
+    QString _cleanHtml(QString html);
 };
 
 #endif

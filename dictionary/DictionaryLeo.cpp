@@ -45,8 +45,8 @@ void DictionaryLeo::processData(bool error)
 
         int pos = 0;
         while ((pos = rx.indexIn(Text, pos)) != -1) {
-            QString textRow = rx.cap(1);
             pos += rx.matchedLength();
+            QString textRow = rx.cap(1);
             QRegExp rxRow("<TD.*COLSPAN=5.*>.*</TD>");
             if (rxRow.indexIn(textRow) != -1) {
                 //headline, ignore for now (eg "Unmittelbare Treffer")
@@ -56,12 +56,8 @@ void DictionaryLeo::processData(bool error)
             if (rxRow.indexIn(textRow) != -1) {
                 //normal result-row
                 QPair<QString, QString> row;
-                row.first = rxRow.cap(1);
-                row.first.remove(QRegExp("</?([a-z]+)[^>]*>", Qt::CaseInsensitive));
-                row.first.replace(QRegExp("\\s\\s+", Qt::CaseInsensitive), QString(" "));
-                row.second = rxRow.cap(2);
-                row.second.remove(QRegExp("</?([a-z]+)[^>]*>", Qt::CaseInsensitive));
-                row.second.replace(QRegExp("\\s\\s+", Qt::CaseInsensitive), QString(" "));
+                row.first = _cleanHtml(rxRow.cap(1));
+                row.second = _cleanHtml(rxRow.cap(2));
                 m_results << row;
                 continue;
             }

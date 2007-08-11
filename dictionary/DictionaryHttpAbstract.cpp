@@ -26,3 +26,9 @@ void DictionaryHttpAbstract::lookupWord(const QString& word)
     DictionaryAbstract::lookupWord(word);
     m_http->setHost(host());
 }
+QString DictionaryHttpAbstract::_cleanHtml(QString html)
+{
+    html.remove(QRegExp("</?([a-z]+)[^>]*>", Qt::CaseInsensitive));
+    html.replace(QRegExp("\\s\\s+", Qt::CaseInsensitive), QString(" "));
+    return html;
+}
