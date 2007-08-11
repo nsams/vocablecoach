@@ -50,7 +50,7 @@ bool ModelWriterKvtml::write(VocableListModel* model)
 
 		Vocable* voc = model->vocable(i);
 
-		out << QString("<e box=\"%1\" m=\"%2\">").arg(voc->box()).arg(voc->lessonNumber());
+        out << QString("<e m=\"%1\">").arg(voc->lessonNumber());
 
         QString width("");
         if (i == 0) width = QString(" width=\"%1\"").arg(model->nativeColumnWidth());
@@ -62,8 +62,8 @@ bool ModelWriterKvtml::write(VocableListModel* model)
 		}
         width = "";
         if (i == 0) width = QString(" width=\"%1\"").arg(model->foreignColumnWidth());
-        out << QString("	<t%1%2 c=\"%3;0\" b=\"%4;0\">%5</t>").arg(lastQuery).arg(width)
-                    .arg(voc->queryCount()).arg(voc->badCount()).arg(escape(voc->foreign()));
+        out << QString("	<t%1%2 c=\"%3;0\" b=\"%4;0\" g=\"%5;0\">%6</t>").arg(lastQuery).arg(width)
+                .arg(voc->queryCount()).arg(voc->badCount()).arg(voc->box()).arg(escape(voc->foreign()));
 		out << "</e>";
 	}
 	out << "</kvtml>\n";

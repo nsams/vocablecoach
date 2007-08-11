@@ -58,7 +58,10 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         } else {
             m_model->appendVocable(m_currentVocable);
         }
-		m_currentVocable->setBox(attributes.value("box").toInt());
+        if (!attributes.value("box").isEmpty()) {
+             //deprecated, <t g="" is used instead (which is kvtml standard)
+            m_currentVocable->setBox(attributes.value("box").toInt());
+        }
         if(!attributes.value("m").isEmpty()) {
             if (m_importCommand) {
                 if (m_importLessons.contains(attributes.value("m").toInt())) {
@@ -87,18 +90,22 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
                 m_model->setForeignColumnWidth(attributes.value("width").toInt());
             }
         }
-        QStringList valList = QString(attributes.value("d")).split(";");
+        QStringList valList = QString(attributes.value("d")).split(";"); //last query
         if(valList[0].toUInt() > 0) {
             QDateTime lastQuery = QDateTime::fromTime_t(valList[0].toUInt());
 			m_currentVocable->setLastQuery(lastQuery);
 		}
-        valList = QString(attributes.value("c")).split(";");
+        valList = QString(attributes.value("c")).split(";"); //query-count
         if(valList[0].toInt() > 0) {
             m_currentVocable->setQueryCount(valList[0].toInt());
         }
-        valList = QString(attributes.value("b")).split(";");
+        valList = QString(attributes.value("b")).split(";"); //bad-count
         if(valList[0].toInt() > 0) {
             m_currentVocable->setBadCount(valList[0].toInt());
+        }
+        valList = QString(attributes.value("g")).split(";"); //grade
+        if(valList[0].toInt() > 0) {
+            m_currentVocable->setBox(valList[0].toInt());
         }
         currentText.clear();
 	}
