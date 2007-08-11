@@ -29,7 +29,7 @@ public:
     ~StartQuiz();
     
     QStringList selectedLessons();
-    QuizType quizType();
+    VocableQuiz::QuizType quizType();
 };
 
 #endif

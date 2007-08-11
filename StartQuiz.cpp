@@ -35,13 +35,13 @@ QStringList StartQuiz::selectedLessons()
     return ret;
 }
 
-QuizType StartQuiz::quizType()
+VocableQuiz::QuizType StartQuiz::quizType()
 {
     if(onlyNewRadioButton->isChecked())
-        return New;
+        return VocableQuiz::New;
     if(onlyExpiredRadioButton->isChecked())
-        return Expired;
+        return VocableQuiz::Expired;
 
-    return All;
+    return VocableQuiz::All;
 }
 

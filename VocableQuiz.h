@@ -21,24 +21,19 @@ class QDialog;
 class Vocable;
 class CommandQuizAnswer;
 
-enum QuizType
-{
-	All,
-    New,
-	Expired
-};
 /**
 	@author Niko Sams <niko.sams@gmail.com>
 */
 class VocableQuiz : public QObject {
 	Q_OBJECT
 public:
+    enum QuizType { All, New, Expired };
+
     VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType, QStringList lessons=QStringList());
     ~VocableQuiz();
     QWidget* widget();
-	
-	//enum quizType {};
 
+	
 private:
 	QWidget* m_Widget;
 	Ui::VocableQuiz* m_ui;
