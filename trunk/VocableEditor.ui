@@ -175,7 +175,7 @@
      </widget>
      <widget class="QGroupBox" name="translateGroupBox" >
       <property name="title" >
-       <string>look up vocable at leo.de</string>
+       <string>dictionary</string>
       </property>
       <layout class="QVBoxLayout" >
        <property name="spacing" >
@@ -193,6 +193,9 @@
        <property name="bottomMargin" >
         <number>6</number>
        </property>
+       <item>
+        <widget class="QComboBox" name="directoryComboBox" />
+       </item>
        <item>
         <widget class="QTreeWidget" name="translateTreeWidget" >
          <property name="alternatingRowColors" >

@@ -46,10 +46,11 @@ protected:
 
 private slots:
     void translationDone(bool error);
-    void translateLeo();
+    void lookupWord();
     void nativeTextChanged();
     void foreignTextChanged();
     void addVocable();
+    void directoryChanged(int index);
 };
 
 #endif

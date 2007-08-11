@@ -21,16 +21,16 @@
 #include <QUrl>
 #include <QUndoStack>
 #include "dictionary/DictionaryLeo.h"
+#include "dictionary/DictionaryDictCc.h"
+#include "dictionary/DictionaryWorterbuchInfo.h"
+#include "dictionary/DictionaryUniLeipzig.h"
 
 VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent)
-    : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model)
+    : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model), m_dictionary(0)
 {
     setupUi(this);
 
     connect(okAddNewButton, SIGNAL(clicked()), this, SLOT(addVocable()));
-
-    m_dictionary = new DictionaryLeo(this);
-    connect(m_dictionary, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
 
     connect(nativeTextEdit, SIGNAL(textChanged()), this, SLOT(nativeTextChanged()));
     connect(foreignTextEdit, SIGNAL(textChanged()), this, SLOT(foreignTextChanged()));
@@ -42,9 +42,39 @@ VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWi
     startTranslationTimer = new QTimer(this);
     startTranslationTimer->setInterval(1000);
     startTranslationTimer->stop();
-    connect(startTranslationTimer, SIGNAL(timeout()), this,  SLOT(translateLeo()));
+    connect(startTranslationTimer, SIGNAL(timeout()), this,  SLOT(lookupWord()));
+
+    directoryComboBox->addItem(tr("none"), "none");
+    directoryComboBox->addItem(tr("dict.leo.org"), "Leo");
+    directoryComboBox->addItem(tr("dict.cc"), "DictCC");
+    directoryComboBox->addItem(tr("woerterbuch.info"), "WoerterbuchInfo");
+    directoryComboBox->addItem(tr("dict.uni-leipzig.de"), "UniLeipzig");
+    
+    connect(directoryComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(directoryChanged(int)));
 }
 
+void VocableEditor::directoryChanged(int index)
+{
+    delete m_dictionary;
+    if (directoryComboBox->itemData(index) == "none") {
+        m_dictionary = 0;
+    } else if (directoryComboBox->itemData(index) == "Leo") {
+        m_dictionary = new DictionaryLeo(this);
+    } else if (directoryComboBox->itemData(index) == "DictCC") {
+        m_dictionary = new DictionaryDictCc(this);
+    } else if (directoryComboBox->itemData(index) == "WoerterbuchInfo") {
+        m_dictionary = new DictionaryWorterbuchInfo(this);
+    } else if (directoryComboBox->itemData(index) == "UniLeipzig") {
+        m_dictionary = new DictionaryUniLeipzig(this);
+    } else {
+        Q_ASSERT(false);
+    }
+    
+    if (m_dictionary) {
+        connect(m_dictionary, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
+    }
+    lookupWord();
+}
 void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 {
     VocableEditor* editor = new VocableEditor(model, undoStack);
@@ -155,12 +185,14 @@ void VocableEditor::foreignTextChanged() {
 }
 
 
-void VocableEditor::translateLeo()
+void VocableEditor::lookupWord()
 {
     startTranslationTimer->stop();
     if (_translateText.simplified()=="") return;
-    translateGroupBox->setTitle(tr("looking up vocable..."));
-    m_dictionary->lookupWord(_translateText.simplified());
+    if (m_dictionary) {
+        translateGroupBox->setTitle(tr("dictionary..."));
+        m_dictionary->lookupWord(_translateText.simplified());
+    }
 }
 
 void VocableEditor::translationDone(bool error)
@@ -176,7 +208,7 @@ void VocableEditor::translationDone(bool error)
             items << result.second;
             new QTreeWidgetItem(translateTreeWidget, items);
         }
-        translateGroupBox->setTitle(tr("looking up vocable"));
+        translateGroupBox->setTitle(tr("dictionary"));
     } else {
         //Todo: show error
     }
