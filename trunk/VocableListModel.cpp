@@ -158,11 +158,11 @@ Vocable* VocableListModel::vocable(int row)
 {
 	return m_vocableList.at(row);
 }
-Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessons)
+Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList lessons)
 {
 	srand( time(NULL) );
 	QList<Vocable*> vocables;
-    if (type == New || type == All)
+    if (type == VocableQuiz::New || type == VocableQuiz::All)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
@@ -189,7 +189,7 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessons)
 			}
 		}
 	}
-    if (type == Expired || type == All)
+    if (type == VocableQuiz::Expired || type == VocableQuiz::All)
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
@@ -207,14 +207,14 @@ Vocable* VocableListModel::randomVocable(QuizType type, QStringList lessons)
 }
 
 
-QDateTime VocableListModel::nextExpiredVocable(QuizType type, QStringList lessons)
+QDateTime VocableListModel::nextExpiredVocable(VocableQuiz::QuizType type, QStringList lessons)
 {
     QDateTime ret;
 
     foreach(Vocable* v, m_vocableList)
     {
-        if(v->box() > 2 && type == New) continue;
-        if(v->box() <= 2 && type == Expired) continue;
+        if(v->box() > 2 && type == VocableQuiz::New) continue;
+        if(v->box() <= 2 && type == VocableQuiz::Expired) continue;
         if(!lessons.empty() && !lessons.contains(v->lesson())) continue;
         if(v->isExpired()) continue;
         if(ret.isValid()) ret = v->expireDate();

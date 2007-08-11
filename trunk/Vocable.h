@@ -11,6 +11,7 @@ class Vocable : public QObject
     Q_OBJECT
 public:
 	Vocable(VocableListModel* model, const QString& native = QString(), const QString& foreign = QString(), int box = 0);
+
     virtual ~Vocable() {}
     QString native() const { return m_native; }
     QString foreign() const { return m_foreign; }

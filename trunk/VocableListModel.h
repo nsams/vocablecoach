@@ -47,8 +47,8 @@ class VocableListModel : public QAbstractItemModel
 		Vocable* vocable(int row);
 		void insertVocable(int position, Vocable* vocable);
 		void appendVocable(Vocable* vocable);
-        Vocable* randomVocable(QuizType type, QStringList lessons=QStringList());
-        QDateTime nextExpiredVocable(QuizType type, QStringList lessons=QStringList());
+        Vocable* randomVocable(VocableQuiz::QuizType type, QStringList lessons=QStringList());
+        QDateTime nextExpiredVocable(VocableQuiz::QuizType type, QStringList lessons=QStringList());
 		void clearVocables();
         
         int unlearnedCount();
