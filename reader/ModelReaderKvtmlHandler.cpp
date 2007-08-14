@@ -95,17 +95,30 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
             QDateTime lastQuery = QDateTime::fromTime_t(valList[0].toUInt());
             m_currentVocable->setLastQuery(Vocable::NativeToForeign, lastQuery);
 		}
+        if(valList.count() > 1 && valList[1].toUInt() > 0) {
+            QDateTime lastQuery = QDateTime::fromTime_t(valList[1].toUInt());
+            m_currentVocable->setLastQuery(Vocable::ForeignToNative, lastQuery);
+        }
         valList = QString(attributes.value("c")).split(";"); //query-count
         if(valList[0].toInt() > 0) {
             m_currentVocable->setQueryCount(Vocable::NativeToForeign, valList[0].toInt());
+        }
+        if(valList.count() > 1 && valList[1].toInt() > 0) {
+            m_currentVocable->setQueryCount(Vocable::ForeignToNative, valList[1].toInt());
         }
         valList = QString(attributes.value("b")).split(";"); //bad-count
         if(valList[0].toInt() > 0) {
             m_currentVocable->setBadCount(Vocable::NativeToForeign, valList[0].toInt());
         }
+        if(valList.count() > 1 && valList[1].toInt() > 0) {
+            m_currentVocable->setBadCount(Vocable::ForeignToNative, valList[1].toInt());
+        }
         valList = QString(attributes.value("g")).split(";"); //grade
         if(valList[0].toInt() > 0) {
             m_currentVocable->setBox(Vocable::NativeToForeign, valList[0].toInt());
+        }
+        if(valList.count() > 1 && valList[1].toInt() > 0) {
+            m_currentVocable->setBox(Vocable::ForeignToNative, valList[1].toInt());
         }
         currentText.clear();
 	}
