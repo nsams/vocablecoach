@@ -122,3 +122,13 @@ QString Vocable::boxShortString(Direction direction) const {
         return tr("Box %1").arg(i-2);
     }
 }
+
+QString Vocable::lastQueryString() const
+{
+    return QString("%1/%2").arg(lastQuery(Vocable::NativeToForeign).isValid() ?
+            lastQuery(Vocable::NativeToForeign).toString(Qt::LocaleDate)
+    : tr("none"))
+            .arg(lastQuery(Vocable::ForeignToNative).isValid() ?
+            lastQuery(Vocable::ForeignToNative).toString(Qt::LocaleDate)
+    : tr("none"));
+}

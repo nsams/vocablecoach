@@ -27,12 +27,7 @@ QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
             return QString("%1/%2").arg(voc->boxShortString(Vocable::NativeToForeign))
                     .arg(voc->boxShortString(Vocable::ForeignToNative));
         } else if(index.column()==4) {
-            return QString("%1/%2").arg(voc->lastQuery(Vocable::NativeToForeign).isValid() ?
-                        voc->lastQuery(Vocable::NativeToForeign).toString(Qt::LocaleDate)
-                        : tr("none"))
-                    .arg(voc->lastQuery(Vocable::ForeignToNative).isValid() ?
-                        voc->lastQuery(Vocable::ForeignToNative).toString(Qt::LocaleDate)
-                        : tr("none"));
+            return voc->lastQueryString();
         } else if(index.column()==5) {
             return QString("%1/%2").arg(voc->queryCount(Vocable::NativeToForeign))
                     .arg(voc->queryCount(Vocable::ForeignToNative));

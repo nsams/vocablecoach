@@ -121,10 +121,16 @@ int VocableEditor::editVocable(VocableListModel* model, Vocable* vocable, QUndoS
     editor->nativeTextEdit->setPlainText(vocable->native());
 	editor->foreignTextEdit->setPlainText(vocable->foreign());
     editor->lessonComboBox->setCurrentIndex(lessons.indexOf(vocable->lesson()));
-	editor->boxLabel->setNum(vocable->box(Vocable::NativeToForeign));
-    editor->lastQueryLabel->setText(vocable->lastQuery(Vocable::NativeToForeign).toString(Qt::LocaleDate));
-    editor->queryCountLabel->setText(QString("%1").arg(vocable->queryCount(Vocable::NativeToForeign)));
-    editor->badCountLabel->setText(QString("%1").arg(vocable->badCount(Vocable::NativeToForeign)));
+	editor->boxLabel->setText(QString("%1/%2")
+            .arg(vocable->box(Vocable::NativeToForeign))
+            .arg(vocable->box(Vocable::ForeignToNative)));
+    editor->lastQueryLabel->setText(vocable->lastQueryString());
+    editor->queryCountLabel->setText(QString("%1/%2")
+            .arg(vocable->queryCount(Vocable::NativeToForeign))
+            .arg(vocable->queryCount(Vocable::ForeignToNative)));
+    editor->badCountLabel->setText(QString("%1/%2")
+            .arg(vocable->badCount(Vocable::NativeToForeign))
+            .arg(vocable->badCount(Vocable::ForeignToNative)));
 
     editor->okButton->setVisible(true);
     editor->okAddNewButton->setVisible(false);

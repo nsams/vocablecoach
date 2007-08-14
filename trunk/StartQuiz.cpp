@@ -18,6 +18,12 @@ StartQuiz::StartQuiz(QWidget *parent, VocableListModel* model)
 {
     setupUi(this);
     lessonsList->addItems(model->lessons().values());
+    directionNativeForeignRadioButton->setText(QString("%1 » %2")
+                .arg(model->nativeLanguage())
+                .arg(model->foreignLanguage()));
+    directionForeignNativeRadioButton->setText(QString("%1 » %2")
+            .arg(model->foreignLanguage())
+            .arg(model->nativeLanguage()));
 }
 
 
