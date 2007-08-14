@@ -24,6 +24,7 @@ public:
     int box(Direction direction) const { return m_box[direction]; }
     QString boxShortString(Direction direction) const;
     QDateTime lastQuery(Direction direction) const { return m_lastQuery[direction]; }
+    QString lastQueryString() const;
     QDateTime expireDate(Direction direction) const;
     QString lesson() const;
     int lessonNumber() const;
