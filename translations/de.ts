@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="de_AT">
+<defaultcodec></defaultcodec>
 <context>
     <name>DocumentProperties</name>
     <message>
@@ -290,52 +291,52 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../MainWindow.cpp" line="264"/>
         <source>All supported files (*.kvtml *.xml *.xml.gz *.csv *.txt);;KDE Vocabledocument (*.kvtml);;Pauker-Lektion (*.xml *.xml.gz);;CSV-Textdocument (*.csv *.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle unterstützen Dateiformate (*.kvtml *.xml *.xml.gz *.csv *.txt);;KDE Vokabledokument (*.kvtml);;Pauker-Lektion (*.xml *.xml.gz);;CSV-Textdokument (*.csv *.txt)</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="192"/>
         <source>Save Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokabeln Speichern</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="356"/>
         <source>KDE Vocabledocument (*.kvtml);;CSV-Textdocument (*.csv *.txt)</source>
-        <translation type="unfinished"></translation>
+        <translation>KDE Vokabledokument (*.kvtml);;CSV-Textdokument (*.csv *.txt)</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="283"/>
         <source>Can&apos;t open file: unknown Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Datei nicht öffnen: unbekanntes Dateiformat</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="262"/>
         <source>Import</source>
-        <translation type="unfinished">importieren</translation>
+        <translation>importieren</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="354"/>
         <source>Export Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokablen Exportieren</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="381"/>
         <source>Cut Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokablen Ausschneiden</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="383"/>
         <source>Cut Vocable</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokabel Ausschneiden</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="417"/>
         <source>Paste Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation>Vocablen Einfügen</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="419"/>
         <source>Paste Vocable</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokabel Einfügen</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="569"/>
@@ -480,7 +481,7 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../MainWindow.ui" line="103"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Standard</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="120"/>
@@ -490,7 +491,7 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../MainWindow.ui" line="136"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bearbeiten</translation>
     </message>
 </context>
 <context>
@@ -717,25 +718,26 @@ Möchten Sie es speichern?</translation>
         <location filename="../reader/ModelReaderPaukerHandler.cpp" line="81"/>
         <source>Parse error at line %1, column %2:
 %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Parse-Fehler in Zeile %1, Spalte %2:
+%3</translation>
     </message>
     <message>
         <location filename="../reader/ModelReaderKvtmlHandler.cpp" line="31"/>
         <source>The file is not an KVTML file. (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diese Datei ist keine KVTML-Datei. (%1)</translation>
     </message>
     <message>
         <location filename="../reader/ModelReaderPaukerHandler.cpp" line="23"/>
         <source>The file is not an Pauker file. (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Datei ist keine Pauker-Datei. (%1)</translation>
     </message>
     <message>
         <location filename="../reader/ModelReaderPaukerHandler.cpp" line="30"/>
         <source>The file is not an Pauker version 1.6 file.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diese Datei ist keine Pauker version 1.6 Datei.</translation>
     </message>
     <message>
-        <location filename="../reader/ModelReaderKvtmlHandler.cpp" line="135"/>
+        <location filename="../reader/ModelReaderKvtmlHandler.cpp" line="155"/>
         <source>VocableCoach</source>
         <translation type="unfinished">VocableCoach</translation>
     </message>
@@ -747,7 +749,7 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../command/CommandDelete.cpp" line="26"/>
         <source>Delete Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vokabel Löschen</translation>
     </message>
     <message>
         <location filename="../command/CommandDelete.cpp" line="28"/>
@@ -762,27 +764,27 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../command/CommandEditProperties.cpp" line="23"/>
         <source>Modify Document Properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dokument Eigenschaften bearbeiten</translation>
     </message>
     <message>
         <location filename="../command/CommandModifyLesson.cpp" line="22"/>
         <source>Modify Lesson</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lektion Ändern</translation>
     </message>
     <message>
         <location filename="../command/CommandQuizAnswer.cpp" line="30"/>
         <source>Vocable Quiz</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vokabel Quiz</translation>
     </message>
     <message>
-        <location filename="../command/CommandResetBox.cpp" line="20"/>
+        <location filename="../command/CommandResetBox.cpp" line="21"/>
         <source>Reset Box</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Box zurücksetzen</translation>
     </message>
     <message>
         <location filename="../reader/ModelReaderPauker.cpp" line="51"/>
         <source>Import Vocables</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vokabeln Imporiteren</translation>
     </message>
     <message>
         <location filename="../writer/ModelWriterCsv.cpp" line="32"/>
@@ -793,34 +795,54 @@ Möchten Sie es speichern?</translation>
 <context>
     <name>StartQuiz</name>
     <message>
-        <location filename="../StartQuiz.ui" line="48"/>
+        <location filename="../StartQuiz.ui" line="47"/>
         <source>&amp;all Vocables</source>
         <translation>&amp;alle Vokablen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="88"/>
+        <location filename="../StartQuiz.ui" line="109"/>
         <source>Lessons</source>
         <translation>Lektionen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="65"/>
+        <location filename="../StartQuiz.ui" line="64"/>
         <source>only &amp;expired Vocables</source>
         <translation>nur a&amp;bgelaufene Vokabeln</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="58"/>
+        <location filename="../StartQuiz.ui" line="57"/>
         <source>only &amp;new Vocables</source>
         <translation>nur &amp;neue Vokablen</translation>
     </message>
     <message>
-        <location filename="../StartQuiz.ui" line="36"/>
+        <location filename="../StartQuiz.ui" line="26"/>
         <source>Query</source>
-        <translation type="unfinished">Abfrage</translation>
+        <translation>Abfrage</translation>
     </message>
     <message>
         <location filename="../StartQuiz.ui" line="13"/>
         <source>start Quiz</source>
         <translation>Quiz starten</translation>
+    </message>
+    <message>
+        <location filename="../StartQuiz.ui" line="74"/>
+        <source>Direction</source>
+        <translation>Richtung</translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../StartQuiz.ui" line="80"/>
+        <source>Native » Foreign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../StartQuiz.ui" line="90"/>
+        <source>Foreign » Native</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../StartQuiz.ui" line="97"/>
+        <source>Random</source>
+        <translation>Zufällig</translation>
     </message>
 </context>
 <context>
@@ -833,43 +855,71 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../StatisticsWidget.ui" line="13"/>
         <source>Staistics</source>
-        <translation type="unfinished">Statistiken</translation>
+        <translation>Statistiken</translation>
+    </message>
+</context>
+<context>
+    <name>Vocable</name>
+    <message>
+        <location filename="../Vocable.cpp" line="116"/>
+        <source>unlearned</source>
+        <translation>ungelernt</translation>
+    </message>
+    <message>
+        <location filename="../Vocable.cpp" line="118"/>
+        <source>ultra-shortterm</source>
+        <translation>ultra-kurzzeit</translation>
+    </message>
+    <message>
+        <location filename="../Vocable.cpp" line="120"/>
+        <source>shortterm</source>
+        <translation>kurzzeit</translation>
+    </message>
+    <message>
+        <location filename="../Vocable.cpp" line="122"/>
+        <source>Box %1</source>
+        <translation>Box %1</translation>
+    </message>
+    <message>
+        <location filename="../Vocable.cpp" line="133"/>
+        <source>none</source>
+        <translation>keine</translation>
     </message>
 </context>
 <context>
     <name>VocableEdit</name>
     <message>
-        <location filename="../VocableEditor.ui" line="71"/>
+        <location filename="../VocableEditor.ui" line="95"/>
         <source>Box:</source>
         <translation>Box:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="218"/>
+        <location filename="../VocableEditor.ui" line="276"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="117"/>
+        <location filename="../VocableEditor.ui" line="141"/>
         <source>&amp;Foreign:</source>
-        <translation type="unfinished">&amp;Fremdsprache:</translation>
+        <translation>&amp;Fremdsprache:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="88"/>
+        <location filename="../VocableEditor.ui" line="112"/>
         <source>Last Query:</source>
         <translation>Letzte Abfrage:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="48"/>
+        <location filename="../VocableEditor.ui" line="72"/>
         <source>Lesson:</source>
         <translation>Lektion:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="130"/>
+        <location filename="../VocableEditor.ui" line="154"/>
         <source>&amp;Native:</source>
-        <translation type="unfinished">&amp;Muttersprache:</translation>
+        <translation>&amp;Muttersprache:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="208"/>
+        <location filename="../VocableEditor.ui" line="266"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -881,17 +931,32 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../VocableEditor.ui" line="157"/>
         <source>look up vocable at leo.de</source>
-        <translation>Vokabel auf leo.de nachschlagen</translation>
+        <translation type="obsolete">Vokabel auf leo.de nachschlagen</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="41"/>
+        <location filename="../VocableEditor.ui" line="62"/>
         <source>Query Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Abfragen:</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.ui" line="143"/>
+        <location filename="../VocableEditor.ui" line="167"/>
         <source>Bad Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Fehler:</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.ui" line="181"/>
+        <source>dictionary</source>
+        <translation>Wörterbuch</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.ui" line="212"/>
+        <source>English</source>
+        <translation>Englisch</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.ui" line="217"/>
+        <source>German</source>
+        <translation>Deutsch</translation>
     </message>
 </context>
 <context>
@@ -899,17 +964,52 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../VocableEditor.cpp" line="178"/>
         <source>lookup vocable at leo.de</source>
-        <translation>Vokabel auf leo.de nachschlagen</translation>
+        <translation type="obsolete">Vokabel auf leo.de nachschlagen</translation>
     </message>
     <message>
         <location filename="../VocableEditor.cpp" line="169"/>
         <source>lookup vocable at leo.de...</source>
-        <translation>Vokabel auf leo.de nachschlagen...</translation>
+        <translation type="obsolete">Vokabel auf leo.de nachschlagen...</translation>
     </message>
     <message>
         <location filename="../VocableEditor.cpp" line="192"/>
         <source>no results...</source>
-        <translation>keine ergebnisse...</translation>
+        <translation type="obsolete">keine ergebnisse...</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="47"/>
+        <source>none</source>
+        <translation>keine</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="48"/>
+        <source>dict.leo.org</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="49"/>
+        <source>dict.cc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="50"/>
+        <source>woerterbuch.info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="51"/>
+        <source>dict.uni-leipzig.de</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="199"/>
+        <source>dictionary...</source>
+        <translation>Wörterbuch...</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="217"/>
+        <source>dictionary</source>
+        <translation type="unfinished">Wörterbuch</translation>
     </message>
 </context>
 <context>
@@ -952,15 +1052,15 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../VocableList.ui" line="13"/>
         <source>Form</source>
-        <translation></translation>
+        <translation type="unfinished">Form</translation>
     </message>
     <message>
-        <location filename="../VocableList.ui" line="33"/>
+        <location filename="../VocableList.ui" line="51"/>
         <source>&amp;Search:</source>
         <translation>&amp;Suchen:</translation>
     </message>
     <message>
-        <location filename="../VocableList.ui" line="46"/>
+        <location filename="../VocableList.ui" line="64"/>
         <source>Box-Filter</source>
         <translation type="unfinished">Box-Filter</translation>
     </message>
@@ -983,75 +1083,80 @@ Möchten Sie es speichern?</translation>
         <translation type="obsolete">ungültige XML-Datei</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="67"/>
+        <location filename="../VocableListModel.cpp" line="71"/>
         <source>last query</source>
         <translation>letzte abfrage</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="65"/>
+        <location filename="../VocableListModel.cpp" line="67"/>
         <source>lesson</source>
         <translation>Lektion</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="63"/>
+        <location filename="../VocableListModel.cpp" line="69"/>
         <source>box</source>
         <translation>box</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="69"/>
+        <location filename="../VocableListModel.cpp" line="73"/>
         <source>query count</source>
         <translation>anzahl abfragen</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="71"/>
+        <location filename="../VocableListModel.cpp" line="75"/>
         <source>bad count</source>
         <translation>anzahl fehler</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="280"/>
+        <location filename="../VocableListModel.cpp" line="285"/>
         <source>Unlearned</source>
         <translation type="unfinished">Ungelernte</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="282"/>
+        <location filename="../VocableListModel.cpp" line="287"/>
         <source>Ultra-Shortterm-Memory</source>
         <translation type="unfinished">Ultra-Kurzzeit-Gedächtnis</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="285"/>
+        <location filename="../VocableListModel.cpp" line="290"/>
         <source>Shortterm-Memory</source>
         <translation type="unfinished">Kurzzeit-Gedächtnis</translation>
     </message>
     <message>
-        <location filename="../VocableListModel.cpp" line="288"/>
+        <location filename="../VocableListModel.cpp" line="293"/>
         <source>Box %1</source>
         <translation type="unfinished">Box %1</translation>
+    </message>
+    <message>
+        <location filename="../VocableListModel.cpp" line="35"/>
+        <source>none</source>
+        <translation type="obsolete">keine</translation>
     </message>
 </context>
 <context>
     <name>VocableQuiz</name>
     <message>
-        <location filename="../VocableQuiz.ui" line="265"/>
+        <location filename="../VocableQuiz.ui" line="323"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="72"/>
+        <location filename="../VocableQuiz.ui" line="132"/>
         <source>&amp;check</source>
         <translation>ü&amp;berprüfen</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="160"/>
+        <location filename="../VocableQuiz.cpp" line="193"/>
         <source>correct :)</source>
         <translation>richtig :D</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="117"/>
+        <location filename="../VocableQuiz.ui" line="212"/>
         <source>&amp;edit</source>
         <translation>&amp;bearbeiten</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="165"/>
+        <location filename="../VocableQuiz.ui" line="205"/>
         <source>&amp;next</source>
         <translation>&amp;weiter</translation>
     </message>
@@ -1061,57 +1166,62 @@ Möchten Sie es speichern?</translation>
         <translation>Quiz</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="172"/>
+        <location filename="../VocableQuiz.ui" line="175"/>
         <source>resultLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="230"/>
+        <location filename="../VocableQuiz.ui" line="279"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="110"/>
+        <location filename="../VocableQuiz.cpp" line="142"/>
         <source>Try to memorize the displayed vocable.</source>
         <translation type="unfinished">Versuchen Sie, sich das agezeigte Vokabel einzuprägen.</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="169"/>
+        <location filename="../VocableQuiz.cpp" line="202"/>
         <source>wrong :(</source>
         <translation type="unfinished">falsch :(</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="89"/>
+        <location filename="../VocableQuiz.cpp" line="110"/>
         <source>Vocable Quiz</source>
-        <translation type="unfinished"></translation>
+        <translation>Vokabel Quiz</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="90"/>
+        <location filename="../VocableQuiz.cpp" line="111"/>
         <source>No vocables match the specified filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Vokblen entsprechen dem angegebenem Filter.</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="98"/>
+        <location filename="../VocableQuiz.cpp" line="119"/>
         <source>%1 days %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 Tage %2</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="142"/>
+        <location filename="../VocableQuiz.ui" line="195"/>
         <source>mark correct and move to next vocable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">als richtig markieren und zum nächsten Vokabel weitergehen</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="145"/>
+        <location filename="../VocableQuiz.ui" line="198"/>
         <source>&amp;correct</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;richtig</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.ui" line="213"/>
+        <location filename="../VocableQuiz.ui" line="262"/>
         <source>Please wait until there are expired vocables.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bitte warten bis es abgeglaufene Vokabeln gibt.</translation>
     </message>
     <message>
-        <location filename="../VocableQuiz.cpp" line="113"/>
+        <location filename="../VocableQuiz.ui" line="97"/>
+        <source>Language:</source>
+        <translation>Sprache:</translation>
+    </message>
+    <message>
+        <location filename="../VocableQuiz.cpp" line="145"/>
         <source></source>
         <translation type="unfinished"></translation>
     </message>
