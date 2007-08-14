@@ -15,9 +15,10 @@
 #include <QUndoCommand>
 #include <QDateTime>
 #include <QList>
-class Vocable;
+#include "Vocable.h"
 
 struct CommandQuizAnswerData {
+    Vocable::Direction direction;
     Vocable* vocable;
     QDateTime oldLastQuery;
     int oldBox;
@@ -34,7 +35,7 @@ struct CommandQuizAnswerData {
 class CommandQuizAnswer : public QUndoCommand
 {
 public:
-    CommandQuizAnswer(Vocable* vocable, QUndoCommand* parent = 0);
+    CommandQuizAnswer(Vocable* vocable, Vocable::Direction direction, QUndoCommand* parent = 0);
     void setBox(int box);
     void setQueryCount(int queryCount);
     void setBadCount(int badCount);

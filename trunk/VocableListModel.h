@@ -31,13 +31,13 @@ class VocableListModel : public QAbstractItemModel
             : QAbstractItemModel(parent), m_nativeColumnWidth(0), m_foreignColumnWidth(0), m_lessonColumnWidth(0) { }
         ~VocableListModel();
 
-		QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+        QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
 		int rowCount ( const QModelIndex & parent = QModelIndex() ) const;
 		int columnCount ( const QModelIndex & parent ) const;
 		QVariant headerData ( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 		Qt::ItemFlags flags ( const QModelIndex & index ) const;
-		bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
+//		bool setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole );
 		bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
 		bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
 		QModelIndex index(int row, int column, const QModelIndex & parent = QModelIndex()) const;
@@ -47,12 +47,12 @@ class VocableListModel : public QAbstractItemModel
 		Vocable* vocable(int row);
 		void insertVocable(int position, Vocable* vocable);
 		void appendVocable(Vocable* vocable);
-        Vocable* randomVocable(VocableQuiz::QuizType type, QStringList lessons=QStringList());
-        QDateTime nextExpiredVocable(VocableQuiz::QuizType type, QStringList lessons=QStringList());
+        Vocable* randomVocable(Vocable::Direction direction, VocableQuiz::QuizType type, QStringList lessons=QStringList());
+        QDateTime nextExpiredVocable(Vocable::Direction direction, VocableQuiz::QuizType type, QStringList lessons=QStringList());
 		void clearVocables();
         
-        int unlearnedCount();
-        int inBoxCount(int box);
+        int unlearnedCount(Vocable::Direction direction);
+        int inBoxCount(int box, Vocable::Direction direction);
 
         QMap<int, QString> lessons() const;
         int getLessonNumber(const QString& lesson);

@@ -48,7 +48,9 @@ void StatisticsWidget::refresh()
         }
         QPair<QLabel*, QLabel*> pair = m_boxLabels[i];
         pair.first->setText(box + ":");
-        pair.second->setText(QString("%1").arg(m_vocableListModel->inBoxCount(i)));
+        pair.second->setText(QString("%1/%2")
+                .arg(m_vocableListModel->inBoxCount(i, Vocable::NativeToForeign))
+                .arg(m_vocableListModel->inBoxCount(i, Vocable::ForeignToNative)));
         i++;
     }
     while (m_boxLabels.count() > i) {

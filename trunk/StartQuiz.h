@@ -15,6 +15,7 @@
 #include <QDialog>
 #include "ui/ui_StartQuiz.h"
 #include "VocableQuiz.h" //for QuizType enum
+#include "Vocable.h" //for Direction enum
 class VocableListModel;
 
 /**
@@ -30,6 +31,7 @@ public:
     
     QStringList selectedLessons();
     VocableQuiz::QuizType quizType();
+    Vocable::Direction direction();
 };
 
 #endif

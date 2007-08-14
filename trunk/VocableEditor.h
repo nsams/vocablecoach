@@ -27,9 +27,6 @@ class DictionaryAbstract;
 class VocableEditor : public QDialog, private Ui::VocableEdit
 {
     Q_OBJECT
-public:
-    enum Direction { NativeToForeign, ForeignToNative };
-
 private:
     VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent = 0);
 public:

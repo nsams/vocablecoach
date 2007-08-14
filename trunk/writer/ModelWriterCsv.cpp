@@ -43,7 +43,7 @@ bool ModelWriterCsv::write(VocableListModel* model)
 QString ModelWriterCsv::vocableCsvString(Vocable *voc) {
     QString out = ModelWriterCsv::escape(voc->native())
             + "\t" + ModelWriterCsv::escape(voc->foreign())
-            + "\t" + QString("%1").arg(voc->box());
+            + "\t" + QString("%1").arg(voc->box(Vocable::NativeToForeign));
     return out;
 }
 QString ModelWriterCsv::escape(QString str)

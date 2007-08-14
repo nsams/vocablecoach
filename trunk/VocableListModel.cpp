@@ -19,20 +19,29 @@ QVariant VocableListModel::data ( const QModelIndex & index, int role ) const
 		Vocable* voc = m_vocableList.at(index.row());
 		if(index.column()==0) {
 			return voc->native();
-		} else if(index.column()==1)
+		} else if(index.column()==1) {
 			return voc->foreign();
-		else if(index.column()==2)
-			return voc->box();
-        else if(index.column()==3)
+        } else if(index.column()==2) {
             return voc->lesson();
-        else if(index.column()==4)
-			return voc->lastQuery().toString(Qt::LocaleDate);
-        else if(index.column()==5)
-            return QString("%1").arg(voc->queryCount());
-        else if(index.column()==6)
-            return QString("%1").arg(voc->badCount());
-        else
+        } else if(index.column()==3) {
+            return QString("%1/%2").arg(voc->boxShortString(Vocable::NativeToForeign))
+                    .arg(voc->boxShortString(Vocable::ForeignToNative));
+        } else if(index.column()==4) {
+            return QString("%1/%2").arg(voc->lastQuery(Vocable::NativeToForeign).isValid() ?
+                        voc->lastQuery(Vocable::NativeToForeign).toString(Qt::LocaleDate)
+                        : tr("none"))
+                    .arg(voc->lastQuery(Vocable::ForeignToNative).isValid() ?
+                        voc->lastQuery(Vocable::ForeignToNative).toString(Qt::LocaleDate)
+                        : tr("none"));
+        } else if(index.column()==5) {
+            return QString("%1/%2").arg(voc->queryCount(Vocable::NativeToForeign))
+                    .arg(voc->queryCount(Vocable::ForeignToNative));
+        } else if(index.column()==6) {
+            return QString("%1/%2").arg(voc->badCount(Vocable::NativeToForeign))
+                    .arg(voc->badCount(Vocable::ForeignToNative));
+        } else {
 			return QVariant();
+        }
 	} else {
 		return QVariant();
 	}
@@ -59,10 +68,10 @@ QVariant VocableListModel::headerData ( int section, Qt::Orientation orientation
 			return nativeLanguage();
 		else if (section==1)
 			return foreignLanguage();
-		else if (section==2)
-			return tr("box");
-        else if (section==3)
+        else if (section==2)
             return tr("lesson");
+        else if (section==3)
+            return tr("box");
         else if (section==4)
 			return tr("last query");
         else if (section==5)
@@ -83,7 +92,7 @@ Qt::ItemFlags VocableListModel::flags ( const QModelIndex & index ) const
 
 	return QAbstractItemModel::flags(index)/* | Qt::ItemIsEditable*/;
 }
-
+/*
 bool VocableListModel::setData ( const QModelIndex & index, const QVariant & value, int role )
 {
 	if (index.isValid() && role == Qt::EditRole) {
@@ -98,7 +107,7 @@ bool VocableListModel::setData ( const QModelIndex & index, const QVariant & val
 	}
 	return false;
 
-}
+}*/
 
 bool VocableListModel::insertRows(int position, int rows, const QModelIndex &parent)
 {
@@ -158,7 +167,7 @@ Vocable* VocableListModel::vocable(int row)
 {
 	return m_vocableList.at(row);
 }
-Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList lessons)
+Vocable* VocableListModel::randomVocable(Vocable::Direction direction, VocableQuiz::QuizType type, QStringList lessons)
 {
 	srand( time(NULL) );
 	QList<Vocable*> vocables;
@@ -166,7 +175,7 @@ Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-			if(v->box()==2 && v->isExpired()
+            if(v->box(direction)==2 && v->isExpired(direction)
                && (lessons.empty() || lessons.contains(v->lesson())))
 				vocables << v;
 		}
@@ -174,7 +183,7 @@ Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList
 		{
 			foreach(Vocable* v, m_vocableList)
 			{
-                if(v->box()==1 && v->isExpired()
+                if(v->box(direction)==1 && v->isExpired(direction)
                     && (lessons.empty() || lessons.contains(v->lesson())))
 					vocables << v;
 			}
@@ -183,7 +192,7 @@ Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList
 		{
 			foreach(Vocable* v, m_vocableList)
 			{
-                if(v->box()==0
+                if(v->box(direction)==0
                    && (lessons.empty() || lessons.contains(v->lesson())))
 					vocables << v;
 			}
@@ -193,7 +202,7 @@ Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList
 	{
 		foreach(Vocable* v, m_vocableList)
 		{
-            if(v->box()>2 && v->isExpired()
+            if(v->box(direction)>2 && v->isExpired(direction)
                 && (lessons.empty() || lessons.contains(v->lesson())))
 				vocables << v;
 		}
@@ -202,24 +211,24 @@ Vocable* VocableListModel::randomVocable(VocableQuiz::QuizType type, QStringList
 	if(vocables.count()==0) {
 		return 0;
 	}
-	int row = rand() % vocables.count();
+	int row = qrand() % vocables.count();
 	return vocables[row];
 }
 
 
-QDateTime VocableListModel::nextExpiredVocable(VocableQuiz::QuizType type, QStringList lessons)
+QDateTime VocableListModel::nextExpiredVocable(Vocable::Direction direction, VocableQuiz::QuizType type, QStringList lessons)
 {
     QDateTime ret;
 
     foreach(Vocable* v, m_vocableList)
     {
-        if(v->box() > 2 && type == VocableQuiz::New) continue;
-        if(v->box() <= 2 && type == VocableQuiz::Expired) continue;
+        if(v->box(direction) > 2 && type == VocableQuiz::New) continue;
+        if(v->box(direction) <= 2 && type == VocableQuiz::Expired) continue;
         if(!lessons.empty() && !lessons.contains(v->lesson())) continue;
-        if(v->isExpired()) continue;
-        if(ret.isValid()) ret = v->expireDate();
+        if(v->isExpired(direction)) continue;
+        if(ret.isValid()) ret = v->expireDate(direction);
 
-        if(ret < v->expireDate()) ret = v->expireDate();
+        if(ret < v->expireDate(direction)) ret = v->expireDate(direction);
     }
     return ret;
 }
@@ -274,7 +283,8 @@ QStringList VocableListModel::boxes()
 {
     int highestBox = 0;
     foreach(Vocable* voc, m_vocableList) {
-        highestBox = qMax(highestBox, voc->box());
+        highestBox = qMax(highestBox, voc->box(Vocable::NativeToForeign));
+        highestBox = qMax(highestBox, voc->box(Vocable::ForeignToNative));
     }
     QStringList ret;
     ret << tr("Unlearned");
@@ -290,24 +300,18 @@ QStringList VocableListModel::boxes()
     return ret;
 }
 
-int VocableListModel::inBoxCount(int box)
+int VocableListModel::inBoxCount(int box, Vocable::Direction direction)
 {
     int ret = 0;
     foreach(Vocable* voc, m_vocableList) {
-        if (voc->box()==box) {
+        if (voc->box(direction) == box) {
             ret++;
         }
     }
     return ret;
 }
 
-int VocableListModel::unlearnedCount()
+int VocableListModel::unlearnedCount(Vocable::Direction direction)
 {
-    int ret = 0;
-    foreach(Vocable* voc, m_vocableList) {
-        if (voc->box()==0) {
-            ret++;
-        }
-    }
-    return ret;
+    return inBoxCount(0, direction);
 }

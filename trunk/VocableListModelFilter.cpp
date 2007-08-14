@@ -10,33 +10,31 @@
 //
 //
 #include "VocableListModelFilter.h"
+#include "Vocable.h"
+#include "VocableListModel.h"
 
 VocableListModelFilter::VocableListModelFilter(QObject *parent)
  : QSortFilterProxyModel(parent)
 {
 }
 
-
 VocableListModelFilter::~VocableListModelFilter()
 {
 }
 
-
-
-
 bool VocableListModelFilter::filterAcceptsRow(int sourceRow,
                                                const QModelIndex &sourceParent) const
 {
-
-    QModelIndex indexForeign = sourceModel()->index(sourceRow, 0, sourceParent);
-    QModelIndex indexNative = sourceModel()->index(sourceRow, 1, sourceParent);
-    QModelIndex indexBox = sourceModel()->index(sourceRow, 2, sourceParent);
-    QModelIndex indexLesson = sourceModel()->index(sourceRow, 3, sourceParent);
-
-    return (sourceModel()->data(indexForeign).toString().contains(m_textFilter)
-            || sourceModel()->data(indexNative).toString().contains(m_textFilter)
-            || sourceModel()->data(indexLesson).toString().contains(m_textFilter))
-            && (m_boxFilter==-1 || sourceModel()->data(indexBox).toInt() == m_boxFilter);
+    VocableListModel* model = qobject_cast<VocableListModel*>(sourceModel());
+    if (!model) {
+        return false;
+    }
+    return (model->vocable(sourceRow)->foreign().contains(m_textFilter)
+            || model->vocable(sourceRow)->native().contains(m_textFilter)
+            || model->vocable(sourceRow)->lesson().contains(m_textFilter))
+            && (m_boxFilter==-1
+            || model->vocable(sourceRow)->box(Vocable::NativeToForeign) == m_boxFilter
+            || model->vocable(sourceRow)->box(Vocable::ForeignToNative) == m_boxFilter);
 }
 
 void VocableListModelFilter::setBoxFilter(int filter)

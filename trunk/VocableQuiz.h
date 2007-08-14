@@ -14,11 +14,11 @@
 #include "ui/ui_VocableQuiz.h"
 #include <QObject>
 #include <QDateTime>
+#include "Vocable.h"
 
 class QUndoStack;
 class VocableListModel;
 class QDialog;
-class Vocable;
 class CommandQuizAnswer;
 
 /**
@@ -29,7 +29,7 @@ class VocableQuiz : public QObject {
 public:
     enum QuizType { All, New, Expired };
 
-    VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType, QStringList lessons=QStringList());
+    VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType, QStringList lessons, Vocable::Direction direction);
     ~VocableQuiz();
     QWidget* widget();
 
@@ -59,6 +59,8 @@ private slots:
     void correctVocable();
 protected:
     Vocable* m_currentVocable;
+    Vocable::Direction m_currentDirection;
+    Vocable::Direction m_quizDirection;
 };
 
 #endif
