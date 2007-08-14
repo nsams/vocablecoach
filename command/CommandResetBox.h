@@ -15,7 +15,8 @@
 #include <QUndoCommand>
 #include <QHash>
 #include <QList>
-class Vocable;
+#include "Vocable.h"
+
 /**
 	@author Niko Sams <ns@vivid-planet.com>
 */
@@ -27,7 +28,7 @@ public:
     void undo();
 
 private:
-    QHash<Vocable*, int> m_oldBox;
+    QHash<Vocable*, QHash<Vocable::Direction, int> > m_oldBox;
 };
 
 #endif

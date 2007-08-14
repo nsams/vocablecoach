@@ -1,6 +1,7 @@
 #ifndef MODELREADERKVTMLHANDLER_H
 #define MODELREADERKVTMLHANDLER_H
 
+#include <QObject>
 #include <QXmlDefaultHandler>
 #include <QString>
 #include <QHash>

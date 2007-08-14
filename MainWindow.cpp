@@ -455,7 +455,7 @@ void MainWindow::startQuiz()
 {
     StartQuiz startQuizDialog(this, m_vocableListModel);
     if(startQuizDialog.exec()==QDialog::Rejected) return;
-    m_vocableQuiz = new VocableQuiz(m_vocableListModel, m_undoStack, startQuizDialog.quizType(), startQuizDialog.selectedLessons());
+    m_vocableQuiz = new VocableQuiz(m_vocableListModel, m_undoStack, startQuizDialog.quizType(), startQuizDialog.selectedLessons(), startQuizDialog.direction());
     m_centralStackWidget->addWidget(m_vocableQuiz->widget());
     m_centralStackWidget->setCurrentWidget(m_vocableQuiz->widget());
     connect(m_vocableQuiz, SIGNAL(cancel()), this, SLOT(stopQuiz()));

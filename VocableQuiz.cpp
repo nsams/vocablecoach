@@ -21,8 +21,10 @@
 #include <QUndoStack>
 #include <QKeyEvent>
 
-VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack, QuizType type, QStringList lessons)
-    : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons), m_currentVocalbeUnlearned(false), m_undoStack(undoStack)
+VocableQuiz::VocableQuiz(VocableListModel* model, QUndoStack* undoStack,
+                         QuizType type, QStringList lessons, Vocable::Direction direction)
+    : m_vocableListModel(model), m_QuizType(type), m_lessons(lessons),
+      m_currentVocalbeUnlearned(false), m_undoStack(undoStack), m_quizDirection(direction)
 {
 	m_currentVocable = 0;
 
@@ -57,11 +59,12 @@ void VocableQuiz::editVocable()
         
         VocableEditor::editVocable(m_vocableListModel, m_currentVocable, m_undoStack);
 
-        m_ui->nativeLabel->setText(m_currentVocable->native());
+        QPair<QString, QString> vocText = m_currentVocable->text(m_currentDirection);
+        m_ui->nativeLabel->setText(vocText.first);
 
         if (m_currentVocalbeUnlearned) {
             //just display it
-            m_ui->resultLabel->setText(m_currentVocable->foreign());
+            m_ui->resultLabel->setText(vocText.second);
         } else {
             //re-check if answer is now correct
             check(false);
@@ -73,16 +76,34 @@ void VocableQuiz::nextVocable()
 {
     if(m_currentVocable && m_currentVocalbeUnlearned) {
 		//unlearned, was just displayed; move to ultra-shortterm-memory
-        CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+        CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable, m_currentDirection);
         quizAnswerCommand->setBox(1);
         m_undoStack->push(quizAnswerCommand);
     }
 
-    m_currentVocable = m_vocableListModel->randomVocable(m_QuizType, m_lessons);
+    if (m_quizDirection == Vocable::Random) {
+        if (qrand() % 2) {
+            m_currentDirection = Vocable::NativeToForeign;
+        } else {
+            m_currentDirection = Vocable::ForeignToNative;
+        }
+        if (!(m_currentVocable = m_vocableListModel->randomVocable(m_currentDirection, m_QuizType, m_lessons))) {
+            //check if for this direction at least one vocable can be found
+            //if not try the other direction below...
+            if (m_currentDirection == Vocable::NativeToForeign) {
+                m_currentDirection = Vocable::ForeignToNative;
+            } else {
+                m_currentDirection = Vocable::NativeToForeign;
+            }
+        }
+    } else {
+        m_currentDirection = m_quizDirection;
+    }
+    m_currentVocable = m_vocableListModel->randomVocable(m_currentDirection, m_QuizType, m_lessons);
 
 	if(!m_currentVocable) {
         m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->waitPage);
-        QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_QuizType, m_lessons);
+        QDateTime expiredDate = m_vocableListModel->nextExpiredVocable(m_quizDirection, m_QuizType, m_lessons);
         if (!expiredDate.isValid()) {
             m_Widget->hide();
             QMessageBox::information(m_Widget,
@@ -105,20 +126,31 @@ void VocableQuiz::nextVocable()
         m_waitTimer->stop();
         m_ui->quizDialogStackedWidget->setCurrentWidget(m_ui->quizPage);
     }
-	if(m_currentVocable->box()==0) {
+    
+
+    if (m_currentDirection == Vocable::NativeToForeign) {
+        m_ui->foreignLanguageNameLabel->setText(m_vocableListModel->foreignLanguage() + ":");
+    } else if (m_currentDirection == Vocable::ForeignToNative) {
+        m_ui->foreignLanguageNameLabel->setText(m_vocableListModel->nativeLanguage() + ":");
+    } else {
+        qFatal("invalid direction");
+    }
+    m_ui->resultForeignLanguageNameLabel->setText(m_ui->foreignLanguageNameLabel->text());
+    QPair<QString, QString> vocText = m_currentVocable->text(m_currentDirection);
+    if(m_currentVocable->box(m_currentDirection)==0) {
 		//unlearned, don't ask just display it
         m_ui->helpLabel->setText(tr("Try to memorize the displayed vocable."));
 		m_ui->buttonsStack->setCurrentWidget(m_ui->nextPage);
-		m_ui->nativeLabel->setText(m_currentVocable->native());
+        m_ui->nativeLabel->setText(vocText.first);
 		m_ui->resultTextLabel->setText(tr(""));
-		m_ui->resultLabel->setText(m_currentVocable->foreign());
+        m_ui->resultLabel->setText(vocText.second);
         m_ui->correctButton->hide();
         m_currentVocalbeUnlearned = true;
         m_ui->nextButton->setFocus();
 	} else {
         m_ui->helpLabel->setText("");
 		m_ui->buttonsStack->setCurrentWidget(m_ui->checkPage);
-		m_ui->nativeLabel->setText(m_currentVocable->native());
+		m_ui->nativeLabel->setText(vocText.first);
 		m_ui->foreignLineEdit->setText("");
         m_currentVocalbeUnlearned = false;
         m_ui->foreignLineEdit->setFocus();
@@ -133,7 +165,7 @@ void VocableQuiz::checkVocable()
 
 void VocableQuiz::correctVocable()
 {
-    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable, m_currentDirection);
     quizAnswerCommand->setBadCount(m_currentVocableLastBadCount); //reset it to old value, check increments it if answer is still wrong
     quizAnswerCommand->setBox(m_currentVocableLastBox+1);
     m_undoStack->push(quizAnswerCommand);
@@ -143,22 +175,23 @@ void VocableQuiz::correctVocable()
 
 void VocableQuiz::check(bool isFirstCheck)
 {
-    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable);
+    CommandQuizAnswer* quizAnswerCommand = new CommandQuizAnswer(m_currentVocable, m_currentDirection);
     int correctBox;
     if (isFirstCheck) {
-        m_currentVocableLastBox = m_currentVocable->box(); //needed for editVocable
-        m_currentVocableLastBadCount = m_currentVocable->badCount(); //needed for editVocable
+        m_currentVocableLastBox = m_currentVocable->box(m_currentDirection); //needed for editVocable
+        m_currentVocableLastBadCount = m_currentVocable->badCount(m_currentDirection); //needed for editVocable
         quizAnswerCommand->incrementQueryCount();
-        correctBox = m_currentVocable->box()+1;;
+        correctBox = m_currentVocable->box(m_currentDirection)+1;;
     } else {
         correctBox = m_currentVocableLastBox+1;
         quizAnswerCommand->setBadCount(m_currentVocableLastBadCount); //reset it to old value, check increments it if answer is still wrong
     }
-    if( m_ui->foreignLineEdit->text() == m_currentVocable->foreign() )
+    QPair<QString, QString> vocText = m_currentVocable->text(m_currentDirection);
+    if( m_ui->foreignLineEdit->text() == vocText.second )
     {
         quizAnswerCommand->setBox(correctBox);
         m_ui->resultTextLabel->setText(tr("correct :)"));
-        m_ui->resultLabel->setText("<font color=\"green\">"+m_currentVocable->foreign()+"</font>");
+        m_ui->resultLabel->setText("<font color=\"green\">"+vocText.second+"</font>");
         m_ui->correctButton->hide();
         m_ui->nextButton->setFocus();
     }
@@ -167,7 +200,7 @@ void VocableQuiz::check(bool isFirstCheck)
         quizAnswerCommand->setBox(0);
         quizAnswerCommand->incrementBadCount();
         m_ui->resultTextLabel->setText(tr("wrong :("));
-        m_ui->resultLabel->setText("<font color=\"red\">"+m_currentVocable->foreign()+"</font>");
+        m_ui->resultLabel->setText("<font color=\"red\">"+vocText.second+"</font>");
         m_ui->correctButton->show();
         m_ui->nextButton->setFocus();
     }

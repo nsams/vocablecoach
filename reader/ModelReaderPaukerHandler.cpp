@@ -38,7 +38,7 @@ bool ModelReaderPaukerHandler::startElement(const QString & /* namespaceURI */,
     } else if (qName == "Card") {
         currentVocable = m_model->createVocable();
         int i = currentBox;
-        currentVocable->setBox(i);
+        currentVocable->setBox(Vocable::NativeToForeign, i);
         if (m_importCommand) {
             new CommandAdd(m_model, currentVocable, -1, m_importCommand);
         } else {

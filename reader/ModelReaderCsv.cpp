@@ -59,7 +59,7 @@ Vocable* ModelReaderCsv::parseLine(VocableListModel* model, QString line)
     Vocable* voc = model->createVocable();
     voc->setNative(parts[0]);
     if (parts.count() > 1) voc->setForeign(parts[1]);
-    if (parts.count() > 2) voc->setBox(parts[2].toInt());
+    if (parts.count() > 2) voc->setBox(Vocable::NativeToForeign, parts[2].toInt());
     return voc;
 }
 

@@ -45,3 +45,13 @@ VocableQuiz::QuizType StartQuiz::quizType()
     return VocableQuiz::All;
 }
 
+Vocable::Direction StartQuiz::direction()
+{
+    if(directionNativeForeignRadioButton->isChecked())
+        return Vocable::NativeToForeign;
+    if(directionForeignNativeRadioButton->isChecked())
+        return Vocable::ForeignToNative;
+
+    return Vocable::Random;
+}
+

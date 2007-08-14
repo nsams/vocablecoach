@@ -10,21 +10,21 @@
 //
 //
 #include "command/CommandQuizAnswer.h"
-#include "Vocable.h"
 #include <QDebug>
 
-CommandQuizAnswer::CommandQuizAnswer(Vocable* vocable, QUndoCommand* parent)
+CommandQuizAnswer::CommandQuizAnswer(Vocable* vocable, Vocable::Direction direction, QUndoCommand* parent)
  : QUndoCommand(parent)
 {
+    m_data.direction = direction;
     m_data.vocable = vocable;
-    m_data.oldBox = vocable->box();
-    m_data.oldLastQuery = vocable->lastQuery();
-    m_data.oldQueryCount = vocable->queryCount();
-    m_data.oldBadCount = vocable->badCount();
-    m_data.newBox = vocable->box();
+    m_data.oldBox = vocable->box(direction);
+    m_data.oldLastQuery = vocable->lastQuery(direction);
+    m_data.oldQueryCount = vocable->queryCount(direction);
+    m_data.oldBadCount = vocable->badCount(direction);
+    m_data.newBox = vocable->box(direction);
     m_data.newLastQuery = QDateTime::currentDateTime();
-    m_data.newQueryCount = vocable->queryCount();
-    m_data.newBadCount = vocable->badCount();
+    m_data.newQueryCount = vocable->queryCount(direction);
+    m_data.newBadCount = vocable->badCount(direction);
 
 
     setText(QObject::tr("Vocable Quiz"));
@@ -65,28 +65,28 @@ bool CommandQuizAnswer::mergeWith(const QUndoCommand *other)
 
 void CommandQuizAnswer::redo()
 {
-    m_data.vocable->setBox(m_data.newBox);
-    m_data.vocable->setLastQuery(m_data.newLastQuery);
-    m_data.vocable->setQueryCount(m_data.newQueryCount);
-    m_data.vocable->setBadCount(m_data.newBadCount);
+    m_data.vocable->setBox(m_data.direction, m_data.newBox);
+    m_data.vocable->setLastQuery(m_data.direction, m_data.newLastQuery);
+    m_data.vocable->setQueryCount(m_data.direction, m_data.newQueryCount);
+    m_data.vocable->setBadCount(m_data.direction, m_data.newBadCount);
     foreach (CommandQuizAnswerData data, m_mergedDataList) {
-        data.vocable->setBox(data.newBox);
-        data.vocable->setLastQuery(data.newLastQuery);
-        data.vocable->setQueryCount(data.newQueryCount);
-        data.vocable->setBadCount(data.newBadCount);
+        data.vocable->setBox(data.direction, data.newBox);
+        data.vocable->setLastQuery(data.direction, data.newLastQuery);
+        data.vocable->setQueryCount(data.direction, data.newQueryCount);
+        data.vocable->setBadCount(data.direction, data.newBadCount);
     }
 }
 
 void CommandQuizAnswer::undo()
 {
-    m_data.vocable->setBox(m_data.oldBox);
-    m_data.vocable->setLastQuery(m_data.oldLastQuery);
-    m_data.vocable->setQueryCount(m_data.oldQueryCount);
-    m_data.vocable->setBadCount(m_data.oldBadCount);
+    m_data.vocable->setBox(m_data.direction, m_data.oldBox);
+    m_data.vocable->setLastQuery(m_data.direction, m_data.oldLastQuery);
+    m_data.vocable->setQueryCount(m_data.direction, m_data.oldQueryCount);
+    m_data.vocable->setBadCount(m_data.direction, m_data.oldBadCount);
     foreach (CommandQuizAnswerData data, m_mergedDataList) {
-        data.vocable->setBox(data.oldBox);
-        data.vocable->setLastQuery(data.oldLastQuery);
-        data.vocable->setQueryCount(data.oldQueryCount);
-        data.vocable->setBadCount(data.oldBadCount);
+        data.vocable->setBox(data.direction, data.oldBox);
+        data.vocable->setLastQuery(data.direction, data.oldLastQuery);
+        data.vocable->setQueryCount(data.direction, data.oldQueryCount);
+        data.vocable->setBadCount(data.direction, data.oldBadCount);
     }
 }

@@ -15,7 +15,8 @@ CommandResetBox::CommandResetBox(QList<Vocable*> vocables, QUndoCommand* parent)
  : QUndoCommand(parent)
 {
     foreach (Vocable* voc, vocables) {
-        m_oldBox[voc] = voc->box();
+        m_oldBox[voc][Vocable::NativeToForeign] = voc->box(Vocable::NativeToForeign);
+        m_oldBox[voc][Vocable::ForeignToNative] = voc->box(Vocable::ForeignToNative);
     }
     setText(QObject::tr("Reset Box"));
 }
@@ -23,18 +24,20 @@ CommandResetBox::CommandResetBox(QList<Vocable*> vocables, QUndoCommand* parent)
 
 void CommandResetBox::redo()
 {
-    QHash<Vocable*, int>::iterator i = m_oldBox.begin();
+    QHash<Vocable*, QHash<Vocable::Direction, int> >::iterator i = m_oldBox.begin();
     while (i != m_oldBox.end()) {
-        i.key()->setBox(0);
+        i.key()->setBox(Vocable::NativeToForeign, 0);
+        i.key()->setBox(Vocable::ForeignToNative, 0);
         ++i;
     }
 }
 
 void CommandResetBox::undo()
 {
-    QHash<Vocable*, int>::iterator i = m_oldBox.begin();
+    QHash<Vocable*, QHash<Vocable::Direction, int> >::iterator i = m_oldBox.begin();
     while (i != m_oldBox.end()) {
-        i.key()->setBox(i.value());
+        i.key()->setBox(Vocable::NativeToForeign, i.value()[Vocable::NativeToForeign]);
+        i.key()->setBox(Vocable::ForeignToNative, i.value()[Vocable::ForeignToNative]);
         ++i;
     }
 }

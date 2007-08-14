@@ -60,7 +60,7 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         }
         if (!attributes.value("box").isEmpty()) {
              //deprecated, <t g="" is used instead (which is kvtml standard)
-            m_currentVocable->setBox(attributes.value("box").toInt());
+            m_currentVocable->setBox(Vocable::NativeToForeign, attributes.value("box").toInt());
         }
         if(!attributes.value("m").isEmpty()) {
             if (m_importCommand) {
@@ -93,19 +93,19 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
         QStringList valList = QString(attributes.value("d")).split(";"); //last query
         if(valList[0].toUInt() > 0) {
             QDateTime lastQuery = QDateTime::fromTime_t(valList[0].toUInt());
-			m_currentVocable->setLastQuery(lastQuery);
+            m_currentVocable->setLastQuery(Vocable::NativeToForeign, lastQuery);
 		}
         valList = QString(attributes.value("c")).split(";"); //query-count
         if(valList[0].toInt() > 0) {
-            m_currentVocable->setQueryCount(valList[0].toInt());
+            m_currentVocable->setQueryCount(Vocable::NativeToForeign, valList[0].toInt());
         }
         valList = QString(attributes.value("b")).split(";"); //bad-count
         if(valList[0].toInt() > 0) {
-            m_currentVocable->setBadCount(valList[0].toInt());
+            m_currentVocable->setBadCount(Vocable::NativeToForeign, valList[0].toInt());
         }
         valList = QString(attributes.value("g")).split(";"); //grade
         if(valList[0].toInt() > 0) {
-            m_currentVocable->setBox(valList[0].toInt());
+            m_currentVocable->setBox(Vocable::NativeToForeign, valList[0].toInt());
         }
         currentText.clear();
 	}

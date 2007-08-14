@@ -1,11 +1,15 @@
 #include "Vocable.h"
 #include "VocableListModel.h"
 
-Vocable::Vocable(VocableListModel* model, const QString& native, const QString& foreign, int box)
-    : QObject(0), m_model(model), m_native(native), m_foreign(foreign), m_lessonNumber(0), m_box(box),
-        m_queryCount(0), m_badCount(0)
+Vocable::Vocable(VocableListModel* model, const QString& native, const QString& foreign)
+    : QObject(0), m_model(model), m_native(native), m_foreign(foreign), m_lessonNumber(0)
 {
-    
+    m_queryCount[NativeToForeign] = 0;
+    m_queryCount[ForeignToNative] = 0;
+    m_badCount[NativeToForeign] = 0;
+    m_badCount[ForeignToNative] = 0;
+    m_box[NativeToForeign] = 0;
+    m_box[ForeignToNative] = 0;
 }
 
 void Vocable::setNative(const QString& native)
@@ -19,14 +23,14 @@ void Vocable::setForeign(const QString& foreign)
     emit vocableChanged();
 }
 
-void Vocable::setBox(int box)
+void Vocable::setBox(Direction direction, int box)
 {
-	m_box = box;
+    m_box[direction] = box;
     emit vocableChanged();
 }
-void Vocable::setLastQuery(const QDateTime& lastQuery)
+void Vocable::setLastQuery(Direction direction, const QDateTime& lastQuery)
 {
-	m_lastQuery = lastQuery;
+    m_lastQuery[direction] = lastQuery;
     emit vocableChanged();
 }
 
@@ -51,43 +55,70 @@ int Vocable::lessonNumber() const
 {
     return m_lessonNumber;
 }
-QDateTime Vocable::expireDate() const
+QDateTime Vocable::expireDate(Direction direction) const
 {
-    if (m_box == 2) {
-        return m_lastQuery.addSecs(13*60);
-    } else if(m_box==1) {
-        return m_lastQuery.addSecs(16);
-    } else if(m_box==0) {
+    if (m_box[direction] == 2) {
+        return m_lastQuery[direction].addSecs(13*60);
+    } else if(m_box[direction]==1) {
+        return m_lastQuery[direction].addSecs(16);
+    } else if(m_box[direction]==0) {
         return QDateTime::currentDateTime();
     } else {
-        return m_lastQuery.addSecs(60*60*24);
+        return m_lastQuery[direction].addSecs(60*60*24);
     }
 }
 
-bool Vocable::isExpired() const
+bool Vocable::isExpired(Direction direction) const
 {
-    if (expireDate() < QDateTime::currentDateTime())
+    if (expireDate(direction) < QDateTime::currentDateTime())
         return true;
     else
         return false;
 }
 
-int Vocable::queryCount() const
+int Vocable::queryCount(Direction direction) const
 {
-    return m_queryCount;
+    return m_queryCount[direction];
 }
 
-void Vocable::setQueryCount(int queryCount)
+void Vocable::setQueryCount(Direction direction, int queryCount)
 {
-    m_queryCount = queryCount;
+    m_queryCount[direction] = queryCount;
 }
 
-int Vocable::badCount() const
+int Vocable::badCount(Direction direction) const
 {
-    return m_badCount;
+    return m_badCount[direction];
 }
 
-void Vocable::setBadCount(int badCount)
+void Vocable::setBadCount(Direction direction, int badCount)
 {
-    m_badCount = badCount;
+    m_badCount[direction] = badCount;
+}
+QPair<QString, QString> Vocable::text(Direction direction)
+{
+    QPair<QString, QString> ret;
+    if (direction == NativeToForeign) {
+        ret.first = native();
+        ret.second = foreign();
+    } else if (direction == ForeignToNative) {
+        ret.first = foreign();
+        ret.second = native();
+    } else {
+        qFatal("invalid direction");
+    }
+    return ret;
+}
+
+QString Vocable::boxShortString(Direction direction) const {
+    int i = box(direction);
+    if (i == 0) {
+        return tr("unlearned");
+    } else if (i == 1) {
+        return tr("ultra-shortterm");
+    } else if (i == 2) {
+        return tr("shortterm");
+    } else {
+        return tr("Box %1").arg(i-2);
+    }
 }
