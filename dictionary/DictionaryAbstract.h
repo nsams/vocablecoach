@@ -16,7 +16,7 @@
 #include <QPair>
 #include <QString>
 /**
-	@author Niko Sams <ns@vivid-planet.com>
+	@author Niko Sams <niko.sams@gmail.com>
 */
 class DictionaryAbstract : public QObject
 {

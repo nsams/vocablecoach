@@ -15,7 +15,7 @@
 #include <dictionary/DictionaryAbstract.h>
 class QHttp;
 /**
-	@author Niko Sams <ns@vivid-planet.com>
+	@author Niko Sams <niko.sams@gmail.com>
 */
 class DictionaryHttpAbstract : public DictionaryAbstract
 {
