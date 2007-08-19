@@ -161,29 +161,13 @@
  <connections>
   <connection>
    <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>StartQuiz</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>352</x>
-     <y>232</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>338</x>
-     <y>223</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>StartQuiz</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>436</x>
-     <y>241</y>
+     <x>445</x>
+     <y>287</y>
     </hint>
     <hint type="destinationlabel" >
      <x>437</x>
