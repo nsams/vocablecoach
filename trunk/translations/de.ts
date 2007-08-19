@@ -844,6 +844,16 @@ Möchten Sie es speichern?</translation>
         <source>Random</source>
         <translation>Zufällig</translation>
     </message>
+    <message>
+        <location filename="../StartQuiz.cpp" line="74"/>
+        <source>VocableCoach</source>
+        <translation>VocableCoach</translation>
+    </message>
+    <message>
+        <location filename="../StartQuiz.cpp" line="75"/>
+        <source>Please select at least one lesson.</source>
+        <translation>Bitte wählen Sie zumindest eine Lektion.</translation>
+    </message>
 </context>
 <context>
     <name>StatisticsWidget</name>
@@ -977,39 +987,44 @@ Möchten Sie es speichern?</translation>
         <translation type="obsolete">keine ergebnisse...</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="47"/>
+        <location filename="../VocableEditor.cpp" line="48"/>
         <source>none</source>
         <translation>keine</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="48"/>
+        <location filename="../VocableEditor.cpp" line="50"/>
         <source>dict.leo.org</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="49"/>
+        <location filename="../VocableEditor.cpp" line="51"/>
         <source>dict.cc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="50"/>
+        <location filename="../VocableEditor.cpp" line="52"/>
         <source>woerterbuch.info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="51"/>
+        <location filename="../VocableEditor.cpp" line="53"/>
         <source>dict.uni-leipzig.de</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="199"/>
+        <location filename="../VocableEditor.cpp" line="203"/>
         <source>dictionary...</source>
         <translation>Wörterbuch...</translation>
     </message>
     <message>
-        <location filename="../VocableEditor.cpp" line="217"/>
+        <location filename="../VocableEditor.cpp" line="221"/>
         <source>dictionary</source>
         <translation type="unfinished">Wörterbuch</translation>
+    </message>
+    <message>
+        <location filename="../VocableEditor.cpp" line="49"/>
+        <source>ding (local)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1219,11 +1234,6 @@ Möchten Sie es speichern?</translation>
         <location filename="../VocableQuiz.ui" line="97"/>
         <source>Language:</source>
         <translation>Sprache:</translation>
-    </message>
-    <message>
-        <location filename="../VocableQuiz.cpp" line="145"/>
-        <source></source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -32,6 +32,8 @@ public:
     QStringList selectedLessons();
     VocableQuiz::QuizType quizType();
     Vocable::Direction direction();
+private Q_SLOTS:
+    void tryAccept();
 };
 
 #endif

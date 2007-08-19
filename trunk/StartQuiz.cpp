@@ -12,20 +12,27 @@
 #include "StartQuiz.h"
 #include "VocableListModel.h"
 #include "VocableQuiz.h"
+#include <QMessageBox>
 
 StartQuiz::StartQuiz(QWidget *parent, VocableListModel* model)
     : QDialog(parent)
 {
     setupUi(this);
-    lessonsList->addItems(model->lessons().values());
+
+    foreach (QString lesson, model->lessons().values()) {
+        QListWidgetItem* i = new QListWidgetItem(lesson, lessonsList);
+        i->setSelected(true);
+    }
+
     directionNativeForeignRadioButton->setText(QString("%1 » %2")
                 .arg(model->nativeLanguage())
                 .arg(model->foreignLanguage()));
     directionForeignNativeRadioButton->setText(QString("%1 » %2")
             .arg(model->foreignLanguage())
             .arg(model->nativeLanguage()));
-}
 
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(tryAccept()));
+}
 
 StartQuiz::~StartQuiz()
 {
@@ -61,3 +68,12 @@ Vocable::Direction StartQuiz::direction()
     return Vocable::Random;
 }
 
+void StartQuiz::tryAccept()
+{
+    if (!lessonsList->selectedItems().count()) {
+        QMessageBox::information(this, tr("VocableCoach"),
+                        tr("Please select at least one lesson."));
+    } else {
+        accept();
+    }
+}
