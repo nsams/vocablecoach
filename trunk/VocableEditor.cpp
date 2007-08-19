@@ -20,6 +20,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QUndoStack>
+#include "dictionary/DictionaryDing.h"
 #include "dictionary/DictionaryLeo.h"
 #include "dictionary/DictionaryDictCc.h"
 #include "dictionary/DictionaryWorterbuchInfo.h"
@@ -45,6 +46,7 @@ VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWi
     connect(startTranslationTimer, SIGNAL(timeout()), this,  SLOT(lookupWord()));
 
     directoryComboBox->addItem(tr("none"), "none");
+    directoryComboBox->addItem(tr("ding (local)"), "Ding");
     directoryComboBox->addItem(tr("dict.leo.org"), "Leo");
     directoryComboBox->addItem(tr("dict.cc"), "DictCC");
     directoryComboBox->addItem(tr("woerterbuch.info"), "WoerterbuchInfo");
@@ -58,6 +60,8 @@ void VocableEditor::directoryChanged(int index)
     delete m_dictionary;
     if (directoryComboBox->itemData(index) == "none") {
         m_dictionary = 0;
+    } else if (directoryComboBox->itemData(index) == "Ding") {
+        m_dictionary = new DictionaryDing(this);
     } else if (directoryComboBox->itemData(index) == "Leo") {
         m_dictionary = new DictionaryLeo(this);
     } else if (directoryComboBox->itemData(index) == "DictCC") {

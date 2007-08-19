@@ -456,12 +456,12 @@ Möchten Sie es speichern?</translation>
     <message>
         <location filename="../MainWindow.ui" line="331"/>
         <source>&amp;Modify Lesson</source>
-        <translation type="unfinished">&amp;lesson ändern</translation>
+        <translation type="unfinished">&amp;Lektion ändern</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="336"/>
         <source>Reset &amp;Box</source>
-        <translation type="unfinished">&amp;box zurücksetzn</translation>
+        <translation type="unfinished">&amp;Box zurücksetzn</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="341"/>
