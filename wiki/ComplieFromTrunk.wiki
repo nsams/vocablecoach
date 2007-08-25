@@ -1,0 +1,16 @@
+#labels Featured
+Instructions on how you can build the lastest trunk-version of VocableCoach:
+
+= Requirements =
+
+ * Compiler (tested only with g++)
+ * [http://trolltech.com/developer/downloads/qt Qt 4.3] (perhaps an ealier version will work) installed in your path
+ * [http://subversion.tigris.org/ Subversion] (to checkout latest development version)
+
+= Details =
+
+ * {{{svn co http://vocablecoach.googlecode.com/svn/trunk vocablecoach}}}
+ * {{{cd vocablecoach}}}
+ * {{{qmake}}}
+ * {{{make}}}
+ * {{{./vocablecoach}}}
