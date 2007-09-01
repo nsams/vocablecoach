@@ -10,9 +10,10 @@
 //
 //
 #include "dictionary/DictionaryAbstract.h"
+#include <QDebug>
 
-DictionaryAbstract::DictionaryAbstract(QObject* parent)
-    : QObject(parent)
+DictionaryAbstract::DictionaryAbstract(const QMap<QString, QVariant>& settings, QObject* parent)
+    : QObject(parent), m_settings(settings)
 {
 }
 

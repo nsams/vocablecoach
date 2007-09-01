@@ -13,6 +13,7 @@
 #define COMMANDEDITPROPERTIES_H
 
 #include <QUndoCommand>
+#include <QMap>
 class VocableListModel;
 
 /**
@@ -26,6 +27,12 @@ public:
     void setAuthors(QString authors);
     void setForeignLanguage(QString foreignLanguage);
     void setNativeLanguage(QString nativeLanguage);
+    void setForeignLanguageDict(QString dict);
+    void setNativeLanguageDict(QString dict);
+    void setNativeLanguageSettings(QMap<QString, QVariant> settings);
+    void setForeignLanguageSettings(QMap<QString, QVariant> settings);
+    QMap<QString, QVariant> getNativeLanguageSettings() { return m_newNativeLanguageSettings; }
+    QMap<QString, QVariant> getForeignLanguageSettings() { return m_oldNativeLanguageSettings; }
 
     void redo();
     void undo();
@@ -37,11 +44,19 @@ private:
     QString m_oldAuthors;
     QString m_oldForeignLanguage;
     QString m_oldNativeLanguage;
+    QString m_oldForeignLanguageDict;
+    QString m_oldNativeLanguageDict;
+    QMap<QString, QVariant> m_oldForeignLanguageSettings;
+    QMap<QString, QVariant> m_oldNativeLanguageSettings;
 
     QString m_newTitle;
     QString m_newAuthors;
     QString m_newForeignLanguage;
     QString m_newNativeLanguage;
+    QString m_newForeignLanguageDict;
+    QString m_newNativeLanguageDict;
+    QMap<QString, QVariant> m_newForeignLanguageSettings;
+    QMap<QString, QVariant> m_newNativeLanguageSettings;
 };
 
 #endif

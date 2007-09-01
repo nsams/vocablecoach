@@ -20,14 +20,11 @@
 #include <QTimer>
 #include <QUrl>
 #include <QUndoStack>
-#include "dictionary/DictionaryDing.h"
-#include "dictionary/DictionaryLeo.h"
-#include "dictionary/DictionaryDictCc.h"
-#include "dictionary/DictionaryWorterbuchInfo.h"
-#include "dictionary/DictionaryUniLeipzig.h"
+#include "dictionary/DictionaryFactory.h"
+#include "dictionary/DictionaryAbstract.h"
 
 VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWidget *parent)
-    : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model), m_dictionary(0)
+    : QDialog(parent), m_undoStack(undoStack), m_vocableListModel(model)
 {
     setupUi(this);
 
@@ -40,45 +37,22 @@ VocableEditor::VocableEditor(VocableListModel* model, QUndoStack* undoStack, QWi
     foreignTextEdit->installEventFilter(this);
     lessonComboBox->installEventFilter(this);
 
-    startTranslationTimer = new QTimer(this);
-    startTranslationTimer->setInterval(1000);
-    startTranslationTimer->stop();
-    connect(startTranslationTimer, SIGNAL(timeout()), this,  SLOT(lookupWord()));
+    startTranslationTimerNative = new QTimer(this);
+    startTranslationTimerNative->setInterval(1000);
+    startTranslationTimerNative->stop();
+    connect(startTranslationTimerNative, SIGNAL(timeout()), this,  SLOT(lookupWordNative()));
 
-    directoryComboBox->addItem(tr("none"), "none");
-    directoryComboBox->addItem(tr("ding (local)"), "Ding");
-    directoryComboBox->addItem(tr("dict.leo.org"), "Leo");
-    directoryComboBox->addItem(tr("dict.cc"), "DictCC");
-    directoryComboBox->addItem(tr("woerterbuch.info"), "WoerterbuchInfo");
-    directoryComboBox->addItem(tr("dict.uni-leipzig.de"), "UniLeipzig");
-    
-    connect(directoryComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(directoryChanged(int)));
+    startTranslationTimerForeign = new QTimer(this);
+    startTranslationTimerForeign->setInterval(1000);
+    startTranslationTimerForeign->stop();
+    connect(startTranslationTimerForeign, SIGNAL(timeout()), this,  SLOT(lookupWordForeign()));
+
+    m_dictionaryForeign = DictionaryFactory::dictionaryInstance(m_vocableListModel->foreignLanguageDict(), m_vocableListModel->foreignLanguageSettings(), this);
+    if (m_dictionaryForeign) connect(m_dictionaryForeign, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
+    m_dictionaryNative = DictionaryFactory::dictionaryInstance(m_vocableListModel->nativeLanguageDict(), m_vocableListModel->nativeLanguageSettings(), this);
+    if (m_dictionaryNative) connect(m_dictionaryNative, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
 }
 
-void VocableEditor::directoryChanged(int index)
-{
-    delete m_dictionary;
-    if (directoryComboBox->itemData(index) == "none") {
-        m_dictionary = 0;
-    } else if (directoryComboBox->itemData(index) == "Ding") {
-        m_dictionary = new DictionaryDing(this);
-    } else if (directoryComboBox->itemData(index) == "Leo") {
-        m_dictionary = new DictionaryLeo(this);
-    } else if (directoryComboBox->itemData(index) == "DictCC") {
-        m_dictionary = new DictionaryDictCc(this);
-    } else if (directoryComboBox->itemData(index) == "WoerterbuchInfo") {
-        m_dictionary = new DictionaryWorterbuchInfo(this);
-    } else if (directoryComboBox->itemData(index) == "UniLeipzig") {
-        m_dictionary = new DictionaryUniLeipzig(this);
-    } else {
-        Q_ASSERT(false);
-    }
-    
-    if (m_dictionary) {
-        connect(m_dictionary, SIGNAL(done(bool)), this, SLOT(translationDone(bool)));
-    }
-    lookupWord();
-}
 void VocableEditor::addVocable(VocableListModel* model, QUndoStack* undoStack)
 {
     VocableEditor* editor = new VocableEditor(model, undoStack);
@@ -186,29 +160,45 @@ bool VocableEditor::eventFilter(QObject *target, QEvent *event)
 }
 
 void VocableEditor::nativeTextChanged() {
-    _translateText = nativeTextEdit->toPlainText();
-    startTranslationTimer->start();
+    _translateTextNative = nativeTextEdit->toPlainText();
+    startTranslationTimerNative->start();
 }
 void VocableEditor::foreignTextChanged() {
-    _translateText = foreignTextEdit->toPlainText();
-    startTranslationTimer->start();
+    _translateTextForeign = foreignTextEdit->toPlainText();
+    startTranslationTimerForeign->start();
 }
 
 
-void VocableEditor::lookupWord()
+void VocableEditor::lookupWordNative()
 {
-    startTranslationTimer->stop();
-    if (_translateText.simplified()=="") return;
-    if (m_dictionary) {
+    startTranslationTimerNative->stop();
+    if (_translateTextNative.simplified()=="") return;
+    if (m_dictionaryNative) {
         translateGroupBox->setTitle(tr("dictionary..."));
-        m_dictionary->lookupWord(_translateText.simplified());
+        m_dictionaryNative->lookupWord(_translateTextNative.simplified());
+    }
+}
+
+void VocableEditor::lookupWordForeign()
+{
+    startTranslationTimerForeign->stop();
+    if (_translateTextForeign.simplified()=="") return;
+    if (m_dictionaryForeign) {
+        translateGroupBox->setTitle(tr("dictionary..."));
+        m_dictionaryForeign->lookupWord(_translateTextForeign.simplified());
     }
 }
 
 void VocableEditor::translationDone(bool error)
 {
-    if (!error) {
-        QList<QPair<QString, QString> > results = m_dictionary->results();
+    DictionaryAbstract* dictionary = qobject_cast<DictionaryAbstract*>(sender());
+    if (!error && dictionary) {
+
+        QPair<QString, QString> headerText = dictionary->headerText();
+        translateTreeWidget->headerItem()->setText(0, headerText.first);
+        translateTreeWidget->headerItem()->setText(1, headerText.second);
+
+        QList<QPair<QString, QString> > results = dictionary->results();
         QString Text("");
         QPair<QString, QString> result;
         translateTreeWidget->clear();

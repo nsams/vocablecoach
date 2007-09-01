@@ -197,9 +197,6 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QComboBox" name="directoryComboBox" />
-       </item>
-       <item>
         <widget class="QTreeWidget" name="translateTreeWidget" >
          <property name="alternatingRowColors" >
           <bool>true</bool>
@@ -209,12 +206,12 @@
          </property>
          <column>
           <property name="text" >
-           <string>English</string>
+           <string/>
           </property>
          </column>
          <column>
           <property name="text" >
-           <string>German</string>
+           <string/>
           </property>
          </column>
         </widget>

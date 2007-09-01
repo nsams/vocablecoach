@@ -21,10 +21,11 @@ class DictionaryDing : public DictionaryAbstract
 {
 Q_OBJECT
 public:
-    DictionaryDing(QObject *parent = 0);
+    DictionaryDing(const QMap<QString, QVariant>& settings, QObject *parent = 0);
 
-    ~DictionaryDing();
     void lookupWord(const QString& word);
+    static QString dictionaryName() { return tr("ding (local)"); }
+    QPair<QString, QString> headerText();
 private:
     DictionaryDingLookupThread* m_thread;
 

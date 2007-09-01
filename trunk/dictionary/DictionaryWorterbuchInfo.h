@@ -21,8 +21,10 @@ class DictionaryWorterbuchInfo : public DictionaryHttpAbstract
 {
 Q_OBJECT
 public:
-    DictionaryWorterbuchInfo(QObject *parent = 0);
+    DictionaryWorterbuchInfo(const QMap<QString, QVariant>& settings, QObject *parent);
     void lookupWord(const QString& word);
+    static QString dictionaryName() { return tr("worterbuch.info"); }
+    QPair<QString, QString> headerText();
 
 private Q_SLOTS:
     void processData(bool error);

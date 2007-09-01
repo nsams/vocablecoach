@@ -266,13 +266,12 @@ QString VocableListModel::getLessonByNumber(int i)
 Vocable* VocableListModel::createVocable()
 {
     Vocable* voc = new Vocable(this);
-    m_createdVocablesList << voc;
     return voc; 
 }
-
-VocableListModel::~VocableListModel() {
-    qDeleteAll(m_createdVocablesList);
+VocableListModel::~VocableListModel()
+{
 }
+
 
 QStringList VocableListModel::boxes()
 {

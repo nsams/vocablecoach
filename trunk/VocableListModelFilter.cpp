@@ -25,6 +25,8 @@ VocableListModelFilter::~VocableListModelFilter()
 bool VocableListModelFilter::filterAcceptsRow(int sourceRow,
                                                const QModelIndex &sourceParent) const
 {
+    Q_UNUSED(sourceParent);
+
     VocableListModel* model = qobject_cast<VocableListModel*>(sourceModel());
     if (!model) {
         return false;

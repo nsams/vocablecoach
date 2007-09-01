@@ -12,8 +12,8 @@
 #include "dictionary/DictionaryHttpAbstract.h"
 #include <QHttp>
 
-DictionaryHttpAbstract::DictionaryHttpAbstract(QObject *parent)
- : DictionaryAbstract(parent)
+DictionaryHttpAbstract::DictionaryHttpAbstract(const QMap<QString, QVariant>& settings, QObject *parent)
+ : DictionaryAbstract(settings, parent)
 {
     m_http = new QHttp(this);
     connect(m_http, SIGNAL(done(bool)), this, SLOT(processData(bool)));

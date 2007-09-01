@@ -21,8 +21,15 @@ class DictionaryLeo : public DictionaryHttpAbstract
 {
     Q_OBJECT
 public:
-    DictionaryLeo(QObject *parent = 0);
+    DictionaryLeo(const QMap<QString, QVariant>& settings, QObject *parent = 0);
     void lookupWord(const QString& word);
+    static QString dictionaryName() { return tr("dict.leo.org"); }
+    bool hasSettings() {
+        return true;
+    }
+    QMap<QString, QVariant> editSettings();
+    QPair<QString, QString> headerText();
+
 
 private Q_SLOTS:
     void processData(bool error);

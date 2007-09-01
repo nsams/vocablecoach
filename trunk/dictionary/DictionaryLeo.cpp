@@ -9,20 +9,23 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-#include "dictionary/DictionaryLeo.h"
 #include <QUrl>
 #include <QHttp>
 #include <QDebug>
+#include "dictionary/DictionaryLeo.h"
+#include "ui/ui_SettingsLeo.h"
 
-DictionaryLeo::DictionaryLeo(QObject *parent)
-    : DictionaryHttpAbstract(parent)
+DictionaryLeo::DictionaryLeo(const QMap<QString, QVariant>& settings, QObject *parent)
+    : DictionaryHttpAbstract(settings, parent)
 {
+    if (m_settings["language"] == "") m_settings["language"] = "ende";
 }
 void DictionaryLeo::lookupWord(const QString& word)
 {
     DictionaryHttpAbstract::lookupWord(word);
     QUrl url("/");
     url.addQueryItem("search", word.simplified());
+    url.addQueryItem("lp", m_settings["language"].toString());
     m_http->get(url.path()+"?"+url.encodedQuery());
 }
 
@@ -65,4 +68,36 @@ void DictionaryLeo::processData(bool error)
         }
     }
     emit done(error);
+}
+
+QMap<QString, QVariant> DictionaryLeo::editSettings()
+{
+    QDialog dialog;
+    Ui::DictionarySettingsLeo ui;
+    ui.setupUi(&dialog);
+
+    QStringList languages;
+    ui.languageComboBox->addItem(tr("English-German"), "ende");
+    ui.languageComboBox->addItem(tr("French-German"), "frde");
+    ui.languageComboBox->addItem(tr("Spanish-German"), "esde");
+    ui.languageComboBox->setCurrentIndex(ui.languageComboBox->findData(m_settings["language"]));
+
+    if (dialog.exec() == QDialog::Accepted) {
+        m_settings["language"] = ui.languageComboBox->itemData(ui.languageComboBox->currentIndex()).toString();
+    }
+    return m_settings;
+}
+
+QPair<QString, QString> DictionaryLeo::headerText()
+{
+    QPair<QString, QString> ret;
+    if (m_settings["language"] == "ende") {
+        ret.first = tr("English");
+    } else if (m_settings["language"] == "frde") {
+        ret.first = tr("French");
+    } else if (m_settings["language"] == "esde") {
+        ret.first = tr("Spanish");
+    }
+    ret.second = tr("German");
+    return ret;
 }

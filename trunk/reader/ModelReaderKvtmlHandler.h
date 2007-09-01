@@ -5,6 +5,7 @@
 #include <QXmlDefaultHandler>
 #include <QString>
 #include <QHash>
+#include <QMap>
 class VocableListModel;
 class Vocable;
 class QUndoStack;
@@ -32,7 +33,10 @@ private:
     QHash<int, QString> m_importLessons;
 
 	bool metKvtmlTag;
-    bool inLessonTag;
+    QString currentTag;
+    QString currentLanguageType;
+    QMap<QString, QVariant> currentLanguageSettings;
+    QString currentLanguageDict;
     int currentLessonNumber;
 	QString currentText;
 	QString errorStr;

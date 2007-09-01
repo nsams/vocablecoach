@@ -11,7 +11,8 @@ FORMS += MainWindow.ui \
          DocumentProperties.ui \
          PreviewDialog.ui \
          VocableList.ui \
-         StatisticsWidget.ui
+         StatisticsWidget.ui \
+         dictionary\SettingsLeo.ui
 
 HEADERS += MainWindow.h \
            Vocable.h \
@@ -53,7 +54,8 @@ HEADERS += MainWindow.h \
            dictionary/DictionaryUniLeipzig.h \
            dictionary/DictionaryDing.h \
            dictionary/DictionaryDingResultItem.h \
- dictionary/DictionaryDingLookupThread.h
+           dictionary/DictionaryDingLookupThread.h \
+           dictionary/DictionaryFactory.h
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -95,7 +97,8 @@ SOURCES += main.cpp \
            dictionary/DictionaryUniLeipzig.cpp \
            dictionary/DictionaryDing.cpp \
            dictionary/DictionaryDingResultItem.cpp \
- dictionary/DictionaryDingLookupThread.cpp
+           dictionary/DictionaryDingLookupThread.cpp \
+           dictionary/DictionaryFactory.cpp
 
 CONFIG += debug \
 qt \

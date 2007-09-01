@@ -16,6 +16,8 @@
 #include "ui/ui_DocumentProperties.h"
 class VocableListModel;
 class QUndoStack;
+class CommandEditProperties;
+class DictionaryAbstract;
 
 /**
 	@author Niko Sams <niko.sams@gmail.com>
@@ -29,8 +31,17 @@ class DocumentProperties : public QDialog, private Ui::DocumentProperties
     private:
         VocableListModel* m_model;
         QUndoStack* m_undoStack;
+        CommandEditProperties* m_editPropertiesCommand;
+        DictionaryAbstract* m_nativeDictionary;
+        DictionaryAbstract* m_foreignDictionary;
+
     protected slots:
-        void ok();
+        void _ok();
+        void _onRejected();
+        void _openNativeDictionarySettings();
+        void _openForeignDictionarySettings();
+        void _nativeDictionaryChanged(int index);
+        void _foreignDictionaryChanged(int index);
 };
 
 #endif

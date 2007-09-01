@@ -21,8 +21,10 @@ class DictionaryDictCc : public DictionaryHttpAbstract
 {
 Q_OBJECT
 public:
-    DictionaryDictCc(QObject *parent = 0);
+    DictionaryDictCc(const QMap<QString, QVariant>& settings, QObject *parent);
     void lookupWord(const QString& word);
+    static QString dictionaryName() { return tr("dict.cc"); }
+    QPair<QString, QString> headerText();
 
 private Q_SLOTS:
     void processData(bool error);

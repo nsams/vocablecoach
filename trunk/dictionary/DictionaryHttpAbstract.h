@@ -21,7 +21,7 @@ class DictionaryHttpAbstract : public DictionaryAbstract
 {
 Q_OBJECT
 public:
-    DictionaryHttpAbstract(QObject *parent = 0);
+    DictionaryHttpAbstract(const QMap<QString, QVariant>& settings, QObject *parent = 0);
     void lookupWord(const QString& word);
 
 private Q_SLOTS:

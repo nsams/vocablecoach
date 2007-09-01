@@ -21,8 +21,10 @@ class DictionaryUniLeipzig : public DictionaryHttpAbstract
 {
 Q_OBJECT
 public:
-    DictionaryUniLeipzig(QObject *parent = 0);
+    DictionaryUniLeipzig(const QMap<QString, QVariant>& settings, QObject *parent);
     void lookupWord(const QString& word);
+    static QString dictionaryName() { return tr("dict.uni-leizpig.de"); }
+    QPair<QString, QString> headerText();
 
 private Q_SLOTS:
     void processData(bool error);
