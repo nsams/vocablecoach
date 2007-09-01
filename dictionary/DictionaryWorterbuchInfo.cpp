@@ -13,8 +13,8 @@
 #include <QUrl>
 #include <QHttp>
 #include <QDebug>
-DictionaryWorterbuchInfo::DictionaryWorterbuchInfo(QObject *parent)
- : DictionaryHttpAbstract(parent)
+DictionaryWorterbuchInfo::DictionaryWorterbuchInfo(const QMap<QString, QVariant>& settings, QObject *parent)
+    : DictionaryHttpAbstract(settings, parent)
 {
 }
 
@@ -52,4 +52,9 @@ void DictionaryWorterbuchInfo::processData(bool error)
         }
     }
     emit done(error);
+}
+
+QPair<QString, QString> DictionaryWorterbuchInfo::headerText()
+{
+    return QPair<QString, QString>(tr("German"), tr("English"));
 }

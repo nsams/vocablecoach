@@ -13,11 +13,11 @@
 #include <QUrl>
 #include <QHttp>
 #include <QDebug>
-
-DictionaryUniLeipzig::DictionaryUniLeipzig(QObject *parent)
- : DictionaryHttpAbstract(parent)
+DictionaryUniLeipzig::DictionaryUniLeipzig(const QMap<QString, QVariant>& settings, QObject *parent)
+    : DictionaryHttpAbstract(settings, parent)
 {
 }
+
 QString DictionaryUniLeipzig::host()
 {
     return QString("dict.uni-leipzig.de");
@@ -55,4 +55,9 @@ void DictionaryUniLeipzig::processData(bool error)
         }
     }
     emit done(error);
+}
+
+QPair<QString, QString> DictionaryUniLeipzig::headerText()
+{
+    return QPair<QString, QString>(tr("German"), tr("English"));
 }

@@ -63,10 +63,18 @@ class VocableListModel : public QAbstractItemModel
         QString authors() const { return m_authors; }
         QString nativeLanguage() const { return m_nativeLanguage; }
         QString foreignLanguage() const { return m_foreignLanguage; }
+        QMap<QString, QVariant> nativeLanguageSettings() const { return m_nativeLanguageSettings; }
+        QMap<QString, QVariant> foreignLanguageSettings() const { return m_foreignLanguageSettings; }
+        QString nativeLanguageDict() const { return m_nativeLanguageDict; }
+        QString foreignLanguageDict() const { return m_foreignLanguageDict; }
         void setTitle(const QString &title) { m_title = title; }
         void setAuthors(const QString &authors) { m_authors = authors; }
         void setNativeLanguage(const QString &nativeLanguage) { m_nativeLanguage = nativeLanguage; }
         void setForeignLanguage(const QString &foreignLanguage) { m_foreignLanguage = foreignLanguage; }
+        void setNativeLanguageSettings(const QMap<QString, QVariant> &nativeLanguageSettings) { m_nativeLanguageSettings = nativeLanguageSettings; }
+        void setForeignLanguageSettings(const QMap<QString, QVariant> &foreignLanguageSettings) { m_foreignLanguageSettings = foreignLanguageSettings; }
+        void setNativeLanguageDict(const QString &nativeLanguageDict) { m_nativeLanguageDict = nativeLanguageDict; }
+        void setForeignLanguageDict(const QString &foreignLanguageDict) { m_foreignLanguageDict = foreignLanguageDict; }
 
         int nativeColumnWidth() { return m_nativeColumnWidth; }
         int foreignColumnWidth() { return m_foreignColumnWidth; }
@@ -80,16 +88,19 @@ class VocableListModel : public QAbstractItemModel
         Vocable* createVocable();
 
 	private:
-        QList<Vocable*> m_createdVocablesList;
-
 		QList<Vocable*> m_vocableList;
 
         QString m_title;
         QString m_authors;
+        QMap<int, QString> m_lessons;
+
         QString m_nativeLanguage;
         QString m_foreignLanguage;
-        QMap<int, QString> m_lessons;
-        
+        QMap<QString, QVariant> m_nativeLanguageSettings;
+        QMap<QString, QVariant> m_foreignLanguageSettings;
+        QString m_nativeLanguageDict;
+        QString m_foreignLanguageDict;
+
         int m_nativeColumnWidth;
         int m_foreignColumnWidth;
         int m_lessonColumnWidth;

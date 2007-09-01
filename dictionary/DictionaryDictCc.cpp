@@ -13,11 +13,10 @@
 #include <QUrl>
 #include <QHttp>
 #include <QDebug>
-DictionaryDictCc::DictionaryDictCc(QObject *parent)
- : DictionaryHttpAbstract(parent)
+DictionaryDictCc::DictionaryDictCc(const QMap<QString, QVariant>& settings, QObject *parent)
+    : DictionaryHttpAbstract(settings, parent)
 {
 }
-
 QString DictionaryDictCc::host()
 {
     return QString("www.dict.cc");
@@ -45,11 +44,15 @@ void DictionaryDictCc::processData(bool error)
         while ((pos = rx.indexIn(Text, pos)) != -1) {
             pos += rx.matchedLength();
             QPair<QString, QString> row;
-            row.first = _cleanHtml(rx.cap(1));
-            row.second = _cleanHtml(rx.cap(2));
+            row.first = _cleanHtml(rx.cap(2));
+            row.second = _cleanHtml(rx.cap(1));
             m_results << row;
         }
     }
     emit done(error);
 }
 
+QPair<QString, QString> DictionaryDictCc::headerText()
+{
+    return QPair<QString, QString>(tr("German"), tr("English"));
+}

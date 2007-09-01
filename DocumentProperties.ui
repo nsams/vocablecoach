@@ -5,30 +5,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>307</height>
+    <width>487</width>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Document Properties</string>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
-   <property name="spacing" >
-    <number>6</number>
-   </property>
    <item>
     <widget class="QGroupBox" name="groupBox_2" >
      <property name="title" >
       <string>General</string>
      </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="0" column="1" >
@@ -61,45 +67,98 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
-      <string>Languages</string>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="1" column="1" >
-       <widget class="QLineEdit" name="lineEditForeignLanguage" />
-      </item>
-      <item row="0" column="1" >
-       <widget class="QLineEdit" name="lineEditNativeLanguage" />
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
-         <string>&amp;Foreign Language:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>lineEditForeignLanguage</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
-         <string>&amp;Native Language:</string>
-        </property>
-        <property name="buddy" >
-         <cstring>lineEditNativeLanguage</cstring>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QGroupBox" name="groupBox" >
+       <property name="title" >
+        <string>Native Language</string>
+       </property>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_2" >
+          <property name="text" >
+           <string>&amp;Name:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>lineEditNativeLanguage</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="lineEditNativeLanguage" />
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="label_5" >
+          <property name="text" >
+           <string>&amp;Dictionary:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>comboBoxNativeDictionary</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QComboBox" name="comboBoxNativeDictionary" />
+        </item>
+        <item row="1" column="2" >
+         <widget class="QToolButton" name="nativeDictionarySettings" >
+          <property name="toolTip" >
+           <string>Dictionary Settings</string>
+          </property>
+          <property name="text" >
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3" >
+       <property name="title" >
+        <string>Foreign Language</string>
+       </property>
+       <layout class="QGridLayout" >
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_6" >
+          <property name="text" >
+           <string>N&amp;ame:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>lineEditForeignLanguage</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <widget class="QLineEdit" name="lineEditForeignLanguage" />
+        </item>
+        <item row="1" column="0" >
+         <widget class="QLabel" name="label_7" >
+          <property name="text" >
+           <string>D&amp;ictionary:</string>
+          </property>
+          <property name="buddy" >
+           <cstring>comboBoxForeignDictionary</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" >
+         <widget class="QComboBox" name="comboBoxForeignDictionary" />
+        </item>
+        <item row="1" column="2" >
+         <widget class="QToolButton" name="foreignDictionarySettings" >
+          <property name="toolTip" >
+           <string>Dictionary Settings</string>
+          </property>
+          <property name="text" >
+           <string>...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox" >
@@ -117,7 +176,6 @@
   <tabstop>lineEditTitle</tabstop>
   <tabstop>lineEditAuthors</tabstop>
   <tabstop>lineEditNativeLanguage</tabstop>
-  <tabstop>lineEditForeignLanguage</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
@@ -129,8 +187,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
-     <x>295</x>
-     <y>291</y>
+     <x>304</x>
+     <y>357</y>
     </hint>
     <hint type="destinationlabel" >
      <x>346</x>

@@ -14,12 +14,8 @@
 #include "dictionary/DictionaryDingLookupThread.h"
 #include <QDebug>
 
-DictionaryDing::DictionaryDing(QObject *parent)
-    : DictionaryAbstract(parent), m_thread(0)
-{
-}
-
-DictionaryDing::~DictionaryDing()
+DictionaryDing::DictionaryDing(const QMap<QString, QVariant>& settings, QObject *parent)
+    : DictionaryAbstract(settings, parent), m_thread(0)
 {
 }
 
@@ -43,4 +39,8 @@ void DictionaryDing::processData()
     m_thread = 0;
 }
 
+QPair<QString, QString> DictionaryDing::headerText()
+{
+    return QPair<QString, QString>(tr("Language 1"), tr("Language 2"));
+}
 

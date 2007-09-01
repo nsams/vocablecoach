@@ -20,7 +20,7 @@ ModelReaderKvtmlHandler::ModelReaderKvtmlHandler(VocableListModel* model, QUndoC
     : QXmlDefaultHandler(), m_model(model), m_importCommand(importCommand)
 {
     metKvtmlTag = false;
-    inLessonTag = false;
+    currentTag = "";
 }
 bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
 								const QString & /* localName */,
@@ -40,15 +40,25 @@ bool ModelReaderKvtmlHandler::startElement(const QString & /* namespaceURI */,
             if(!attributes.value("nativeLanguage").isEmpty()) m_model->setNativeLanguage(attributes.value("nativeLanguage"));
         }
 		metKvtmlTag = true; 
+    } else if (qName == "languages") {
+        currentTag = qName;
+    } else if (currentTag == "languages" && qName == "language") {
+        currentLanguageType = attributes.value("type");
+        currentLanguageDict = attributes.value("dict");
+        currentText.clear();
+    } else if (currentTag == "languages" && qName == "dictSetting") {
+        if (attributes.value("key") != "") {
+            currentLanguageSettings[attributes.value("key")] = attributes.value("value");
+        }
     } else if (qName == "lesson") {
-        inLessonTag = true;
+        currentTag = qName;
         if (!m_importCommand) {
             //only set when opening, not when importing (where we have an undoStack)
             if (attributes.value("width").toInt() > 0) {
                 m_model->setLessonColumnWidth(attributes.value("width").toInt());
             }
         }
-    } else if (inLessonTag && qName == "desc") {
+    } else if (currentTag == "lesson" && qName == "desc") {
         currentLessonNumber = attributes.value("no").toInt();
         currentText.clear();
 	} else if (qName == "e") {
@@ -129,7 +139,22 @@ bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
 							  const QString & /* localName */,
 							  const QString &qName)
 {
-    if (inLessonTag && qName == "desc") {
+    if (currentTag == "languages" && qName == "language") {
+        if (!m_importCommand) {
+            //only set when opening, not when importing (where we have an undoStack)
+            if (currentLanguageType == "native") {
+                m_model->setNativeLanguageSettings(currentLanguageSettings);
+                m_model->setNativeLanguage(currentText.trimmed());
+                m_model->setNativeLanguageDict(currentLanguageDict);
+            } else if (currentLanguageType == "foreign") {
+                m_model->setForeignLanguageSettings(currentLanguageSettings);
+                m_model->setForeignLanguage(currentText.trimmed());
+                m_model->setForeignLanguageDict(currentLanguageDict);
+            }
+        }
+    } else if (qName == "languages") {
+        currentTag = "";
+    } else if (currentTag == "lesson" && qName == "desc") {
         if (!m_importCommand) {
             //only set when opening, not when importing (where we have an undoStack)
             m_model->insertLesson(currentLessonNumber, currentText.trimmed());
@@ -137,7 +162,7 @@ bool ModelReaderKvtmlHandler::endElement(const QString & /* namespaceURI */,
             m_importLessons[currentLessonNumber] = currentText.trimmed();
         }
     } else if (qName == "lesson") {
-        inLessonTag = false;
+        currentTag = "";
     } else if (qName == "o" && m_currentVocable) {
         m_currentVocable->setNative(currentText);
 	} else if(qName == "t" && m_currentVocable) {

@@ -38,19 +38,22 @@ private:
     bool eventFilter(QObject *target, QEvent *event);
     QUndoStack* m_undoStack;
     VocableListModel* m_vocableListModel;
-    DictionaryAbstract* m_dictionary;
+    DictionaryAbstract* m_dictionaryNative;
+    DictionaryAbstract* m_dictionaryForeign;
 
 protected:
-    QTimer* startTranslationTimer;
-    QString _translateText;
+    QTimer* startTranslationTimerNative;
+    QTimer* startTranslationTimerForeign;
+    QString _translateTextNative;
+    QString _translateTextForeign;
 
 private slots:
     void translationDone(bool error);
-    void lookupWord();
+    void lookupWordNative();
+    void lookupWordForeign();
     void nativeTextChanged();
     void foreignTextChanged();
     void addVocable();
-    void directoryChanged(int index);
 };
 
 #endif
