@@ -12,7 +12,8 @@ FORMS += MainWindow.ui \
          PreviewDialog.ui \
          VocableList.ui \
          StatisticsWidget.ui \
-         dictionary\SettingsLeo.ui
+         dictionary\SettingsLeo.ui \
+         dictionary\SettingsDing.ui
 
 HEADERS += MainWindow.h \
            Vocable.h \

@@ -32,7 +32,8 @@ public:
     virtual bool hasSettings() {
         return false;
     }
-    virtual QMap<QString, QVariant> editSettings() {
+    virtual QMap<QString, QVariant> editSettings(QWidget* parent) {
+        Q_UNUSED(parent);
         return m_settings;
     }
     virtual QPair<QString, QString> headerText() = 0;

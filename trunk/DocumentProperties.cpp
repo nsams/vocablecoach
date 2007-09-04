@@ -63,14 +63,14 @@ DocumentProperties::~DocumentProperties()
 void DocumentProperties::_openNativeDictionarySettings()
 {
     if (m_nativeDictionary) {
-        m_editPropertiesCommand->setNativeLanguageSettings(m_nativeDictionary->editSettings());
+        m_editPropertiesCommand->setNativeLanguageSettings(m_nativeDictionary->editSettings(this));
     }
 }
 
 void DocumentProperties::_openForeignDictionarySettings()
 {
     if (m_foreignDictionary) {
-        m_editPropertiesCommand->setForeignLanguageSettings(m_foreignDictionary->editSettings());
+        m_editPropertiesCommand->setForeignLanguageSettings(m_foreignDictionary->editSettings(this));
     }
 }
 
