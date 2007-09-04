@@ -23,7 +23,7 @@ class DictionaryDingLookupThread : public QThread
 {
 Q_OBJECT
 public:
-    DictionaryDingLookupThread(const QString& word, QObject *parent = 0);
+    DictionaryDingLookupThread(const QString& dictionaryFile, const QString& word, QObject *parent = 0);
     ~DictionaryDingLookupThread();
     QList<QPair<QString, QString> > results();
 
@@ -31,6 +31,7 @@ protected:
     void run();
 
 private:
+    QString m_dictionaryFile;
     QString m_word;
     QList<QPair<QString, QString> > m_results;
 };

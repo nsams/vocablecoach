@@ -27,7 +27,7 @@ public:
     bool hasSettings() {
         return true;
     }
-    QMap<QString, QVariant> editSettings();
+    QMap<QString, QVariant> editSettings(QWidget* parent);
     QPair<QString, QString> headerText();
 
 

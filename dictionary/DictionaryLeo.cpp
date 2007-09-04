@@ -70,9 +70,9 @@ void DictionaryLeo::processData(bool error)
     emit done(error);
 }
 
-QMap<QString, QVariant> DictionaryLeo::editSettings()
+QMap<QString, QVariant> DictionaryLeo::editSettings(QWidget* parent)
 {
-    QDialog dialog;
+    QDialog dialog(parent);;
     Ui::DictionarySettingsLeo ui;
     ui.setupUi(&dialog);
 

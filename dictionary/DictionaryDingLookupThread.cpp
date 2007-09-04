@@ -16,8 +16,8 @@
 #include <QRegExp>
 #include <QStringList>
 
-DictionaryDingLookupThread::DictionaryDingLookupThread(const QString& word, QObject *parent)
- : QThread(parent), m_word(word)
+DictionaryDingLookupThread::DictionaryDingLookupThread(const QString& dictionaryFile, const QString& word, QObject *parent)
+    : QThread(parent), m_dictionaryFile(dictionaryFile), m_word(word)
 {
 }
 
@@ -28,7 +28,7 @@ DictionaryDingLookupThread::~DictionaryDingLookupThread()
 
 void DictionaryDingLookupThread::run()
 {
-    QFile file("de-en.txt");
+    QFile file(m_dictionaryFile);
     if (!file.exists()) {
 //        QMessageBox::warning(0, tr("VocableCoach"), tr("Can't find dictionary-file de-en.txt."));
         return;
