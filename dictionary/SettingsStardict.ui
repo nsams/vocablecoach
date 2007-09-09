@@ -1,38 +1,54 @@
 <ui version="4.0" >
- <class>DictionarySettingsLeo</class>
- <widget class="QDialog" name="DictionarySettingsLeo" >
+ <class>DictionarySettingsStardict</class>
+ <widget class="QDialog" name="DictionarySettingsStardict" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>181</width>
-    <height>78</height>
+    <width>284</width>
+    <height>135</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>Settings</string>
   </property>
   <layout class="QGridLayout" >
-   <item row="0" column="0" >
+   <item row="1" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>&amp;Language:</string>
+      <string>&amp;Dictionary:</string>
      </property>
      <property name="buddy" >
       <cstring>languageComboBox</cstring>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
+   <item row="1" column="1" >
     <widget class="QComboBox" name="languageComboBox" />
    </item>
-   <item row="1" column="0" colspan="2" >
+   <item row="2" column="0" colspan="2" >
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons" >
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::NoButton|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2" >
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>&lt;a href="http://stardict.sourceforge.net/">StarDict&lt;/a> is a dictionary lookup programm with many avaliable dictionaries.&lt;br />&lt;a href="http://stardict.sourceforge.net/Dictionaries.php">Download&lt;/a> additional dictionaries.</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>true</bool>
+     </property>
+     <property name="openExternalLinks" >
+      <bool>true</bool>
+     </property>
+     <property name="textInteractionFlags" >
+      <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::NoTextInteraction</set>
      </property>
     </widget>
    </item>
@@ -43,32 +59,32 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>DictionarySettingsLeo</receiver>
+   <receiver>DictionarySettingsStardict</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>171</x>
-     <y>68</y>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel" >
      <x>157</x>
-     <y>274</y>
+     <y>131</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>DictionarySettingsLeo</receiver>
+   <receiver>DictionarySettingsStardict</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>171</x>
-     <y>68</y>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel" >
      <x>286</x>
-     <y>274</y>
+     <y>131</y>
     </hint>
    </hints>
   </connection>

@@ -13,7 +13,8 @@ FORMS += MainWindow.ui \
          VocableList.ui \
          StatisticsWidget.ui \
          dictionary\SettingsLeo.ui \
-         dictionary\SettingsDing.ui
+         dictionary\SettingsDing.ui \
+         dictionary\SettingsStardict.ui
 
 HEADERS += MainWindow.h \
            Vocable.h \
@@ -56,7 +57,13 @@ HEADERS += MainWindow.h \
            dictionary/DictionaryDing.h \
            dictionary/DictionaryDingResultItem.h \
            dictionary/DictionaryDingLookupThread.h \
-           dictionary/DictionaryFactory.h
+           dictionary/DictionaryFactory.h \
+           dictionary/DictionaryStardict.h \
+           dictionary/stardictlib/dictziplib.hpp \
+           dictionary/stardictlib/distance.h \
+           dictionary/stardictlib/file.hpp \
+           dictionary/stardictlib/lib.h \
+           dictionary/stardictlib/mapfile.hpp
 SOURCES += main.cpp \
            MainWindow.cpp \
            VocableListModel.cpp \
@@ -99,11 +106,19 @@ SOURCES += main.cpp \
            dictionary/DictionaryDing.cpp \
            dictionary/DictionaryDingResultItem.cpp \
            dictionary/DictionaryDingLookupThread.cpp \
-           dictionary/DictionaryFactory.cpp
+           dictionary/DictionaryFactory.cpp \
+           dictionary/DictionaryStardict.cpp \
+           dictionary/stardictlib/dictziplib.cpp \
+           dictionary/stardictlib/distance.cpp \
+           dictionary/stardictlib/lib.cpp
 
 CONFIG += debug \
-qt \
-warn_on
+          qt \
+          warn_on \
+          link_pkgconfig
+PKGCONFIG += glib-2.0
+unix:DEFINES += HAVE_MMAP
+
 TEMPLATE = app
 TARGET +=
 DEPENDPATH += .

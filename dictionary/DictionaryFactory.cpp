@@ -16,12 +16,14 @@
 #include "dictionary/DictionaryDictCc.h"
 #include "dictionary/DictionaryWorterbuchInfo.h"
 #include "dictionary/DictionaryUniLeipzig.h"
+#include "dictionary/DictionaryStardict.h"
 
 
 QList<DictionaryName> DictionaryFactory::dictionaries()
 {
     QList<DictionaryName> ret;
     ret << DictionaryName("none", QObject::tr("none"));
+    ret << DictionaryName("Stardict", DictionaryStardict::dictionaryName());
     ret << DictionaryName("Ding", DictionaryDing::dictionaryName());
     ret << DictionaryName("Leo", DictionaryLeo::dictionaryName());
     ret << DictionaryName("DictCc", DictionaryDictCc::dictionaryName());
@@ -43,6 +45,8 @@ DictionaryAbstract* DictionaryFactory::dictionaryInstance(const QString& type, c
         ret = new DictionaryWorterbuchInfo(settings, parent);
     } else if (type == "UniLeipzig") {
         ret = new DictionaryUniLeipzig(settings, parent);
+    } else if (type == "Stardict") {
+        ret = new DictionaryStardict(settings, parent);
     } else {
         ret = 0;
     }

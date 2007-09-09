@@ -197,6 +197,7 @@ void VocableEditor::translationDone(bool error)
         QPair<QString, QString> headerText = dictionary->headerText();
         translateTreeWidget->headerItem()->setText(0, headerText.first);
         translateTreeWidget->headerItem()->setText(1, headerText.second);
+        translateTreeWidget->headerItem()->setHidden(headerText.first.isEmpty());
 
         QList<QPair<QString, QString> > results = dictionary->results();
         QString Text("");
