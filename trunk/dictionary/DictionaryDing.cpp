@@ -51,7 +51,7 @@ void DictionaryDing::processData()
 
 QPair<QString, QString> DictionaryDing::headerText()
 {
-    return QPair<QString, QString>(m_settings["language1"].toString(), m_settings["language2"].toString());
+    return QPair<QString, QString>("", "");
 }
 
 QMap<QString, QVariant> DictionaryDing::editSettings(QWidget* parent)
@@ -61,15 +61,11 @@ QMap<QString, QVariant> DictionaryDing::editSettings(QWidget* parent)
     m_settingsUi->setupUi(m_settingsDialog);
 
     m_settingsUi->fileNameLineEdit->setText(m_settings["file"].toString());
-    m_settingsUi->language1LineEdit->setText(m_settings["language1"].toString());
-    m_settingsUi->language2LineEdit->setText(m_settings["language2"].toString());
     connect(m_settingsUi->openFileButton, SIGNAL(clicked()), this, SLOT(settingsOpenFile()));
 
 
     if (m_settingsDialog->exec() == QDialog::Accepted) {
         m_settings["file"] = m_settingsUi->fileNameLineEdit->text();
-        m_settings["language1"] = m_settingsUi->language1LineEdit->text();
-        m_settings["language2"] = m_settingsUi->language2LineEdit->text();
     }
     delete m_settingsDialog;
     delete m_settingsUi;
